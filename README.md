@@ -152,11 +152,6 @@ material-dashboard-angular
 │   │   │   ├── typography.component.html
 │   │   │   ├── typography.component.spec.ts
 │   │   │   └── typography.component.ts
-│   │   ├── upgrade
-│   │   │   ├── upgrade.component.css
-│   │   │   ├── upgrade.component.html
-│   │   │   ├── upgrade.component.spec.ts
-│   │   │   └── upgrade.component.ts
 │   │   └── user-profile
 │   │       ├── user-profile.component.css
 │   │       ├── user-profile.component.html

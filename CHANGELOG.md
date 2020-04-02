@@ -111,12 +111,6 @@ href="#"      -> href="javascript:void(0)"
 ## [v1.3.0] 2017-08-23
 ### skipped for sync with Angular 4 version convention
 
-## [1.2.0] - 2017-04-05
-### Added
-- added Upgrade to PRO page
-- update package
-- made sidebar dynamic
-
 ## [1.1.1] - 2017-03-21
 ### Added
 - added "@types/core-js": "0.9.35" in package
