@@ -1,28 +1,37 @@
 <div class="content">
     <div class="card-login">
         <div style="margin: 50px; height: 40px;">
-            <h1 style="margin: auto;">CRM - OnNet Telecom</h1>
+            <h1 style="margin: auto;">Aqui vem a logo</h1>
         </div>
 
         <div class="row">
-            <div class="col"> <hr> </div>
+            <div class="col">
+                <hr>
+            </div>
 
             <div class="col-3">
                 <h2>Login</h2>
             </div>
 
-            <div class="col"> <hr> </div>
+            <div class="col">
+                <hr>
+            </div>
         </div>
 
-        <form>
+        <form [formGroup]='loginForm'>
             <div class="input-group input-group-icon">
-                <input type="text" placeholder="Usuário" />
+                <input formControlName="username" type="text" placeholder="Usuário" />
                 <div class="input-icon"><i class="fa fa-user"></i></div>
             </div>
 
             <div class="input-group input-group-icon">
-                <input type="password" placeholder="Senha" />
+                <input formControlName="password" [type]=typeInput placeholder="Senha" />
                 <div class="input-icon"><i class="fa fa-lock"></i></div>
+
+                <div *ngIf=!passwordVisible class="input-icon-after"><i class="fa fa-eye-slash"
+                        (click)="showPassword()"></i></div>
+                <div *ngIf=passwordVisible class="input-icon-after"><i class="fa fa-eye" (click)="showPassword()"></i>
+                </div>
             </div>
 
             <div class="input-group input-group-checkbox">
@@ -31,7 +40,7 @@
             </div>
 
             <div class="input-group-button">
-                <button class="btnLogin">Entrar</button>
+                <button class="btnLogin" (click)="onSubmit()">Entrar</button>
             </div>
         </form>
     </div>
