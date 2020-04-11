@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+.content {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+.card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    word-wrap: break-word;
+
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 0.375rem;
+    background-color: #fff;
+    background-clip: border-box;
+}
+.card > hr {
+    margin-right: 0;
+    margin-left: 0;
+}
+.card > .list-group:first-child .list-group-item:first-child {
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+}
+.card > .list-group:last-child .list-group-item:last-child {
+    border-bottom-right-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+}
+
+.card-header {
+    margin-bottom: 0;
+    padding: 1.25rem 1.5rem;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+}
+.card-header:first-child {
+    border-radius: calc(0.375rem - 1px) calc(0.375rem - 1px) 0 0;
+}
+.card-header + .list-group .list-group-item:first-child {
+    border-top: 0;
+}

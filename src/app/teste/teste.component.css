@@ -1,0 +1,6 @@
+@import '../../styles.css';
+
+.card {
+    width: 400px;
+    margin: 30px auto;
+}
