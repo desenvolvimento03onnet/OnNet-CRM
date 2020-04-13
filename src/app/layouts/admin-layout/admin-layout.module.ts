@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,6 +30,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    MatExpansionModule
   ],
   declarations: [
     DashboardComponent,
@@ -36,8 +38,11 @@ import {MatSelectModule} from '@angular/material/select';
     TableListComponent,
     TypographyComponent,
     IconsComponent,
+    NotificationsComponent,
     MapsComponent,
-    NotificationsComponent
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 

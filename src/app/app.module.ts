@@ -65,6 +65,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
+import { ModalSearchComponent } from './modal/modal-search/modal-search.component';
 
 @NgModule({
   imports: [
@@ -120,15 +122,17 @@ import {MatTreeModule} from '@angular/material/tree';
     MatTooltipModule,
     MatTreeModule,
     PortalModule,
-    ScrollingModule
+    ScrollingModule,
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     LoginComponent,
-    TesteComponent
+    TesteComponent,
+    ModalSearchComponent,
   ],
   providers: [],
+  schemas:[ CUSTOM_ELEMENTS_SCHEMA ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
