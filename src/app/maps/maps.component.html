@@ -1,1 +1,77 @@
-<div id="map"></div>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card card-plain">
+            <div class="card-header card-header-success">
+                <h4 class="card-title">Pesquisas</h4>
+                <p class="card-category">Satisfação</p>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card-body">
+                        <div class="col-md-12 d-none d-sm-block d-md-block ml-auto mr-auto">
+                            <mat-accordion>
+                                <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" opened>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                    Verificação
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                    Verificação
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                            
+                                <mat-form-field>
+                                    <mat-label>Nome</mat-label>
+                                    <input matInput [(ngModel)]="name">
+                                </mat-form-field>
+                            
+                                <mat-form-field>
+                                    <mat-placeholder>
+                                        Cidade
+                                    </mat-placeholder>
+                                    <mat-select [(ngModel)]="city">
+                                        <mat-option value="Patrocínio">Patrocínio</mat-option>
+                                        <mat-option value="João Pinheiro">João Pinheiro</mat-option>
+                                        <mat-option value="Patos de Minas">Patos de Minas</mat-option>
+                                        <mat-option value="Guimarânia">Guimarânia</mat-option>
+                                        <mat-option value="Iraí de Minas">Iraí de Minas</mat-option>
+                                        <mat-option value="Abadia dos Dourados">Abadia dos Dourados</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <button mat-button (click)="openSearch()">Iniciar</button>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                        Instalação
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                        Instalação
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                
+                                    <mat-form-field>
+                                        <mat-label>Nome</mat-label>
+                                        <input matInput >
+                                    </mat-form-field>
+                                
+                                    <mat-form-field>
+                                        <mat-label>Cidade</mat-label>
+                                        <mat-select placeholder="Cidade">
+                                            <mat-option value="Patrocínio">Patrocínio</mat-option>
+                                            <mat-option value="João Pinheiro">João Pinheiro</mat-option>
+                                            <mat-option value="Patos de Minas">Patos de Minas</mat-option>
+                                            <mat-option value="Guimarânia">Guimarânia</mat-option>
+                                            <mat-option value="Iraí de Minas">Iraí de Minas</mat-option>
+                                            <mat-option value="Abadia dos Dourados">Abadia dos Dourados</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
