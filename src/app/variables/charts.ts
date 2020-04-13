@@ -11,7 +11,7 @@ Chart.elements.Rectangle.prototype.draw = function () {
   var borderWidth = vm.borderWidth;
   // Set Radius Here
   // If radius is large enough to cause drawing errors a max radius is imposed
-  var cornerRadius = 6;
+  var cornerRadius = 4;
 
   if (!vm.horizontal) {
     // bar
@@ -93,7 +93,7 @@ Chart.elements.Rectangle.prototype.draw = function () {
 
     // let nextCorner = cornerAt(nextCornerId);
 
-    let width = corners[2][0] - corners[1][0];
+    let width = 20;
     let height = corners[0][1] - corners[1][1];
     let x = corners[1][0];
     let y = corners[1][1];
@@ -150,7 +150,7 @@ var colors = {
     'info': '#11cdef',
     'success': '#2dce89',
     'danger': '#f5365c',
-    'warning': '#fb6340'
+    'warning': '#1898be'
   },
   black: '#12263F',
   white: '#FFFFFF',
@@ -307,14 +307,14 @@ export const chartExample1 = {
   }
 }
 
-export const chartExample2 = {
+export const chartQuestions = {
   options: {
     scales: {
       yAxes: [
         {
           ticks: {
             callback: function (value) {
-              if (!(value % 10)) {
+              if (!(value % 5)) {
                 //return '$' + value + 'k'
                 return value;
               }
