@@ -1,0 +1,38 @@
+<mat-dialog-content>
+    <mat-card>
+        <mat-card-title>
+            {{ data.name }}
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{ data.city }}
+        </mat-card-subtitle>
+    </mat-card>
+    <mat-horizontal-stepper>
+        <mat-step label="Organização">
+            <mat-form-field>
+                <mat-placeholder>Nota:</mat-placeholder>
+                <input type="number" matInput>
+            </mat-form-field>
+
+            <button mat-button matStepperNext>Próximo</button>
+        </mat-step>
+
+        <mat-step label="Limpeza">
+            <mat-form-field>
+                <mat-placeholder>Nota:</mat-placeholder>
+                <input type="number" matInput>
+            </mat-form-field>
+            <button mat-button matStepperPrevious>Anterior</button>
+            <button mat-button matStepperNext>Próximo</button>
+        </mat-step>
+
+        <mat-step label="Opinião">
+            <mat-form-field>
+                <mat-placeholder>Nota:</mat-placeholder>
+                <input type="number" matInput>
+            </mat-form-field>
+            <button mat-button matStepperPrevious>Anterior</button>
+            <button mat-button matStepperNext>Próximo</button>
+        </mat-step>
+    </mat-horizontal-stepper>
+</mat-dialog-content>

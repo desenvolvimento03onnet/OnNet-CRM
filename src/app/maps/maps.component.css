@@ -1,0 +1,20 @@
+.main-content .container-fluid .row .card-body{
+    background-color: #e2f5f4;
+    border-radius: 6px;
+}
+
+.main-content .container-fluid .row .card-body .mat-form-field{
+    float: left;
+    width: 40%;
+    padding-right: 5px;
+}
+
+.main-content .container-fluid .row .card-body button{
+    float: right;
+    border: solid 1px gray;
+}
+.main-content .container-fluid .row .card-body button:hover{
+    border: solid 1.5px black;
+    font-weight: 500;
+    color: gray;
+}
