@@ -1,0 +1,42 @@
+@import "../../../styles.css";
+
+.content {
+  overflow-x: hidden;
+}
+.card {
+  width: 400px;
+  margin: 20px auto;
+}
+
+.mat-table {
+  width: 400px;
+  margin: 20px auto;
+}
+
+.matSortTables{
+  width: 100%;
+}
+
+.matSortTables .row .col{
+  margin: auto;
+}
+
+.example-small-box,
+.example-large-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.example-small-box {
+  height: 100px;
+  width: 100px;
+}
+
+.example-large-box {
+  height: 300px;
+  width: 300px;
+}

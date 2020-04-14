@@ -1,12 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import Chart from 'chart.js';
+import { HttpClient } from '@angular/common/http';
 
 import {
   chartOptions,
   parseOptions,
-  chartExample1,
   chartQuestions
-} from "../variables/charts";
+} from "../../variables/charts";
+
+export interface TableSearches {
+  name: string;
+  qtdInterviews: number;
+}
 
 @Component({
   selector: 'app-teste',
@@ -14,6 +21,8 @@ import {
   styleUrls: ['./teste.component.css']
 })
 export class TesteComponent implements OnInit {
+  @ViewChild('sortUS', { static: true }) sortUS: MatSort;
+  @ViewChild('sortCS', { static: true }) sortCS: MatSort;
 
   public datasets: any;
   public data: any;
@@ -21,12 +30,48 @@ export class TesteComponent implements OnInit {
   public clicked: boolean = true;
   public clicked1: boolean = false;
 
-  ordersChart;
+  private http: HttpClient;
+  private ordersChart;
+
+  userSearches: TableSearches[] = [
+    { name: "Flavia Sousa", qtdInterviews: 596 },
+    { name: "Adriano de Castro", qtdInterviews: 474 },
+    { name: "Maria Eduarda", qtdInterviews: 660 },
+    { name: "Laura Rosa", qtdInterviews: 453 },
+    { name: "Cassiane Alves", qtdInterviews: 581 }
+  ]
+
+  citySearches: TableSearches[] = [
+    { name: 'Guimarânia', qtdInterviews: 107 },
+    { name: 'Patos de Minas', qtdInterviews: 1146 },
+    { name: 'Varjão de Minas', qtdInterviews: 53 },
+    { name: 'Patrocínio', qtdInterviews: 1263 },
+    { name: 'Iraí de Minas', qtdInterviews: 115 },
+    { name: 'Abadia dos Dourados', qtdInterviews: 85 }
+  ]
+
+  displayedColumnsUS: string[] = ['name', 'qtdInterviews'];
+  dataSourceUS = new MatTableDataSource(this.userSearches);
+
+  displayedColumnsCS: string[] = ['name', 'qtdInterviews']
+  dataSourceCS = new MatTableDataSource(this.citySearches);
 
   constructor() { }
 
   ngOnInit(): void {
+    this.dataSourceUS.sort = this.sortUS;
+    this.dataSourceCS.sort = this.sortCS;
+
     this.refreshChart([])
+  }
+
+  teste() {
+    this.http.get('http://127.0.0.1:3333/user').subscribe(suc => {
+      console.log(suc);
+    },
+      err => {
+        console.log(err);
+      })
   }
 
   refreshChart(values) {
@@ -45,7 +90,7 @@ export class TesteComponent implements OnInit {
       type: 'bar',
       options: chartQuestions.options,
       data: {
-        labels: ["5", "4", "3", "2", "1"],
+        labels: ["Nota 5", "Nota 4", "Nota 3", "Nota 2", "Nota 1"],
         datasets: [
           {
             label: "Notas",
@@ -59,7 +104,7 @@ export class TesteComponent implements OnInit {
       type: 'bar',
       options: chartQuestions.options,
       data: {
-        labels: ["5", "4", "3", "2", "1"],
+        labels: ["Nota 5", "Nota 4", "Nota 3", "Nota 2", "Nota 1"],
         datasets: [
           {
             label: "Notas",
@@ -73,7 +118,7 @@ export class TesteComponent implements OnInit {
       type: 'bar',
       options: chartQuestions.options,
       data: {
-        labels: ["5", "4", "3", "2", "1"],
+        labels: ["Nota 5", "Nota 4", "Nota 3", "Nota 2", "Nota 1"],
         datasets: [
           {
             label: "Notas",
@@ -87,7 +132,7 @@ export class TesteComponent implements OnInit {
       type: 'bar',
       options: chartQuestions.options,
       data: {
-        labels: ["5", "4", "3", "2", "1"],
+        labels: ["Nota 5", "Nota 4", "Nota 3", "Nota 2", "Nota 1"],
         datasets: [
           {
             label: "Notas",
@@ -101,7 +146,7 @@ export class TesteComponent implements OnInit {
       type: 'bar',
       options: chartQuestions.options,
       data: {
-        labels: ["5", "4", "3", "2", "1"],
+        labels: ["Nota 5", "Nota 4", "Nota 3", "Nota 2", "Nota 1"],
         datasets: [
           {
             label: "Notas",
@@ -115,7 +160,7 @@ export class TesteComponent implements OnInit {
       type: 'bar',
       options: chartQuestions.options,
       data: {
-        labels: ["5", "4", "3", "2", "1"],
+        labels: ["Nota 5", "Nota 4", "Nota 3", "Nota 2", "Nota 1"],
         datasets: [
           {
             label: "Notas",
