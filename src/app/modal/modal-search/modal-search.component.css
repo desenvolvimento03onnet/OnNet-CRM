@@ -1,3 +1,93 @@
-.mat-horizontal-stepper .mat-step button{
-    float: right;
+.mat-dialog-content{
+    overflow: auto;
 }
+
+.mat-card{
+    margin-bottom: 15px;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 13vh 11vh 12vh 10vh 5vh;
+    align-content: center;
+    justify-items: center;
+}
+
+/*First Row GRID*/
+
+.container .question{
+    grid-column: 1/6;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    font-size: 16pt;
+}
+
+/*Second Row GRID*/
+
+.nota-um, .nota-dois, .nota-tres, .nota-quatro, .nota-cinco{
+    height: 93px;
+    width: 93px;
+    border-radius: 50%;
+    line-height: 2.5;
+    text-align: center;
+    font-weight: bold;
+    font-size: 28pt;
+    border: solid 1px gray;
+    cursor: pointer;
+}
+
+/*Third Row GRID*/
+
+.container .show-note{
+    grid-column: 3/3;
+    grid-row: 3;
+    line-height: 2.5;
+    justify-self: center;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 28pt;
+}
+
+/*Fourth row GRID - Left*/
+
+.container .button-previous{
+    grid-column: 1/1;
+    grid-row: 5;
+}
+
+/*Fourth row GRID - Right*/
+
+.container .button-next{
+    grid-column: 5/5;
+    grid-row: 5;
+}
+
+/*Fith row GRID*/
+
+.comment-area .mat-form-field{
+    width: 70vw;
+    /*width: 966.8px;*/
+}
+
+.comment-area{
+    align-self: center;
+    justify-self: center;
+    grid-column: 1/6;
+    grid-row: 4;
+}
+
+/*background: linear-gradient(to right, 
+    #ff4747,
+    #ff6c47,
+    #ffb247,
+    #fffc47,
+    #47ff50);*/
+/*background: linear-gradient(to right, 
+    #ff4747,
+    #ff9a47,
+    #fffc47,
+    #7eff47,
+    #47ff50);*/

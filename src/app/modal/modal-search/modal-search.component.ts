@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MapsComponent } from 'app/maps/maps.component';
 
 @Component({
   selector: 'app-modal-search',
@@ -9,9 +8,16 @@ import { MapsComponent } from 'app/maps/maps.component';
 })
 export class ModalSearchComponent implements OnInit {
 
+  note: number = 0
+
+  setNote(note: number){
+    this.note = note
+    console.log(this.note)
+  }
+
   constructor(
     private modal: MatDialog,
-    private modalRef: MatDialogRef<ModalSearchComponent>, @Inject(MAT_DIALOG_DATA) public data: MapsComponent
+    private modalRef: MatDialogRef<ModalSearchComponent>, @Inject(MAT_DIALOG_DATA) public data: any
   ) { 
     console.log(data)
   }
