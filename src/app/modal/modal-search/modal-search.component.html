@@ -1,4 +1,3 @@
-<mat-dialog-content>
     <mat-card>
         <mat-card-title>
             {{ data.name }}
@@ -8,31 +7,253 @@
         </mat-card-subtitle>
     </mat-card>
     <mat-horizontal-stepper>
-        <mat-step label="Organização">
-            <mat-form-field>
-                <mat-placeholder>Nota:</mat-placeholder>
-                <input type="number" matInput>
-            </mat-form-field>
+        <mat-step label="Organização - 1">
 
-            <button mat-button matStepperNext>Próximo</button>
+            <div class="container">
+                
+                <mat-label class="question">
+                    O consultor de vendas lhe apresentou todas as opções de planos de internet conforme a sua necessidade?
+                </mat-label>
+
+                <div class="nota-um" (click)="setNote(1)">
+                    1
+                </div>
+                <div class="nota-dois" (click)="setNote(2)">
+                    2
+                </div>
+                <div class="nota-tres" (click)="setNote(3)">
+                    3
+                </div>
+                <div class="nota-quatro" (click)="setNote(4)">
+                    4
+                </div>
+                <div class="nota-cinco" (click)="setNote(5)">
+                    5
+                </div>
+
+                <div class="show-note">
+                    <mat-label>Nota: {{ note }}</mat-label>
+                </div>
+
+                <div class="comment-area">
+                    <mat-form-field>
+                        <mat-placeholder>Comentário</mat-placeholder>
+                        <input type="text" matInput class="comment">
+                    </mat-form-field>
+                </div>
+
+                <button mat-button matStepperNext class="button-next">Próximo</button>
+            </div>
+
         </mat-step>
 
-        <mat-step label="Limpeza">
-            <mat-form-field>
-                <mat-placeholder>Nota:</mat-placeholder>
-                <input type="number" matInput>
-            </mat-form-field>
-            <button mat-button matStepperPrevious>Anterior</button>
-            <button mat-button matStepperNext>Próximo</button>
+        <mat-step label="Limpeza - 2">
+
+            <div class="container">
+                
+                <mat-label class="question">
+                    A data que o consultor de vendas agendou para instalação da internet foi cumprida?
+                </mat-label>
+
+                <div class="nota-um" (click)="setNote(1)">
+                    1
+                </div>
+                <div class="nota-dois" (click)="setNote(2)">
+                    2
+                </div>
+                <div class="nota-tres" (click)="setNote(3)">
+                    3
+                </div>
+                <div class="nota-quatro" (click)="setNote(4)">
+                    4
+                </div>
+                <div class="nota-cinco" (click)="setNote(5)">
+                    5
+                </div>
+
+                <div class="show-note">
+                    <mat-label>Nota: {{ note }}</mat-label>
+                </div>
+
+                <div class="comment-area">
+                    <mat-form-field>
+                        <mat-placeholder>Comentário</mat-placeholder>
+                        <input type="text" matInput class="comment">
+                    </mat-form-field>
+                </div>
+
+                <button mat-button matStepperPrevious class="button-previous">Anterior</button>
+                <button mat-button matStepperNext class="button-next">Próximo</button>
+                
+            </div>
+
         </mat-step>
 
-        <mat-step label="Opinião">
-            <mat-form-field>
-                <mat-placeholder>Nota:</mat-placeholder>
-                <input type="number" matInput>
-            </mat-form-field>
-            <button mat-button matStepperPrevious>Anterior</button>
-            <button mat-button matStepperNext>Próximo</button>
+        <mat-step label="Opinião - 3">
+
+            <div class="container">
+                
+                <mat-label class="question">
+                    Antes da instalação. O técnico de instalação conferiu com você o plano contrato e as parcelas do carnê?
+                </mat-label>
+
+                <div class="nota-um" (click)="setNote(1)">
+                    1
+                </div>
+                <div class="nota-dois" (click)="setNote(2)">
+                    2
+                </div>
+                <div class="nota-tres" (click)="setNote(3)">
+                    3
+                </div>
+                <div class="nota-quatro" (click)="setNote(4)">
+                    4
+                </div>
+                <div class="nota-cinco" (click)="setNote(5)">
+                    5
+                </div>
+
+                <div class="show-note">
+                    <mat-label>Nota: {{ note }}</mat-label>
+                </div>
+
+                <div class="comment-area">
+                    <mat-form-field>
+                        <mat-placeholder>Comentário</mat-placeholder>
+                        <input type="text" matInput class="comment">
+                    </mat-form-field>
+                </div>
+
+                <button mat-button matStepperPrevious class="button-previous">Anterior</button>
+                <button mat-button matStepperNext class="button-next">Próximo</button>
+
+            </div>
+
+        </mat-step>
+
+        <mat-step label="Organização - 4">
+
+            <div class="container">
+                
+                <mat-label class="question">
+                    O técnico ao finalizar a instalação da internet deixou o ambiente organizado?
+                </mat-label>
+
+                <div class="nota-um" (click)="setNote(1)">
+                    1
+                </div>
+                <div class="nota-dois" (click)="setNote(2)">
+                    2
+                </div>
+                <div class="nota-tres" (click)="setNote(3)">
+                    3
+                </div>
+                <div class="nota-quatro" (click)="setNote(4)">
+                    4
+                </div>
+                <div class="nota-cinco" (click)="setNote(5)">
+                    5
+                </div>
+
+                <div class="show-note">
+                    <mat-label>Nota: {{ note }}</mat-label>
+                </div>
+
+                <div class="comment-area">
+                    <mat-form-field>
+                        <mat-placeholder>Comentário</mat-placeholder>
+                        <input type="text" matInput class="comment">
+                    </mat-form-field>
+                </div>
+
+                <button mat-button matStepperPrevious class="button-previous">Anterior</button>
+                <button mat-button matStepperNext class="button-next">Próximo</button>
+
+            </div>
+
+        </mat-step>
+
+        <mat-step label="Limpeza - 5">
+
+            <div class="container">
+                
+                <mat-label class="question">
+                    Em relação a funcionamento da internet, o técnico conferiu o do sinal wi-fi em seus equipamentos? Ex: Celular, Notebooks, Smart TV etc
+                </mat-label>
+
+                <div class="nota-um" (click)="setNote(1)">
+                    1
+                </div>
+                <div class="nota-dois" (click)="setNote(2)">
+                    2
+                </div>
+                <div class="nota-tres" (click)="setNote(3)">
+                    3
+                </div>
+                <div class="nota-quatro" (click)="setNote(4)">
+                    4
+                </div>
+                <div class="nota-cinco" (click)="setNote(5)">
+                    5
+                </div>
+
+                <div class="show-note">
+                    <mat-label>Nota: {{ note }}</mat-label>
+                </div>
+
+                <div class="comment-area">
+                    <mat-form-field>
+                        <mat-placeholder>Comentário</mat-placeholder>
+                        <input type="text" matInput class="comment">
+                    </mat-form-field>
+                </div>
+
+                <button mat-button matStepperPrevious class="button-previous">Anterior</button>
+                <button mat-button matStepperNext class="button-next">Próximo</button>
+
+            </div>
+
+        </mat-step>
+
+        <mat-step label="Opinião - 6">
+
+            <div class="container">
+                
+                <mat-label class="question">
+                    Você indicaria a OnNet Telecom para um parente ou amigo?
+                </mat-label>
+
+                <div class="nota-um" (click)="setNote(1)">
+                    1
+                </div>
+                <div class="nota-dois" (click)="setNote(2)">
+                    2
+                </div>
+                <div class="nota-tres" (click)="setNote(3)">
+                    3
+                </div>
+                <div class="nota-quatro" (click)="setNote(4)">
+                    4
+                </div>
+                <div class="nota-cinco" (click)="setNote(5)">
+                    5
+                </div>
+
+                <div class="show-note">
+                    <mat-label>Nota: {{ note }}</mat-label>
+                </div>
+
+                <div class="comment-area">
+                    <mat-form-field>
+                        <mat-placeholder>Comentário</mat-placeholder>
+                        <input type="text" matInput class="comment">
+                    </mat-form-field>
+                </div>
+
+                <button mat-button matStepperPrevious class="button-previous">Anterior</button>
+                <button mat-button class="button-next">Finalizar</button>
+                
+            </div>
+
         </mat-step>
     </mat-horizontal-stepper>
-</mat-dialog-content>
