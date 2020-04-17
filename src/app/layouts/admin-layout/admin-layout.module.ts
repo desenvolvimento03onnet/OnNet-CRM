@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -43,6 +44,9 @@ import {MatSelectModule} from '@angular/material/select';
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
+  ],
+  providers: [
+    UserService
   ]
 })
 
