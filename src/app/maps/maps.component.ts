@@ -15,23 +15,29 @@ export class MapsComponent implements OnInit {
 
   ngOnInit() { }
 
-  step: number = -1
-  name: string
-  city: string
+  step: number = -1 //Iniciado em -1 pq é o único valor que não da nota
+  name: string = 'Vinícius Gomes Correia'
+  city: string = 'Patrocínio'
 
   setStep(index: number){
     this.step = index
   }
 
   openSearch(){
+
+    if(this.name && this.city){
       this.modal.open(ModalSearchComponent, { 
-          width : '800px',
+          width : '1100px',
           height: '600px',
           data: {
               name: this.name,
               city: this.city
           }
       })
+    }
+    else{
+      alert('Insira o valor correto')
+    }
   }
   
 }
