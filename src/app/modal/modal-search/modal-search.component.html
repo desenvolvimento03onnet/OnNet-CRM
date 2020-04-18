@@ -1,12 +1,15 @@
     <mat-card>
         <mat-card-title>
-            {{ data.name }}
+            {{ data.name }} | {{ data.city }}
+            <div class="icon-close">
+                <img matDialogClose src="https://img.icons8.com/metro/28/000000/exit-sign.png" alt="Fechar"/>
+            </div>
         </mat-card-title>
         <mat-card-subtitle>
-            {{ data.city }}
+            Olá, <b>Bom dia 11</b> meu nome é <b>Vinícius</b> sou consultor de relacionamentos da OnNet Telecom e gostaria de fazer uma rápida pesquisa de satisfação com você, pois a sua opinião é muito importante para nós.
         </mat-card-subtitle>
     </mat-card>
-    <mat-horizontal-stepper>
+    <mat-horizontal-stepper linear>
         <mat-step label="Organização - 1">
 
             <div class="container">
@@ -251,7 +254,7 @@
                 </div>
 
                 <button mat-button matStepperPrevious class="button-previous">Anterior</button>
-                <button mat-button class="button-next">Finalizar</button>
+                <button mat-button class="button-next" matDialogClose>Finalizar</button>
                 
             </div>
 

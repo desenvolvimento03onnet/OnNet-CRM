@@ -6,6 +6,10 @@
     margin-bottom: 15px;
 }
 
+.mat-card .mat-card-title .icon-close{
+    float: right;
+}
+
 .container{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -34,7 +38,7 @@
     line-height: 2.5;
     text-align: center;
     font-weight: bold;
-    font-size: 28pt;
+    font-size: 24pt;
     border: solid 1px gray;
     cursor: pointer;
 }

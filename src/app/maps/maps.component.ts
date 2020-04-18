@@ -14,11 +14,11 @@ export class MapsComponent implements OnInit, OnDestroy{
   ) { }
 
   ngOnInit() {
-    
+    this.setTimer(this.date.getHours().toString())
   }
 
   ngOnDestroy(){
-    console.log('Desgraca')
+    this.setTimer(this.date.getHours().toString())
   }
 
   setTimer(hour: string){  
@@ -52,6 +52,8 @@ export class MapsComponent implements OnInit, OnDestroy{
       this.modal.open(ModalSearchComponent, { 
           width : '1100px',
           height: '600px',
+          disableClose: true,
+          autoFocus: true,
           data: {
               name: this.name,
               city: this.city

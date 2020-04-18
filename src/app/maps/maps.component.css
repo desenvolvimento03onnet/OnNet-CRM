@@ -14,6 +14,7 @@
     border: solid 1px gray;
 }
 .main-content .container-fluid .row .card-body button:hover{
+    transition: cubic-bezier(0.19, 1, 0.22, 1);
     border: solid 1.5px black;
     font-weight: 500;
     color: gray;
