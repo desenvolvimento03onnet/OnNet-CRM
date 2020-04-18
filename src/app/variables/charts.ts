@@ -261,7 +261,7 @@ export function chartOptions() {
       drawTicks: false
     },
     ticks: {
-      padding: 20
+      padding: 20,
     },
     maxBarThickness: 10
   });
@@ -290,9 +290,9 @@ export const chartExample1 = {
         },
         ticks: {
           callback: function (value) {
-            if (!(value % 10)) {
-              return '$' + value + 'k';
-            }
+            // if (!(value % 10)) {
+            return '$' + value + 'k';
+            // }
           }
         }
       }]
@@ -314,8 +314,7 @@ export const chartQuestions = {
         {
           ticks: {
             callback: function (value) {
-              if (!(value % 5)) {
-                //return '$' + value + 'k'
+              if (!(value % 10)) {
                 return value;
               }
             }

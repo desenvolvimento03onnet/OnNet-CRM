@@ -1,4 +1,4 @@
-import { Login } from './../models/login';
+import { Login } from '../../models/login';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 

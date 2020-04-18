@@ -13121,7 +13121,7 @@ h2.title {
   .main-panel > .content {
     margin-top: 70px;
     padding: 30px 15px;
-    min-height: calc(100vh - 123px); }
+    min-height: calc(100vh - 120px); }
   .main-panel > .footer {
     border-top: 1px solid #e7e7e7; }
   .main-panel > .navbar {

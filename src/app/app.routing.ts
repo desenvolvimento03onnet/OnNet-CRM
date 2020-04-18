@@ -1,5 +1,5 @@
-import { TesteComponent } from './teste/teste.component';
-import { LoginComponent } from './login/login.component';
+import { TesteComponent } from './pages/teste/teste.component';
+import { LoginComponent } from './pages/login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';

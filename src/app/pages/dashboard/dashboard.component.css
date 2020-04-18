@@ -1,0 +1,10 @@
+@import "../../../styles.css";
+
+.content {
+    overflow: auto;
+    height: 77%;
+}
+
+.main-content {
+    min-height: unset;
+}

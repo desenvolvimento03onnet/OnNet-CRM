@@ -1,11 +1,12 @@
 import { MatCardModule } from '@angular/material/card';
+import { UserService } from './../../services/user.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
-import { DashboardComponent } from '../../dashboard/dashboard.component';
+import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { TableListComponent } from '../../table-list/table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
@@ -46,6 +47,9 @@ import {MatSelectModule} from '@angular/material/select';
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
+  ],
+  providers: [
+    UserService
   ]
 })
 
