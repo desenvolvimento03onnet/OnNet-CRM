@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -31,6 +32,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatSelectModule,
     MatTooltipModule,
     MatExpansionModule,
+    MatCardModule,
     
   ],
   declarations: [
