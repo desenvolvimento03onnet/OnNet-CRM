@@ -8,8 +8,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { chartOptions, parseOptions, chartQuestions } from "../../variables/charts";
 import Chart from 'chart.js';
 
-export interface Charts {
-  quest: string;
+export interface DataChart {
+  id: Number;
+  label: string;
   values: number[];
 }
 
@@ -19,21 +20,16 @@ export interface Charts {
   styleUrls: ['./teste.component.css']
 })
 export class TesteComponent implements OnInit {
-  @ViewChild('sortCS', { static: true }) sortCity: MatSort;
-  @ViewChild('sortUS', { static: true }) sortUser: MatSort;
+  @ViewChild('sortCity', { static: true }) private sortCity: MatSort;
+  @ViewChild('sortUser', { static: true }) private sortUser: MatSort;
 
-  displayedColumnsCity: string[] = ['name', 'count'];
-  displayedColumnsUser: string[] = ['name', 'count'];
+  private displayedColumnsCity: string[] = ['name', 'count'];
+  private displayedColumnsUser: string[] = ['name', 'count'];
 
-  dataSourceCity: MatTableDataSource<InterviewsCount>;
-  dataSourceUser: MatTableDataSource<InterviewsCount>;
+  private dataSourceCity: MatTableDataSource<InterviewsCount>;
+  private dataSourceUser: MatTableDataSource<InterviewsCount>;
 
-  dataCharts: Array<{
-    id: Number;
-    label: string;
-    values: Array<number>;
-  }> = []
-
+  private dataCharts: DataChart[] = []
   private ordersChart = [];
 
   constructor(private interviewService: InterviewService, private answerService: AnswerService) {

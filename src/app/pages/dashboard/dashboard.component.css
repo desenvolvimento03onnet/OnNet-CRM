@@ -1,10 +1,31 @@
 @import "../../../styles.css";
 
-.content {
+.matTables {
+    margin: 20px auto;
+    width: 400px;
+    max-height: 300px;
+    border-radius: 6px;
     overflow: auto;
-    height: 77%;
 }
 
-.main-content {
-    min-height: unset;
+.matShadow {
+    box-shadow: 5px 5px 11px 1px #52525238, 0px 0px 2px 1px #6a747a3d;
+}
+
+.mat-table {
+    width: 100%;
+    /* background: #f3f3f3; */
+}
+
+.row .col {
+    margin: auto;
+}
+
+.dash-card {
+    width: 430px;
+    margin: 20px auto;
+    border-radius: 6px;
+    background: #f3f3f3;
+    background: #07d374;
+    background: #333335;
 }
