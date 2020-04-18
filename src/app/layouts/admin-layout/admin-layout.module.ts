@@ -94,8 +94,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTreeModule
-
+    MatTreeModule,
   ],
   declarations: [
     DashboardComponent,
