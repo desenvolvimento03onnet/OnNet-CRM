@@ -14,24 +14,12 @@ export class InterviewService {
         this.baseUrl = globalVar.baseURL + '/interview';
     }
 
-    get(): Observable<Interview> {
-        return this.http.get<Interview>(this.baseUrl);
+    get(params: String): Observable<Interview> {
+        return this.http.get<Interview>(this.baseUrl + '?' + params);
     }
 
     getById(id: Number): Observable<Interview> {
         return this.http.get<Interview>(this.baseUrl + '/' + id);
-    }
-
-    getByCityId(id: Number): Observable<Interview[]> {
-        return this.http.get<Interview[]>(this.baseUrl + '/city/' + id);
-    }
-
-    getBySearchId(id: Number): Observable<Interview[]> {
-        return this.http.get<Interview[]>(this.baseUrl + '/search/' + id);
-    }
-
-    getByUserId(id: Number): Observable<Interview[]> {
-        return this.http.get<Interview[]>(this.baseUrl + '/user/' + id);
     }
 
     groupByCity(): Observable<InterviewsCount[]> {

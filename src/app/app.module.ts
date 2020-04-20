@@ -1,3 +1,4 @@
+import { SearchService } from './services/search.service';
 import { QuestService } from './services/quest.service';
 import { AnswerService } from './services/answer.service';
 import { CityService } from './services/city.service';
@@ -22,7 +23,7 @@ import { TableListComponent } from './table-list/table-list.component';
 import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
 import { MapsComponent } from './maps/maps.component';
-import { NotificationsComponent } from './notifications/notifications.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 import {
   AgmCoreModule
 } from '@agm/core';
@@ -149,7 +150,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     CityService,
     InterviewService,
     QuestService,
-    UserService,
+    SearchService,
+    UserService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

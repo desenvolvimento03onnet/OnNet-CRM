@@ -14,7 +14,7 @@
 
 .mat-table {
     width: 100%;
-    /* background: #f3f3f3; */
+    background: #f3f3f3;
 }
 
 .row .col {
@@ -22,10 +22,19 @@
 }
 
 .dash-card {
-    width: 430px;
+    max-width: 450px;
     margin: 20px auto;
     border-radius: 6px;
     background: #f3f3f3;
-    background: #07d374;
-    background: #333335;
+}
+
+.fa {
+    font-size: 10pt;
+    color: #777777;
+    float: right;
+    margin: auto;
+}
+
+.custom-tooltip {
+    color: #fff !important;
 }

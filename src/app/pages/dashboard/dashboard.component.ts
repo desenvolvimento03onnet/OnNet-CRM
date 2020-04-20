@@ -1,15 +1,32 @@
+import { Search } from './../../models/Search';
+import { SearchService } from './../../services/search.service';
 import { MatSort } from '@angular/material/sort';
 import { InterviewsCount } from './../../models/InterviewsCount';
 import { MatTableDataSource } from '@angular/material/table';
-import { AnswersByQuest } from './../../models/AnswersByQuest';
 import { Chart } from 'chart.js';
 import { AnswerService } from './../../services/answer.service';
 import { InterviewService } from './../../services/interview.service';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { chartOptions, parseOptions, chartQuestions } from "../../variables/charts";
+
+export interface AnswersByQuest {
+  quest_id: Number;
+  question: String;
+  rates: {
+    rate: number;
+    count: string;
+  }[];
+}
+
+export interface SearchChart {
+  id: Number;
+  name: String;
+  data: DataChart[];
+}
 
 export interface DataChart {
   id: Number;
+  quest: String;
   label: string;
   values: number[];
 }
@@ -17,7 +34,8 @@ export interface DataChart {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('sortCity', { static: true }) private sortCity: MatSort;
@@ -29,10 +47,13 @@ export class DashboardComponent implements OnInit {
   private dataSourceCity: MatTableDataSource<InterviewsCount>;
   private dataSourceUser: MatTableDataSource<InterviewsCount>;
 
-  private dataCharts: DataChart[] = []
-  private ordersChart = [];
+  private searchDataCharts: SearchChart[] = [];
 
-  constructor(private interviewService: InterviewService, private answerService: AnswerService) {
+  constructor(
+    private interviewService: InterviewService,
+    private answerService: AnswerService,
+    private searchService: SearchService) {
+
     parseOptions(Chart, chartOptions());
   }
 
@@ -51,62 +72,88 @@ export class DashboardComponent implements OnInit {
       }
     );
 
-    this.getDataChart(1).then(
+    this.refreshDataChart().then(
       () => {
-        this.loadCharts()
+        this.loadCharts();
       },
       err => {
         console.log(err);
-      }
-    )
+      });
   }
 
   async loadMatTables() {
-    const dataCity = await this.interviewService.groupByCity().toPromise();
     const dataUser = await this.interviewService.groupByUser().toPromise();
+    const dataCity = await this.interviewService.groupByCity().toPromise();
 
-    this.dataSourceCity = new MatTableDataSource(dataCity);
     this.dataSourceUser = new MatTableDataSource(dataUser);
+    this.dataSourceCity = new MatTableDataSource(dataCity);
+  }
+
+  async refreshDataChart() {
+    const searches: Search[] = await this.searchService.get().toPromise();
+
+    searches.forEach(element => {
+      this.getDataChart(element.id).then(
+        suc => {
+          this.searchDataCharts.push({
+            id: element.id,
+            name: element.type,
+            data: suc
+          })
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    })
   }
 
   async loadCharts() {
     var chartOrders: HTMLElement;
+    var ordersChart: Chart;
 
     setTimeout(() => {
-      for (var i = 0; i < this.dataCharts.length; i++) {
-        chartOrders = document.getElementById('chart-order-' + this.dataCharts[i].id.toString());
+      this.searchDataCharts.forEach(search => {
+        search.data.forEach(quest => {
+          chartOrders = document.getElementById('search' + search.id + '-quest' + quest.id);
 
-        this.ordersChart.push(new Chart(chartOrders, {
-          type: 'bar',
-          options: chartQuestions.options,
-          data: {
-            labels: ["Nota 5", "Nota 4", "Nota 3", "Nota 2", "Nota 1"],
-            datasets: [
-              {
-                label: this.dataCharts[i].label,
-                data: this.dataCharts[i].values
-              }
-            ]
-          }
-        }))
-      }
+          ordersChart = new Chart(chartOrders, {
+            type: 'bar',
+            options: chartQuestions.options,
+            data: {
+              labels: ["Nota 5", "Nota 4", "Nota 3", "Nota 2", "Nota 1"],
+              datasets: [
+                {
+                  label: quest.label,
+                  data: quest.values
+                }
+              ]
+            }
+          })
+        })
+      });
     }, 300);
   }
 
-  async getDataChart(searchId) {
+  async getDataChart(searchId: Number) {
     const answersByQuest: AnswersByQuest[] = await this.answerService.countAnswersByQuest(searchId).toPromise();
 
+    let dataCharts: DataChart[] = [];
+
     for (var i = 0; i < answersByQuest.length; i++) {
-      this.dataCharts.push({
+      dataCharts.push({
         id: answersByQuest[i].quest_id,
+        quest: answersByQuest[i].question,
         label: "Questão " + (i + 1),
         values: [0, 0, 0, 0, 0]
       })
 
       answersByQuest[i].rates.forEach(element => {
-        this.dataCharts[i].values[4 - (element.rate - 1)] = parseInt(element.count);
+        dataCharts[i].values[4 - (element.rate - 1)] = parseInt(element.count);
       });
     }
+
+    return dataCharts;
   }
 
 }

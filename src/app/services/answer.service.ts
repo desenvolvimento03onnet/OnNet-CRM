@@ -1,9 +1,17 @@
-import { AnswersByQuest } from './../models/AnswersByQuest';
 import { Answer } from './../models/Answer';
 import { Observable } from 'rxjs';
 import { GlobalVariables } from './../global';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
+
+export interface AnswersByQuest {
+    quest_id: Number;
+    question: String;
+    rates: {
+        rate: number;
+        count: string;
+    }[];
+}
 
 @Injectable()
 export class AnswerService {
@@ -24,18 +32,6 @@ export class AnswerService {
 
     countAnswersByQuest(searchId: Number): Observable<AnswersByQuest[]> {
         return this.http.get<AnswersByQuest[]>(this.baseUrl + '/groupBy/answersByQuest/' + searchId);
-    }
-
-    getByCityId(id: Number): Observable<Answer[]> {
-        return this.http.get<Answer[]>(this.baseUrl + '/city/' + id);
-    }
-
-    getByInterviewId(id: Number): Observable<Answer[]> {
-        return this.http.get<Answer[]>(this.baseUrl + '/interview/' + id);
-    }
-
-    getByQuest(id: Number): Observable<Answer[]> {
-        return this.http.get<Answer[]>(this.baseUrl + '/quest/' + id);
     }
 
     put(id: Number, request: {}): Observable<Answer> {

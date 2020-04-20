@@ -39,7 +39,7 @@ import { TableListComponent } from '../../table-list/table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
-import { NotificationsComponent } from '../../notifications/notifications.component';
+import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule, MatNativeDateModule } from '@angular/material/core';
@@ -93,7 +93,6 @@ import { MatSelectModule } from '@angular/material/select';
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule,
     MatTreeModule,
   ],
   declarations: [
