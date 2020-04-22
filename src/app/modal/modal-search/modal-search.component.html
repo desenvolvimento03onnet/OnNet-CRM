@@ -6,11 +6,11 @@
             </div>
         </mat-card-title>
         <mat-card-subtitle>
-            Olá, <b>Bom dia 11</b> meu nome é <b>Vinícius</b> sou consultor de relacionamentos da OnNet Telecom e gostaria de fazer uma rápida pesquisa de satisfação com você, pois a sua opinião é muito importante para nós.
+            Olá, <b>{{ data.greetings }}</b> meu nome é <b>{{ data.user }}</b> sou consultor de relacionamentos da OnNet Telecom e gostaria de fazer uma rápida pesquisa de satisfação com você, pois a sua opinião é muito importante para nós.
         </mat-card-subtitle>
     </mat-card>
     <mat-horizontal-stepper linear>
-        <mat-step label="Organização - 1">
+        <mat-step label="{{ setNoteStep() }}">
 
             <div class="container">
                 
@@ -18,24 +18,20 @@
                     O consultor de vendas lhe apresentou todas as opções de planos de internet conforme a sua necessidade?
                 </mat-label>
 
-                <div class="nota-um" (click)="setNote(1)">
+                <div class="note-one"   [ngStyle]="{'border': note === 1 ? 'inset 2px #ff0000' : ''}"  (click)="setNote(1)">
                     1
                 </div>
-                <div class="nota-dois" (click)="setNote(2)">
+                <div class="note-two"   [ngStyle]="{'border': note === 2 ? 'inset 2px #ff5500' : ''}"  (click)="setNote(2)">
                     2
                 </div>
-                <div class="nota-tres" (click)="setNote(3)">
+                <div class="note-three" [ngStyle]="{'border': note === 3 ? 'inset 2px #ff9d00' : ''}"  (click)="setNote(3)">
                     3
                 </div>
-                <div class="nota-quatro" (click)="setNote(4)">
+                <div class="note-four"  [ngStyle]="{'border': note === 4 ? 'inset 2px #ffe100' : ''}"  (click)="setNote(4)">
                     4
                 </div>
-                <div class="nota-cinco" (click)="setNote(5)">
+                <div class="note-five"  [ngStyle]="{'border': note === 5 ? 'inset 2px #2fba00' : ''}"  (click)="setNote(5)">
                     5
-                </div>
-
-                <div class="show-note">
-                    <mat-label>Nota: {{ note }}</mat-label>
                 </div>
 
                 <div class="comment-area">
@@ -45,7 +41,7 @@
                     </mat-form-field>
                 </div>
 
-                <button mat-button matStepperNext class="button-next">Próximo</button>
+                <button mat-button matStepperNext class="button-next" >Próximo</button>
             </div>
 
         </mat-step>
@@ -58,24 +54,20 @@
                     A data que o consultor de vendas agendou para instalação da internet foi cumprida?
                 </mat-label>
 
-                <div class="nota-um" (click)="setNote(1)">
+                <div class="note-one"   [ngStyle]="{'border': note === 1 ? 'inset 2px #ff0000' : ''}"  (click)="setNote(1)">
                     1
                 </div>
-                <div class="nota-dois" (click)="setNote(2)">
+                <div class="note-two"   [ngStyle]="{'border': note === 2 ? 'inset 2px #ff5500' : ''}"  (click)="setNote(2)">
                     2
                 </div>
-                <div class="nota-tres" (click)="setNote(3)">
+                <div class="note-three" [ngStyle]="{'border': note === 3 ? 'inset 2px #ff9d00' : ''}"  (click)="setNote(3)">
                     3
                 </div>
-                <div class="nota-quatro" (click)="setNote(4)">
+                <div class="note-four"  [ngStyle]="{'border': note === 4 ? 'inset 2px #ffe100' : ''}"  (click)="setNote(4)">
                     4
                 </div>
-                <div class="nota-cinco" (click)="setNote(5)">
+                <div class="note-five"  [ngStyle]="{'border': note === 5 ? 'inset 2px #2fba00' : ''}"  (click)="setNote(5)">
                     5
-                </div>
-
-                <div class="show-note">
-                    <mat-label>Nota: {{ note }}</mat-label>
                 </div>
 
                 <div class="comment-area">
@@ -100,24 +92,20 @@
                     Antes da instalação. O técnico de instalação conferiu com você o plano contrato e as parcelas do carnê?
                 </mat-label>
 
-                <div class="nota-um" (click)="setNote(1)">
+                <div class="note-one"   [ngStyle]="{'border': note === 1 ? 'inset 2px #ff0000' : ''}"  (click)="setNote(1)">
                     1
                 </div>
-                <div class="nota-dois" (click)="setNote(2)">
+                <div class="note-two"   [ngStyle]="{'border': note === 2 ? 'inset 2px #ff5500' : ''}"  (click)="setNote(2)">
                     2
                 </div>
-                <div class="nota-tres" (click)="setNote(3)">
+                <div class="note-three" [ngStyle]="{'border': note === 3 ? 'inset 2px #ff9d00' : ''}"  (click)="setNote(3)">
                     3
                 </div>
-                <div class="nota-quatro" (click)="setNote(4)">
+                <div class="note-four"  [ngStyle]="{'border': note === 4 ? 'inset 2px #ffe100' : ''}"  (click)="setNote(4)">
                     4
                 </div>
-                <div class="nota-cinco" (click)="setNote(5)">
+                <div class="note-five"  [ngStyle]="{'border': note === 5 ? 'inset 2px #2fba00' : ''}"  (click)="setNote(5)">
                     5
-                </div>
-
-                <div class="show-note">
-                    <mat-label>Nota: {{ note }}</mat-label>
                 </div>
 
                 <div class="comment-area">
@@ -142,24 +130,20 @@
                     O técnico ao finalizar a instalação da internet deixou o ambiente organizado?
                 </mat-label>
 
-                <div class="nota-um" (click)="setNote(1)">
+                <div class="note-one"   [ngStyle]="{'border': note === 1 ? 'inset 2px #ff0000' : ''}"  (click)="setNote(1)">
                     1
                 </div>
-                <div class="nota-dois" (click)="setNote(2)">
+                <div class="note-two"   [ngStyle]="{'border': note === 2 ? 'inset 2px #ff5500' : ''}"  (click)="setNote(2)">
                     2
                 </div>
-                <div class="nota-tres" (click)="setNote(3)">
+                <div class="note-three" [ngStyle]="{'border': note === 3 ? 'inset 2px #ff9d00' : ''}"  (click)="setNote(3)">
                     3
                 </div>
-                <div class="nota-quatro" (click)="setNote(4)">
+                <div class="note-four"  [ngStyle]="{'border': note === 4 ? 'inset 2px #ffe100' : ''}"  (click)="setNote(4)">
                     4
                 </div>
-                <div class="nota-cinco" (click)="setNote(5)">
+                <div class="note-five"  [ngStyle]="{'border': note === 5 ? 'inset 2px #2fba00' : ''}"  (click)="setNote(5)">
                     5
-                </div>
-
-                <div class="show-note">
-                    <mat-label>Nota: {{ note }}</mat-label>
                 </div>
 
                 <div class="comment-area">
@@ -184,24 +168,20 @@
                     Em relação a funcionamento da internet, o técnico conferiu o do sinal wi-fi em seus equipamentos? Ex: Celular, Notebooks, Smart TV etc
                 </mat-label>
 
-                <div class="nota-um" (click)="setNote(1)">
+                <div class="note-one"   [ngStyle]="{'border': note === 1 ? 'inset 2px #ff0000' : ''}"  (click)="setNote(1)">
                     1
                 </div>
-                <div class="nota-dois" (click)="setNote(2)">
+                <div class="note-two"   [ngStyle]="{'border': note === 2 ? 'inset 2px #ff5500' : ''}"  (click)="setNote(2)">
                     2
                 </div>
-                <div class="nota-tres" (click)="setNote(3)">
+                <div class="note-three" [ngStyle]="{'border': note === 3 ? 'inset 2px #ff9d00' : ''}"  (click)="setNote(3)">
                     3
                 </div>
-                <div class="nota-quatro" (click)="setNote(4)">
+                <div class="note-four"  [ngStyle]="{'border': note === 4 ? 'inset 2px #ffe100' : ''}"  (click)="setNote(4)">
                     4
                 </div>
-                <div class="nota-cinco" (click)="setNote(5)">
+                <div class="note-five"  [ngStyle]="{'border': note === 5 ? 'inset 2px #2fba00' : ''}"  (click)="setNote(5)">
                     5
-                </div>
-
-                <div class="show-note">
-                    <mat-label>Nota: {{ note }}</mat-label>
                 </div>
 
                 <div class="comment-area">
@@ -226,25 +206,22 @@
                     Você indicaria a OnNet Telecom para um parente ou amigo?
                 </mat-label>
 
-                <div class="nota-um" (click)="setNote(1)">
+                <div class="note-one"   [ngStyle]="{'border': note === 1 ? 'inset 2px #ff0000' : ''}"  (click)="setNote(1)">
                     1
                 </div>
-                <div class="nota-dois" (click)="setNote(2)">
+                <div class="note-two"   [ngStyle]="{'border': note === 2 ? 'inset 2px #ff5500' : ''}"  (click)="setNote(2)">
                     2
                 </div>
-                <div class="nota-tres" (click)="setNote(3)">
+                <div class="note-three" [ngStyle]="{'border': note === 3 ? 'inset 2px #ff9d00' : ''}"  (click)="setNote(3)">
                     3
                 </div>
-                <div class="nota-quatro" (click)="setNote(4)">
+                <div class="note-four"  [ngStyle]="{'border': note === 4 ? 'inset 2px #ffe100' : ''}"  (click)="setNote(4)">
                     4
                 </div>
-                <div class="nota-cinco" (click)="setNote(5)">
+                <div class="note-five"  [ngStyle]="{'border': note === 5 ? 'inset 2px #2fba00' : ''}"  (click)="setNote(5)">
                     5
                 </div>
 
-                <div class="show-note">
-                    <mat-label>Nota: {{ note }}</mat-label>
-                </div>
 
                 <div class="comment-area">
                     <mat-form-field>
@@ -254,7 +231,7 @@
                 </div>
 
                 <button mat-button matStepperPrevious class="button-previous">Anterior</button>
-                <button mat-button class="button-next" matDialogClose>Finalizar</button>
+                <button mat-button class="button-finish" matDialogClose>Finalizar</button>
                 
             </div>
 

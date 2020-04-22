@@ -1,0 +1,32 @@
+.button-previous{
+    font-weight: normal;
+    border: solid 1px red;
+    color: black;
+}
+
+.button-previous:hover{
+    font-weight: bold;
+    color: red;
+}
+
+.button-next{
+    font-weight: normal;
+    border: solid 1px black;
+    color: gray;
+}
+
+.button-next:hover{
+    font-weight: bold;
+    color: black;
+}
+
+.button-finish{
+    font-weight: normal;
+    border: solid 1px green;
+    color: black;
+}
+
+.button-finish:hover{
+    font-weight: bold;
+    color: green;
+}
