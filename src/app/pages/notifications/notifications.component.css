@@ -1,0 +1,58 @@
+@import "../../../styles.css";
+
+.main-content {
+    background: #fff;
+}
+
+.faIcons {
+    text-align: right !important;
+    margin-right: 30px !important;
+}
+
+.fa {
+    font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.fa-pencil {
+    color: #1059ad;
+}
+
+.fa-check {
+    color: #04882c;
+}
+
+.fa-ban {
+    color: #d42710;
+}
+
+.userTable {
+    width: 100%;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.radio-button {
+    margin: 10px;
+}
+
+.row {
+    margin: 20px 0;
+    max-width: 100%;
+}
+
+.btnNewUser {
+    float: right;
+    box-shadow: 0px 6px 10px -5px #6b6b6b44, 0 0 1px 1px #dee5e7 !important;
+    transition: transform 0.1s ease !important;
+    background: #00b96c;
+    color: #fff;
+}
+
+.btnNewUser:active {
+    transform: scale(.97);
+}

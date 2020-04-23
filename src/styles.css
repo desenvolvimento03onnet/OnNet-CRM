@@ -56,3 +56,7 @@
 .card-header + .list-group .list-group-item:first-child {
     border-top: 0;
 }
+
+.custom-tooltip {
+    color: #fff !important;
+}
