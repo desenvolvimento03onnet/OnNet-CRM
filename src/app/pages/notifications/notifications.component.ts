@@ -1,3 +1,7 @@
+import { QuestService } from './../../services/quest.service';
+import { Quest } from './../../models/Quest';
+import { SearchService } from './../../services/search.service';
+import { Search } from './../../models/Search';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserService } from './../../services/user.service';
 import { User } from './../../models/User';
@@ -11,30 +15,69 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class NotificationsComponent implements OnInit {
 
+  //user tab
   private displayedColumnsUsers: String[] = ['name', 'username', 'status', 'edit']
   private users: User[] = [];
-  private dataSourceUsers;
-
+  private dataSourceUsers = new MatTableDataSource([]);
   private activeUsers: boolean = true;
   private filterUsersValue: string = "";
 
-  constructor(private userService: UserService) { }
+  //search tab
+  private searches: Search[] = [];
+  private dataSourceSearches: Search[] = []
+  private activeSearches: boolean = true;
+  private filterSearchesValue: string = "";
+
+  //quest tab
+  private quests: Quest[] = [];
+  private dataSourceQuests: Quest[] = [];
+  private activeQuests: boolean = true;
+  private filterQuestsValue: string = "";
+
+  constructor(
+    private userService: UserService,
+    private searchService: SearchService,
+    private questService: QuestService
+  ) { }
 
   async ngOnInit() {
-    this.refreshUsers().then(
-      () => {
-        this.dataSourceUsers = new MatTableDataSource(this.users);
+    this.refreshUsers();
+    this.refreshSearches();
+    this.refreshQuests();
+  }
+
+  refreshUsers() {
+    this.userService.get().subscribe(
+      users => {
+        this.users = users;
+        this.applyFilterUserActive(this.activeUsers);
+      },
+      err => {
+        console.log(err);
+      });
+  }
+
+  refreshSearches() {
+    this.searchService.get().subscribe(
+      searches => {
+        this.searches = searches;
+        this.applyFilterSearchActive(this.activeSearches);
+      },
+      err => {
+        console.log(err)
+      });
+  }
+
+  refreshQuests() {
+    this.questService.get().subscribe(
+      quests => {
+        this.quests = quests;
+        this.applyFilterQuestActive(this.activeQuests);
       },
       err => {
         console.log(err);
       }
-    );
-  }
-
-  async refreshUsers() {
-    this.users = await this.userService.get().toPromise();
-
-    this.dataSourceUsers = new MatTableDataSource(this.users);
+    )
   }
 
   applyFilterUser(event: Event) {
@@ -62,6 +105,60 @@ export class NotificationsComponent implements OnInit {
         return ((user.name.toLowerCase().indexOf(filterValue) != -1)
           || (user.username.toLowerCase().indexOf(filterValue) != -1))
           && (user.active == active);
+      })
+    }
+  }
+
+  applyFilterSearch(event: Event) {
+    if (this.searches.length > 0) {
+      const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+      const active = this.activeSearches;
+
+      this.filterSearchesValue = filterValue;
+
+      this.dataSourceSearches = this.searches.filter(function (search) {
+        return (search.type.toLowerCase().indexOf(filterValue) != -1)
+          && (search.active == active);
+      })
+    }
+  }
+
+  applyFilterSearchActive(active: boolean) {
+    if (this.searches.length > 0) {
+      const filterValue = this.filterSearchesValue;
+
+      this.activeSearches = active;
+
+      this.dataSourceSearches = this.searches.filter(function (search) {
+        return (search.type.toLowerCase().indexOf(filterValue) != -1)
+          && (search.active == active);
+      })
+    }
+  }
+
+  applyFilterQuest(event) {
+    if (this.quests.length > 0) {
+      const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+      const active = this.activeQuests;
+
+      this.filterQuestsValue = filterValue;
+
+      this.dataSourceQuests = this.quests.filter(function (quest) {
+        return (quest.question.toLowerCase().indexOf(filterValue) != -1)
+          && (quest.active == active);
+      })
+    }
+  }
+
+  applyFilterQuestActive(active: boolean) {
+    if (this.quests.length > 0) {
+      const filterValue = this.filterQuestsValue;
+
+      this.activeQuests = active;
+
+      this.dataSourceQuests = this.quests.filter(function (quest) {
+        return (quest.question.toLowerCase().indexOf(filterValue) != -1)
+          && (quest.active == active);
       })
     }
   }

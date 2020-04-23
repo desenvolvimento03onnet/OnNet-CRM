@@ -2,10 +2,6 @@
     <div class="container-fluid">
 
         <mat-tab-group>
-            <mat-tab label="Perfil">
-
-            </mat-tab>
-
             <mat-tab label="Usuários">
                 <div class="row">
                     <div class="col-6">
@@ -14,18 +10,23 @@
                             <input matInput (keyup)="applyFilterUser($event)">
                         </mat-form-field>
                     </div>
-                    <div class="col-3">
-                        <mat-radio-group class="radio-group">
-                            <mat-radio-button class="radio-button" value=false (click)="applyFilterUserActive(false)">
+                    <div class="col">
+                        <mat-radio-group color="primary" class="radio-group">
+                            <mat-radio-button class="radio-button" name="userActive" value=false
+                                (click)="applyFilterUserActive(false)">
                                 Inativo
                             </mat-radio-button>
-                            <mat-radio-button class="radio-button" value=true (click)="applyFilterUserActive(true)">
+                            <mat-radio-button checked class="radio-button" name="userActive" value=true
+                                (click)="applyFilterUserActive(true)">
                                 Ativo
                             </mat-radio-button>
                         </mat-radio-group>
                     </div>
-                    <div class="col-3">
-                        <button mat-raised-button class="btnNewUser">Cadastrar Usuário</button>
+                    <div class="col-2">
+                        <button mat-raised-button class="btnNew">
+                            <mat-icon class="btnAdd">add_circle</mat-icon>
+                            Usuário
+                        </button>
                     </div>
                 </div>
 
@@ -50,12 +51,15 @@
 
                     <ng-container matColumnDef="edit">
                         <th mat-header-cell *matHeaderCellDef> </th>
-                        <td mat-cell *matCellDef="let element" class="faIcons">
-                            <i class="fa fa-pencil" matTooltip="Editar usuário" matTooltipClass="custom-tooltip"></i>
-                            <i *ngIf="!element.active" class="fa fa-check" matTooltip="Ativar usuário"
-                                matTooltipClass="custom-tooltip"></i>
-                            <i *ngIf="element.active" class="fa fa-ban" matTooltip="Inativar usuário"
-                                matTooltipClass="custom-tooltip"></i>
+                        <td mat-cell *matCellDef="let element" class="btnMatEdit">
+                            <mat-icon *ngIf="!element.active" class="activeIcon" matTooltip="Inativar usuário"
+                                matTooltipClass="custom-tooltip">
+                                check</mat-icon>
+                            <mat-icon *ngIf="element.active" class="inactiveIcon" matTooltip="Ativar usuário"
+                                matTooltipClass="custom-tooltip">
+                                remove_circle_outline</mat-icon>
+                            <mat-icon class="editIcon" matTooltip="Editar usuário" matTooltipClass="custom-tooltip">
+                                create</mat-icon>
                         </td>
                     </ng-container>
 
@@ -64,55 +68,220 @@
                 </table>
             </mat-tab>
 
-
             <mat-tab label="Pesquisas">
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <mat-label>Buscar</mat-label>
+                            <input matInput (keyup)="applyFilterSearch($event)">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-radio-group color="primary" class="radio-group">
+                            <mat-radio-button class="radio-button" name="searchActive" value=false
+                                (click)="applyFilterSearchActive(false)">
+                                Inativo
+                            </mat-radio-button>
+                            <mat-radio-button checked class="radio-button" name="searchActive" value=true
+                                (click)="applyFilterSearchActive(true)">
+                                Ativo
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col-2">
+                        <button mat-raised-button class="btnNew">
+                            <mat-icon class="btnAdd">add_circle</mat-icon>
+                            Pesquisa
+                        </button>
+                    </div>
+                </div>
 
+                <mat-accordion>
+                    <mat-expansion-panel hideToggle *ngFor="let search of dataSourceSearches">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{ search.type }}</mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <mat-list>
+                            <div mat-subheader>Status</div>
+                            <div class="row">
+                                <div class="col">
+                                    <mat-list-item>
+                                        <div mat-line *ngIf="search.active">Ativo</div>
+                                        <mat-icon mat-list-icon *ngIf="search.active">check</mat-icon>
+                                        <div mat-line *ngIf="!search.active">Inativo</div>
+                                        <mat-icon mat-list-icon *ngIf="!search.active">remove_circle_outline</mat-icon>
+                                    </mat-list-item>
+                                </div>
+                                <div class="col-1 list-item-content">
+                                    <section>
+                                        <mat-slide-toggle color="primary" [checked]="search.active">
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                            </div>
+
+
+                            <mat-divider></mat-divider>
+
+                            <div mat-subheader>Perguntas</div>
+                            <div class="row">
+                                <div class="col">
+                                    <mat-list-item *ngFor="let quest of search.quests">
+                                        <mat-icon mat-list-icon>help</mat-icon>
+                                        <div mat-line>{{ quest.question }}</div>
+                                    </mat-list-item>
+                                </div>
+                                <div class="col-1 list-item-content">
+                                    <mat-icon mat-list-icon matTooltip="Editar perguntas"
+                                        matTooltipClass="custom-tooltip">create</mat-icon>
+                                </div>
+                            </div>
+
+                            <mat-divider></mat-divider>
+
+                            <div mat-subheader>Criação</div>
+                            <div style="padding: 0 16px">
+                                <mat-list-item>
+                                    <mat-icon mat-list-icon>info</mat-icon>
+                                    <div mat-line>Usuário de criação: {{ search.user.name }}</div>
+                                </mat-list-item>
+                                <mat-list-item>
+                                    <mat-icon mat-list-icon>info</mat-icon>
+                                    <div mat-line>Data de criação: {{ search.created_at | date: 'dd/MM/yyyy' }}</div>
+                                </mat-list-item>
+                                <mat-list-item>
+                                    <mat-icon mat-list-icon>info</mat-icon>
+                                    <div mat-line>Última alteração: {{ search.updated_at | date: 'dd/MM/yyyy'}}</div>
+                                </mat-list-item>
+                            </div>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </mat-tab>
+
+            <mat-tab label="Perguntas">
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <mat-label>Buscar</mat-label>
+                            <input matInput (keyup)="applyFilterQuest($event)">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-radio-group color="primary" class="radio-group">
+                            <mat-radio-button class="radio-button" name="questActive" value=false
+                                (click)="applyFilterQuestActive(false)">
+                                Inativo
+                            </mat-radio-button>
+                            <mat-radio-button checked class="radio-button" name="questActive" value=true
+                                (click)="applyFilterQuestActive(true)">
+                                Ativo
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col-2">
+                        <button mat-raised-button class="btnNew">
+                            <mat-icon class="btnAdd">add_circle</mat-icon>
+                            Pergunta
+                        </button>
+                    </div>
+                </div>
+
+                <mat-accordion>
+                    <mat-expansion-panel hideToggle *ngFor="let quest of dataSourceQuests">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{ quest.question }}</mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <mat-list>
+                            <div mat-subheader>Status</div>
+                            <div class="row">
+                                <div class="col">
+                                    <mat-list-item>
+                                        <div mat-line *ngIf="quest.active">Ativo</div>
+                                        <mat-icon mat-list-icon *ngIf="quest.active">check</mat-icon>
+                                        <div mat-line *ngIf="!quest.active">Inativo</div>
+                                        <mat-icon mat-list-icon *ngIf="!quest.active">remove_circle_outline</mat-icon>
+                                    </mat-list-item>
+                                </div>
+                                <div class="col-1 list-item-content">
+                                    <section>
+                                        <mat-slide-toggle color="primary" [checked]="quest.active">
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                            </div>
+
+
+                            <mat-divider></mat-divider>
+
+                            <div mat-subheader>Pesquisas</div>
+                            <div class="row">
+                                <div class="col">
+                                    <mat-list-item *ngFor="let search of quest.searches">
+                                        <mat-icon mat-list-icon>question_answer</mat-icon>
+                                        <div mat-line>{{ search.type }}</div>
+                                    </mat-list-item>
+                                </div>
+                                <div class="col-1 list-item-content">
+                                    <mat-icon mat-list-icon matTooltip="Editar pesquisas"
+                                        matTooltipClass="custom-tooltip">create</mat-icon>
+                                </div>
+                            </div>
+
+                            <mat-divider></mat-divider>
+
+                            <div mat-subheader>Criação</div>
+                            <div style="padding: 0 16px">
+                                <mat-list-item>
+                                    <mat-icon mat-list-icon>info</mat-icon>
+                                    <div mat-line>Usuário de criação: {{ quest.user.name }}</div>
+                                </mat-list-item>
+                                <mat-list-item>
+                                    <mat-icon mat-list-icon>info</mat-icon>
+                                    <div mat-line>Data de criação: {{ quest.created_at | date: 'dd/MM/yyyy' }}
+                                    </div>
+                                </mat-list-item>
+                                <mat-list-item>
+                                    <mat-icon mat-list-icon>info</mat-icon>
+                                    <div mat-line>Última alteração: {{ quest.updated_at | date: 'dd/MM/yyyy'}}
+                                    </div>
+                                </mat-list-item>
+                            </div>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </mat-tab>
+
+            <mat-tab label="Cidades">
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <mat-label>Buscar</mat-label>
+                            <input matInput (keyup)="applyFilterCity($event)">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-radio-group color="primary" class="radio-group">
+                            <mat-radio-button class="radio-button" name="cityActive" value=false
+                                (click)="applyFilterCityActive(false)">
+                                Inativo
+                            </mat-radio-button>
+                            <mat-radio-button checked class="radio-button" name="cityActive" value=true
+                                (click)="applyFilterCityActive(true)">
+                                Ativo
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col-2">
+                        <button mat-raised-button class="btnNew">
+                            <mat-icon class="btnAdd">add_circle</mat-icon>
+                            Cidade
+                        </button>
+                    </div>
+                </div>
             </mat-tab>
         </mat-tab-group>
-
-        <!-- <div class="card">
-            <div class="card-header card-header-danger">
-                <h4 class="card-title ">Perfil</h4>
-            </div>
-            <div class="card-body">
-                <div class="row perfil">
-                    <div class="col-3 icon-name">
-                        <div class="fa fa-user-circle"></div>
-                        <h2>Eduardo Alcebíades Queiroz Pereira</h2>
-                    </div>
-
-                    <div class="col">
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Nome</mat-label>
-                            <input matInput disabled value="Eduardo Alcebíades Queiroz Pereira">
-                        </mat-form-field>
-
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Usuário</mat-label>
-                            <input matInput disabled value="eduardoalcebiades610">
-                        </mat-form-field>
-
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Senha atual</mat-label>
-                            <input matInput placeholder="Placeholder">
-                        </mat-form-field>
-
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Nova senha</mat-label>
-                            <input matInput placeholder="Placeholder">
-                        </mat-form-field>
-
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Confirmar Senha</mat-label>
-                            <input matInput placeholder="Placeholder">
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <div class="input-group-button">
-                    <button class="btnLogin">Salvar</button>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>

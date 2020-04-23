@@ -4,29 +4,6 @@
     background: #fff;
 }
 
-.faIcons {
-    text-align: right !important;
-    margin-right: 30px !important;
-}
-
-.fa {
-    font-size: 16px;
-    margin: 0 10px;
-    cursor: pointer;
-}
-
-.fa-pencil {
-    color: #1059ad;
-}
-
-.fa-check {
-    color: #04882c;
-}
-
-.fa-ban {
-    color: #d42710;
-}
-
 .userTable {
     width: 100%;
 }
@@ -45,14 +22,62 @@
     max-width: 100%;
 }
 
-.btnNewUser {
+.btnNew {
     float: right;
     box-shadow: 0px 6px 10px -5px #6b6b6b44, 0 0 1px 1px #dee5e7 !important;
     transition: transform 0.1s ease !important;
-    background: #00b96c;
-    color: #fff;
+    background: #00b96c !important;
+    color: #fff !important;
 }
 
-.btnNewUser:active {
-    transform: scale(.97);
+.btnNew:active {
+    transform: scale(0.97);
+}
+
+.mat-list-icon {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-expansion-panel {
+    background: #f3f3f3;
+}
+
+.list-item-content {
+    display: flex;
+}
+
+.list-item-content .mat-icon {
+    cursor: pointer;
+    color: #0a1e68;
+    margin: auto;
+}
+
+.list-item-content section {
+    margin: auto;
+}
+
+.btnAdd {
+    margin-right: 10px;
+}
+
+.btnMatEdit {
+    width: 120px;
+}
+
+.btnMatEdit .mat-icon {
+    cursor: pointer;
+    margin: auto 10px;
+    float: right;
+}
+
+.editIcon {
+    color: #0a1e68;
+}
+
+.activeIcon {
+    color: #007242;
+}
+
+.inactiveIcon {
+    color: #a72828;
 }

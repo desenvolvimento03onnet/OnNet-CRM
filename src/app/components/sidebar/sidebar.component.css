@@ -1,0 +1,8 @@
+.sidebar[data-color=danger] li.active > a {
+    background-color: #00b96c !important;
+    box-shadow: 0 4px 20px 0px #00000024, 0 7px 10px -5px #00b96c63 !important;
+}
+
+.sideba .nav p {
+    color: #fff;
+}
