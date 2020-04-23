@@ -1,5 +1,5 @@
 .button-previous{
-    font-weight: normal;
+    font-weight: 500;
     border: solid 1px red;
     color: black;
 }
@@ -10,7 +10,7 @@
 }
 
 .button-next{
-    font-weight: normal;
+    font-weight: 500;
     border: solid 1px black;
     color: gray;
 }
@@ -21,7 +21,7 @@
 }
 
 .button-finish{
-    font-weight: normal;
+    font-weight: 500;
     border: solid 1px green;
     color: black;
 }

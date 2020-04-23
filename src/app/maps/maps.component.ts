@@ -27,6 +27,18 @@ export class MapsComponent implements OnInit{
     this.step = index
   }
 
+  getUser(){
+    window.sessionStorage.setItem('user', 'Vinícius Gomes Correia')
+    var user:string = window.sessionStorage.getItem('user')
+
+    for(var i = 0; i <= user.length; i++){
+      if(user[i] === ' '){
+        user = user.substring(0, i)
+        return user
+      }
+    }
+  }
+
   openSearch(){
     if(this.name && this.city){
       this.modal.open(ModalSearchComponent, { 
@@ -38,7 +50,7 @@ export class MapsComponent implements OnInit{
               name: this.name,
               city: this.city,
               greetings: this.setGreetings(),
-              user: 'Vinícius'
+              user: this.getUser()
           }
       })
     }

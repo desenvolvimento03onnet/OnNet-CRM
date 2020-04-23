@@ -2,7 +2,7 @@
         <mat-card-title>
             {{ data.name }} | {{ data.city }}
             <div class="icon-close">
-                <img matDialogClose src="https://img.icons8.com/metro/28/000000/exit-sign.png" alt="Fechar"/>
+                <img matDialogClose src="../../../assets/img/exit-door.svg" alt="Fechar"/>
             </div>
         </mat-card-title>
         <mat-card-subtitle>
@@ -27,7 +27,7 @@
                 <div class="note-three" [ngStyle]="{'border': note === 3 ? 'inset 2px #ff9d00' : ''}"  (click)="setNote(3)">
                     3
                 </div>
-                <div class="note-four"  [ngStyle]="{'border': note === 4 ? 'inset 2px #ffe100' : ''}"  (click)="setNote(4)">
+                <div class="note-four"  [ngStyle]="{'border': note === 4 ? 'inset 2px #c3c900' : ''}"  (click)="setNote(4)">
                     4
                 </div>
                 <div class="note-five"  [ngStyle]="{'border': note === 5 ? 'inset 2px #2fba00' : ''}"  (click)="setNote(5)">
@@ -41,7 +41,13 @@
                     </mat-form-field>
                 </div>
 
-                <button mat-button matStepperNext class="button-next" >Próximo</button>
+                <button mat-button matStepperNext class="button-next" 
+                    [ngClass]="{'button-note-one':   note === 1,
+                                'button-note-two':   note === 2,
+                                'button-note-three': note === 3,
+                                'button-note-four':  note === 4,
+                                'button-note-five':  note === 5}"
+                >Próximo</button>
             </div>
 
         </mat-step>
@@ -78,7 +84,13 @@
                 </div>
 
                 <button mat-button matStepperPrevious class="button-previous">Anterior</button>
-                <button mat-button matStepperNext class="button-next">Próximo</button>
+                <button mat-button matStepperNext class="button-next" 
+                [ngClass]="{'button-note-one':   note === 1,
+                            'button-note-two':   note === 2,
+                            'button-note-three': note === 3,
+                            'button-note-four':  note === 4,
+                            'button-note-five':  note === 5}"
+            >Próximo</button>
                 
             </div>
 
@@ -116,7 +128,13 @@
                 </div>
 
                 <button mat-button matStepperPrevious class="button-previous">Anterior</button>
-                <button mat-button matStepperNext class="button-next">Próximo</button>
+                <button mat-button matStepperNext class="button-next" 
+                [ngClass]="{'button-note-one':   note === 1,
+                            'button-note-two':   note === 2,
+                            'button-note-three': note === 3,
+                            'button-note-four':  note === 4,
+                            'button-note-five':  note === 5}"
+            >Próximo</button>
 
             </div>
 
@@ -154,7 +172,13 @@
                 </div>
 
                 <button mat-button matStepperPrevious class="button-previous">Anterior</button>
-                <button mat-button matStepperNext class="button-next">Próximo</button>
+                <button mat-button matStepperNext class="button-next" 
+                [ngClass]="{'button-note-one':   note === 1,
+                            'button-note-two':   note === 2,
+                            'button-note-three': note === 3,
+                            'button-note-four':  note === 4,
+                            'button-note-five':  note === 5}"
+            >Próximo</button>
 
             </div>
 
@@ -192,7 +216,13 @@
                 </div>
 
                 <button mat-button matStepperPrevious class="button-previous">Anterior</button>
-                <button mat-button matStepperNext class="button-next">Próximo</button>
+                <button mat-button matStepperNext class="button-next" 
+                [ngClass]="{'button-note-one':   note === 1,
+                            'button-note-two':   note === 2,
+                            'button-note-three': note === 3,
+                            'button-note-four':  note === 4,
+                            'button-note-five':  note === 5}"
+            >Próximo</button>
 
             </div>
 
@@ -231,7 +261,13 @@
                 </div>
 
                 <button mat-button matStepperPrevious class="button-previous">Anterior</button>
-                <button mat-button class="button-finish" matDialogClose>Finalizar</button>
+                <button mat-button matDialogClose class="button-finish" 
+                        [ngClass]="{'button-note-one':   note === 1,
+                                    'button-note-two':   note === 2,
+                                    'button-note-three': note === 3,
+                                    'button-note-four':  note === 4,
+                                    'button-note-five':  note === 5}"
+                >Finalizar</button>
                 
             </div>
 

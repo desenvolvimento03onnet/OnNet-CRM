@@ -12,6 +12,11 @@
     float: right;
 }
 
+.mat-card .mat-card-title .icon-close:hover{
+    float: right;
+    box-shadow: -0.8px 6.5px 2px gray;
+}
+
 .mat-card .mat-card-subtitle{
     padding-top: 4px;
     width: 95%;
@@ -57,7 +62,6 @@
     border-color: rgba(255, 0, 0, 0.77); 
     border-width: 2px;
     background: #00000001;
-    /*background: #ff2e2e;*/
     font-weight: 500;
 }
 
@@ -66,7 +70,6 @@
     border-color: rgba(255, 85, 0, 0.77);
     background: #fbfbfb;
     border-width: 2px;
-    /*background: #ff4a2e;*/
     font-weight: 500;
 }
 
@@ -75,16 +78,14 @@
     border-color: rgba(255, 157, 0, 0.77);
     background: #fbfbfb;
     border-width: 2px;
-    /*background: #ff542e;*/
     font-weight: 500;
 }
 
 .note-four:hover{
     transition: 0.2s;
-    border-color: rgba(255, 225, 0, 0.77);
+    border-color: rgba(195, 201, 0, 0.77);
     background: #fbfbfb;
     border-width: 2px;
-    /*background: #ffb62e;*/
     font-weight: 500;
 }
 
@@ -93,7 +94,6 @@
     background: #fbfbfb;
     border-width: 2px;
     transition: 0.2;
-    /*background: #7bff2e;*/
     font-weight: 500;
 }
 
@@ -133,6 +133,36 @@
     justify-self: center;
     grid-column: 1/6;
     grid-row: 4;
+}
+
+.button-note-one, .button-note-two, .button-note-three, .button-note-four, .button-note-five{
+    font-weight: 800;
+    color: black;
+}
+
+.button-note-one{
+    border: solid 1px black;
+    color: rgb(255, 0, 0);
+}
+
+.button-note-two{
+    border: solid 1px black;
+    color: rgb(255, 85, 0);
+}
+
+.button-note-three{
+    border: solid 1px black;
+    color: rgb(255, 157, 0);
+}
+
+.button-note-four{
+    border: solid 1px black;
+    color: rgb(195, 201, 0);
+}
+
+.button-note-five{
+    border: solid 1px black;
+    color: rgb(89, 167, 63);
 }
 
 /*background: linear-gradient(to right, 
