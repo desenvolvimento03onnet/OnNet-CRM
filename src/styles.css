@@ -50,13 +50,32 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     background-color: #fff;
 }
+
 .card-header:first-child {
     border-radius: calc(0.375rem - 1px) calc(0.375rem - 1px) 0 0;
 }
+
 .card-header + .list-group .list-group-item:first-child {
     border-top: 0;
 }
 
+.card-header-blue {
+    background: linear-gradient(60deg, #1898be, #188db1) !important;
+    box-shadow: 0 4px 20px 0px #00000024, 0 5px 10px -5px #1898be61 !important;
+}
+
 .custom-tooltip {
     color: #fff !important;
+}
+
+.background-white {
+    background: #fff;
+}
+
+.background-grey {
+    background: #f3f3f3;
+}
+
+.main-content {
+    background: #fff;
 }

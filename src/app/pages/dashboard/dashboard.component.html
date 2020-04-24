@@ -1,13 +1,13 @@
 <div class="main-content">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-header card-header-danger">
+        <div class="card background-grey">
+            <div class="card-header card-header-blue">
                 <h4 class="card-title">Gráfico de pesquisas</h4>
                 <p class="card-category">Gráfico de pesquisas por pergunta</p>
             </div>
             <div class="card-body">
                 <mat-accordion>
-                    <mat-expansion-panel *ngFor="let chart of searchDataCharts">
+                    <mat-expansion-panel class="background-white" *ngFor="let chart of searchDataCharts">
                         <mat-expansion-panel-header>
                             <mat-panel-title>{{chart.name}}</mat-panel-title>
                         </mat-expansion-panel-header>
@@ -41,8 +41,8 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-danger">
+                <div class="card background-grey">
+                    <div class="card-header card-header-blue">
                         <h4 class="card-title ">Número de pesquisas</h4>
                         <p class="card-category">Pesquisas realizadas por Cidade e Operador CRM</p>
                     </div>

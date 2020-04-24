@@ -1,3 +1,5 @@
+import { CityService } from './../../services/city.service';
+import { City } from './../../models/City';
 import { QuestService } from './../../services/quest.service';
 import { Quest } from './../../models/Quest';
 import { SearchService } from './../../services/search.service';
@@ -34,16 +36,25 @@ export class NotificationsComponent implements OnInit {
   private activeQuests: boolean = true;
   private filterQuestsValue: string = "";
 
+  //city tab
+  private displayedColumnsCities: String[] = ['name', 'username', 'status', 'edit'];
+  private cities: City[] = [];
+  private dataSourceCities = new MatTableDataSource([]);
+  private activeCities: boolean = true;
+  private filterCitiesValue: string = "";
+
   constructor(
     private userService: UserService,
     private searchService: SearchService,
-    private questService: QuestService
+    private questService: QuestService,
+    private cityService: CityService
   ) { }
 
   async ngOnInit() {
     this.refreshUsers();
     this.refreshSearches();
     this.refreshQuests();
+    this.refreshCities();
   }
 
   refreshUsers() {
@@ -80,26 +91,21 @@ export class NotificationsComponent implements OnInit {
     )
   }
 
+  refreshCities() {
+    this.cityService.get().subscribe(
+      cities => {
+        this.cities = cities;
+        this.applyFilterCityActive(this.activeCities);
+      }
+    )
+  }
+
   applyFilterUser(event: Event) {
     if (this.users.length > 0) {
       const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
       const active = this.activeUsers;
 
       this.filterUsersValue = filterValue;
-
-      this.dataSourceUsers.data = this.users.filter(function (user) {
-        return ((user.name.toLowerCase().indexOf(filterValue) != -1)
-          || (user.username.toLowerCase().indexOf(filterValue) != -1))
-          && (user.active == active);
-      })
-    }
-  }
-
-  applyFilterUserActive(active: boolean) {
-    if (this.users.length > 0) {
-      const filterValue = this.filterUsersValue;
-
-      this.activeUsers = active;
 
       this.dataSourceUsers.data = this.users.filter(function (user) {
         return ((user.name.toLowerCase().indexOf(filterValue) != -1)
@@ -123,20 +129,7 @@ export class NotificationsComponent implements OnInit {
     }
   }
 
-  applyFilterSearchActive(active: boolean) {
-    if (this.searches.length > 0) {
-      const filterValue = this.filterSearchesValue;
-
-      this.activeSearches = active;
-
-      this.dataSourceSearches = this.searches.filter(function (search) {
-        return (search.type.toLowerCase().indexOf(filterValue) != -1)
-          && (search.active == active);
-      })
-    }
-  }
-
-  applyFilterQuest(event) {
+  applyFilterQuest(event: Event) {
     if (this.quests.length > 0) {
       const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
       const active = this.activeQuests;
@@ -150,6 +143,48 @@ export class NotificationsComponent implements OnInit {
     }
   }
 
+  applyFilterCity(event: Event) {
+    if (this.cities.length > 0) {
+      const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+      const active = this.activeCities;
+
+      this.filterCitiesValue = filterValue;
+
+      this.dataSourceCities.data = this.cities.filter(function (city) {
+        return ((city.name.toLowerCase().indexOf(filterValue) != -1)
+          || city.user.username.toLowerCase().indexOf(filterValue) != -1)
+          && (city.active == active);
+      })
+    }
+  }
+
+  applyFilterUserActive(active: boolean) {
+    if (this.users.length > 0) {
+      const filterValue = this.filterUsersValue;
+
+      this.activeUsers = active;
+
+      this.dataSourceUsers.data = this.users.filter(function (user) {
+        return ((user.name.toLowerCase().indexOf(filterValue) != -1)
+          || (user.username.toLowerCase().indexOf(filterValue) != -1))
+          && (user.active == active);
+      })
+    }
+  }
+
+  applyFilterSearchActive(active: boolean) {
+    if (this.searches.length > 0) {
+      const filterValue = this.filterSearchesValue;
+
+      this.activeSearches = active;
+
+      this.dataSourceSearches = this.searches.filter(function (search) {
+        return (search.type.toLowerCase().indexOf(filterValue) != -1)
+          && (search.active == active);
+      })
+    }
+  }
+
   applyFilterQuestActive(active: boolean) {
     if (this.quests.length > 0) {
       const filterValue = this.filterQuestsValue;
@@ -159,6 +194,20 @@ export class NotificationsComponent implements OnInit {
       this.dataSourceQuests = this.quests.filter(function (quest) {
         return (quest.question.toLowerCase().indexOf(filterValue) != -1)
           && (quest.active == active);
+      })
+    }
+  }
+
+  applyFilterCityActive(active: boolean) {
+    if (this.cities.length > 0) {
+      const filterValue = this.filterCitiesValue;
+
+      this.activeCities = active;
+
+      this.dataSourceCities.data = this.cities.filter(function (city) {
+        return ((city.name.toLowerCase().indexOf(filterValue) != -1)
+          || city.user.username.toLowerCase().indexOf(filterValue) != -1)
+          && (city.active == active)
       })
     }
   }

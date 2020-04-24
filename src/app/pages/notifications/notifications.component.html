@@ -52,10 +52,10 @@
                     <ng-container matColumnDef="edit">
                         <th mat-header-cell *matHeaderCellDef> </th>
                         <td mat-cell *matCellDef="let element" class="btnMatEdit">
-                            <mat-icon *ngIf="!element.active" class="activeIcon" matTooltip="Inativar usuário"
+                            <mat-icon *ngIf="!element.active" class="activeIcon" matTooltip="Ativar usuário"
                                 matTooltipClass="custom-tooltip">
                                 check</mat-icon>
-                            <mat-icon *ngIf="element.active" class="inactiveIcon" matTooltip="Ativar usuário"
+                            <mat-icon *ngIf="element.active" class="inactiveIcon" matTooltip="Inativar usuário"
                                 matTooltipClass="custom-tooltip">
                                 remove_circle_outline</mat-icon>
                             <mat-icon class="editIcon" matTooltip="Editar usuário" matTooltipClass="custom-tooltip">
@@ -97,7 +97,7 @@
                 </div>
 
                 <mat-accordion>
-                    <mat-expansion-panel hideToggle *ngFor="let search of dataSourceSearches">
+                    <mat-expansion-panel class="background-grey" hideToggle *ngFor="let search of dataSourceSearches">
                         <mat-expansion-panel-header>
                             <mat-panel-title>{{ search.type }}</mat-panel-title>
                         </mat-expansion-panel-header>
@@ -189,7 +189,7 @@
                 </div>
 
                 <mat-accordion>
-                    <mat-expansion-panel hideToggle *ngFor="let quest of dataSourceQuests">
+                    <mat-expansion-panel class="background-grey" hideToggle *ngFor="let quest of dataSourceQuests">
                         <mat-expansion-panel-header>
                             <mat-panel-title>{{ quest.question }}</mat-panel-title>
                         </mat-expansion-panel-header>
@@ -281,6 +281,43 @@
                         </button>
                     </div>
                 </div>
+
+                <table mat-table [dataSource]="dataSourceCities" class="mat-elevation-z8 userTable">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Nome </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="username">
+                        <th mat-header-cell *matHeaderCellDef> Usuário criação </th>
+                        <td mat-cell *matCellDef="let element"> {{element.user.username}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf=element.active>Ativo</div>
+                            <div *ngIf=!element.active>Inativo</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="edit">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let element" class="btnMatEdit">
+                            <mat-icon *ngIf="!element.active" class="activeIcon" matTooltip="Ativar usuário"
+                                matTooltipClass="custom-tooltip">
+                                check</mat-icon>
+                            <mat-icon *ngIf="element.active" class="inactiveIcon" matTooltip="Inativar usuário"
+                                matTooltipClass="custom-tooltip">
+                                remove_circle_outline</mat-icon>
+                            <mat-icon class="editIcon" matTooltip="Editar usuário" matTooltipClass="custom-tooltip">
+                                create</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;"></tr>
+                </table>
             </mat-tab>
         </mat-tab-group>
     </div>
