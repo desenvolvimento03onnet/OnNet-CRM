@@ -1,4 +1,5 @@
-import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { Component, OnInit, Inject, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -9,6 +10,9 @@ import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dial
 export class ModalSearchComponent implements OnInit {
 
   note: number = 0
+  selectedIndex: number
+
+  @ViewChild('stepIndex') stepIndex
 
   constructor(
     private modal: MatDialog,
@@ -18,12 +22,13 @@ export class ModalSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    
   }
 
   setNote(note: number){
     this.note = note
     console.log(this.note)
+    console.log('selectedIndex', this.selectedIndex)
   }
 
   setNoteStep(){
