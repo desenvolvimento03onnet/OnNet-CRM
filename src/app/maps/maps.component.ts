@@ -28,15 +28,10 @@ export class MapsComponent implements OnInit{
   }
 
   getUser(){
-    window.sessionStorage.setItem('user', 'Vinícius Gomes Correia')
-    var user:string = window.sessionStorage.getItem('user')
+    window.sessionStorage.setItem('username', 'Goku Son')
+    var username:string = window.sessionStorage.getItem('username')
 
-    for(var i = 0; i <= user.length; i++){
-      if(user[i] === ' '){
-        user = user.substring(0, i)
-        return user
-      }
-    }
+    return username.substring(0, username.search(' '))
   }
 
   openSearch(){

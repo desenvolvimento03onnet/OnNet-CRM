@@ -31,6 +31,10 @@
     justify-items: center;
 }
 
+.without-greetings{
+    margin-top: calc(10% - 4%); /*Não sei como mas funfou*/
+}
+
 /*First Row GRID*/
 
 .container .question{
