@@ -1,6 +1,10 @@
+import { SearchService } from './../services/search.service';
+import { City } from './../models/City';
+import { CityService } from './../services/city.service';
 import { ModalSearchComponent } from './../modal/modal-search/modal-search.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-maps',
@@ -10,21 +14,46 @@ import { MatDialog } from '@angular/material/dialog';
 export class MapsComponent implements OnInit{
 
   step: number = -1 //Iniciado em -1 pq é o único valor que não da nota
-  name: string = 'Vinícius Gomes Correia'
-  city: string = 'Patrocínio'
-  greetings: string = ''
-  hours = new Date().getHours()
+  name: string = ''
+  search: Object[]
+  city: Object[]
+  citySelected: City
+
+  @ViewChild('idSearch') MatButtonToggleGroup
 
   constructor(
     private modal: MatDialog,
+    private cityService: CityService,
+    private searchService: SearchService,
   ) { }
 
   ngOnInit() {
-
+    this.getSearch()
+    this.getCity()
   }
 
   setStep(index: number){
     this.step = index
+  }
+
+  async getSearch(){
+    await this.searchService.get().subscribe(
+      success => {
+        this.search = success
+        console.log('Search:', this.search)
+      }, error => {
+        console.error(error)
+      })
+  }
+
+  async getCity(){
+    await this.cityService.get().subscribe(
+      success => {
+        this.city = success
+        console.log(this.city)
+      }, error => {
+        console.error(error)
+      })
   }
 
   getUser(){
@@ -34,8 +63,8 @@ export class MapsComponent implements OnInit{
     return username.substring(0, username.search(' '))
   }
 
-  openSearch(){
-    if(this.name && this.city){
+  openSearch(searchId: number){
+    if(this.name && this.citySelected){
       this.modal.open(ModalSearchComponent, { 
           width : '93%',
           height: '89%',
@@ -43,9 +72,10 @@ export class MapsComponent implements OnInit{
           autoFocus: true,
           data: {
               name: this.name,
-              city: this.city,
+              city: this.citySelected.name,
               greetings: this.setGreetings(),
-              user: this.getUser()
+              user: this.getUser(),
+              idSearch: searchId
           }
       })
     }
@@ -59,22 +89,15 @@ export class MapsComponent implements OnInit{
     var hours = new Date().getHours()
 
     if(hours >= 6 && hours < 12){
-      this.greetings = `Bom dia ${hours}`
-      console.log(hours)
-      return `Bom dia ${hours}`
+      return `Bom dia`
     } 
     if (hours >= 12 && hours < 18) {
-      this.greetings = `Boa tarde ${hours}`
-      console.log(hours)
-      return `Boa tarde ${hours}`
+      return `Boa tarde`
     }
     if (hours >= 18){
-      this.greetings = `Boa noite ${hours}`
-      console.log(hours)
-      return `Boa noite ${hours}`
+      return `Boa noite`
     }
     else {
-      console.log(hours)
       return `<Bom dia, Boa tarde, Boa noite>`
     }
   }
