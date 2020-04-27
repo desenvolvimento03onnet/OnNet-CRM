@@ -3,71 +3,57 @@
 
         <div class="card card-plain">
             <div class="card-header card-header-blue">
-                <h4 class="card-title">Pesquisas</h4>
+                <h3 class="card-title">Pesquisas</h3>
                 <p class="card-category">Satisfação</p>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card-body">
                         <div class="col-md-12 ml-auto mr-auto">
-                            <mat-accordion>
-                                <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" opened>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                    Verificação
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                    Pesquisa de Verificação
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                            
-                                <mat-form-field>
-                                    <mat-label>Nome</mat-label>
-                                    <input matInput [(ngModel)]="name" required>
-                                </mat-form-field>
-                            
-                                <mat-form-field>
-                                    <mat-placeholder>
-                                        Cidade
-                                    </mat-placeholder>
-                                    <mat-select [(ngModel)]="city" required>
-                                        <mat-option value="Patrocínio">Patrocínio</mat-option>
-                                        <mat-option value="João Pinheiro">João Pinheiro</mat-option>
-                                        <mat-option value="Patos de Minas">Patos de Minas</mat-option>
-                                        <mat-option value="Guimarânia">Guimarânia</mat-option>
-                                        <mat-option value="Iraí de Minas">Iraí de Minas</mat-option>
-                                        <mat-option value="Abadia dos Dourados">Abadia dos Dourados</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                                <button mat-button (click)="openSearch()">Iniciar</button>
-                                </mat-expansion-panel>
-                                <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                            <mat-accordion
+                                *ngFor="let item of search"
+                            >
+                                <mat-expansion-panel>
                                     <mat-expansion-panel-header>
                                         <mat-panel-title>
-                                        Instalação
+                                            {{ item.type }}
                                         </mat-panel-title>
                                         <mat-panel-description>
-                                        Pesquisa de Instalação
+                                            Pesquisa de {{ item.type }}
                                         </mat-panel-description>
-                                    </mat-expansion-panel-header>
-                                
-                                    <mat-form-field>
-                                        <mat-label>Nome</mat-label>
-                                        <input matInput >
-                                    </mat-form-field>
-                                
-                                    <mat-form-field>
-                                        <mat-label>Cidade</mat-label>
-                                        <mat-select placeholder="Cidade">
-                                            <mat-option value="Patrocínio">Patrocínio</mat-option>
-                                            <mat-option value="João Pinheiro">João Pinheiro</mat-option>
-                                            <mat-option value="Patos de Minas">Patos de Minas</mat-option>
-                                            <mat-option value="Guimarânia">Guimarânia</mat-option>
-                                            <mat-option value="Iraí de Minas">Iraí de Minas</mat-option>
-                                            <mat-option value="Abadia dos Dourados">Abadia dos Dourados</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </mat-expansion-panel>
+
+                                        </mat-expansion-panel-header>
+                                        <mat-form-field>
+                                            <mat-label>Nome</mat-label>
+                                            <input 
+                                                matInput
+                                                [(ngModel)]="name"
+                                                required>
+        
+                                        </mat-form-field>
+                                    
+                                        <mat-form-field>
+                                            <mat-placeholder>
+                                                Cidade
+                                            </mat-placeholder>
+                                            <mat-select 
+                                                [(ngModel)]="citySelected"
+                                                name="city"
+                                                required>
+        
+                                                <mat-option 
+                                                    *ngFor="let item of city"
+                                                    [value]="item">
+                                                        {{item.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <button 
+                                            mat-button
+                                            (click)="openSearch(item.id)">
+                                                Iniciar
+                                        </button>
+                                    </mat-expansion-panel>
                             </mat-accordion>
                         </div>
                     </div>

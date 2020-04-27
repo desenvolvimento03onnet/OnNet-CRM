@@ -1,5 +1,8 @@
-import { CdkStepperModule } from '@angular/cdk/stepper';
-import { Component, OnInit, Inject, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Answer } from './../../models/Answer';
+import { Quest } from './../../models/Quest';
+import { Search } from './../../models/Search';
+import { SearchService } from './../../services/search.service';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -9,33 +12,47 @@ import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class ModalSearchComponent implements OnInit {
 
-  note: number = 0
+  rate: number = 0
   selectedIndex: number
+  search: Search
+  question: Quest[]
+  answer: Answer
 
   @ViewChild('stepIndex') stepIndex
 
   constructor(
+    private searchService: SearchService,
     private modal: MatDialog,
     private modalRef: MatDialogRef<ModalSearchComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-  ) { 
-    console.log(data)
-  }
+  ) {  }
 
   ngOnInit(): void {
-    
+    this.getSearch()
+    console.log('Question', this.question)
   }
 
-  setNote(note: number){
-    this.note = note
-    console.log(this.note)
-    console.log('selectedIndex', this.selectedIndex)
+  async getSearch() {
+    await this.searchService.getById(this.data.idSearch).subscribe(
+      success => {
+        this.search = success
+        this.question = success[0]['quests']
+        console.log(this.search)
+      }, error => {
+        console.error(error)
+      })
   }
 
-  setNoteStep(){
-    if(this.note === 0){
+  setRate(rate: number){
+    this.rate = rate
+    console.log(this.rate)
+    //console.log('selectedIndex', this.selectedIndex)
+  }
+
+  setRateStep() {
+    if(this.rate === 0){
       return 'Pergunta 1'
     } else {
-      return `Nota: ${this.note}`
+      return `Nota: ${this.rate}`
     }
   }
 
