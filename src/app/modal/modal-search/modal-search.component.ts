@@ -5,6 +5,11 @@ import { SearchService } from './../../services/search.service';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+declare interface MyAnswer{
+  rate: number;
+  note: string;
+}
+
 @Component({
   selector: 'app-modal-search',
   templateUrl: './modal-search.component.html',
@@ -16,7 +21,9 @@ export class ModalSearchComponent implements OnInit {
   selectedIndex: number
   search: Search
   question: Quest[]
-  answer: Answer
+  answer: MyAnswer
+  note: string
+  armazenaNota: number[] = []
 
   @ViewChild('stepIndex') stepIndex
 
@@ -54,6 +61,20 @@ export class ModalSearchComponent implements OnInit {
     } else {
       return `Nota: ${this.rate}`
     }
+  }
+
+  montagemCorpo(){
+    this.answer = {
+      rate: this.rate,
+      note: this.note
+    }
+
+    console.log(this.answer)
+
+    this.armazenaNota.push(this.rate)
+    console.log('armzaenaNota', this.armazenaNota)
+    this.rate = -1
+    this.note = ''
   }
 
 }
