@@ -1,0 +1,52 @@
+<div class="modal-content">
+    <div mat-dialog-title>Usuário</div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-content>
+        <form>
+            <div class="name">
+                <label for="name">Nome</label>
+                <input [(ngModel)]="user.name" name="name" class="inputEdit" type="name" autocomplete="off"
+                    placeholder="Nome">
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="username">Usuário</label>
+                    <input [(ngModel)]="user.username" name="username" class="inputEdit" type="text" autocomplete="off"
+                        placeholder="Usuário">
+                </div>
+
+                <div class="col">
+                    <label for="password">Senha</label>
+                    <input [(ngModel)]="user.password" name="password" class="inputEdit" type="password"
+                        autocomplete="off" placeholder="Senha">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <label for="permissions">Permissão</label>
+                        <mat-select name="permissions" [(value)]="user.permission_id">
+                            <mat-option *ngFor="let permission of permissions" [value]="permission.id">
+                                {{ permission.type }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col btnCenter">
+                    <label for="active">Usuário ativo</label>
+                    <section name="active">
+                        <mat-slide-toggle (change)="changeActive($event.checked)" color="primary" [checked]="user.active">
+                        </mat-slide-toggle>
+                    </section>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="bot">
+        <button mat-raised-button class="btnRed">Cancelar</button>
+        <button mat-raised-button (click)="onSubmit()" class="btnGreen">Salvar</button>
+    </div>
+</div>

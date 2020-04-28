@@ -1,10 +1,11 @@
+import { PermissionService } from './services/permission.service';
 import { SearchService } from './services/search.service';
 import { QuestService } from './services/quest.service';
 import { AnswerService } from './services/answer.service';
 import { CityService } from './services/city.service';
 import { InterviewService } from './services/interview.service';
 import { HttpInterceptorRequest } from './auth/interceptor.module';
-import { GlobalVariables } from './global';
+import { GlobalVariables, GlobalFunctions } from './global';
 import { UserService } from './services/user.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -75,6 +76,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 import { ModalSearchComponent } from './modal/modal-search/modal-search.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ModalPutUserComponent } from './modal/modal-put-user/modal-put-user.component';
 
 @NgModule({
   imports: [
@@ -138,6 +140,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     LoginComponent,
     TesteComponent,
     ModalSearchComponent,
+    ModalPutUserComponent
   ],
   providers: [
     {
@@ -146,9 +149,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
       multi: true
     },
     GlobalVariables,
+    GlobalFunctions,
     AnswerService,
     CityService,
     InterviewService,
+    PermissionService,
     QuestService,
     SearchService,
     UserService
