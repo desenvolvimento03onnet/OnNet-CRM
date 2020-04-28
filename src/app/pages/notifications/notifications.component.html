@@ -23,8 +23,8 @@
                         </mat-radio-group>
                     </div>
                     <div class="col-2">
-                        <button mat-raised-button class="btnNew">
-                            <mat-icon class="btnAdd">add_circle</mat-icon>
+                        <button mat-raised-button class="btnGreen" (click)="storeUser(null)">
+                            <mat-icon class=" btnAdd">add_circle</mat-icon>
                             Usuário
                         </button>
                     </div>
@@ -52,13 +52,8 @@
                     <ng-container matColumnDef="edit">
                         <th mat-header-cell *matHeaderCellDef> </th>
                         <td mat-cell *matCellDef="let element" class="btnMatEdit">
-                            <mat-icon *ngIf="!element.active" class="activeIcon" matTooltip="Ativar usuário"
-                                matTooltipClass="custom-tooltip">
-                                check</mat-icon>
-                            <mat-icon *ngIf="element.active" class="inactiveIcon" matTooltip="Inativar usuário"
-                                matTooltipClass="custom-tooltip">
-                                remove_circle_outline</mat-icon>
-                            <mat-icon class="editIcon" matTooltip="Editar usuário" matTooltipClass="custom-tooltip">
+                            <mat-icon class="editIcon" matTooltip="Editar usuário" matTooltipClass="custom-tooltip"
+                                (click)="storeUser(element)">
                                 create</mat-icon>
                         </td>
                     </ng-container>
@@ -89,7 +84,7 @@
                         </mat-radio-group>
                     </div>
                     <div class="col-2">
-                        <button mat-raised-button class="btnNew">
+                        <button mat-raised-button class="btnGreen">
                             <mat-icon class="btnAdd">add_circle</mat-icon>
                             Pesquisa
                         </button>
@@ -181,7 +176,7 @@
                         </mat-radio-group>
                     </div>
                     <div class="col-2">
-                        <button mat-raised-button class="btnNew">
+                        <button mat-raised-button class="btnGreen">
                             <mat-icon class="btnAdd">add_circle</mat-icon>
                             Pergunta
                         </button>
@@ -275,7 +270,7 @@
                         </mat-radio-group>
                     </div>
                     <div class="col-2">
-                        <button mat-raised-button class="btnNew">
+                        <button mat-raised-button class="btnGreen">
                             <mat-icon class="btnAdd">add_circle</mat-icon>
                             Cidade
                         </button>

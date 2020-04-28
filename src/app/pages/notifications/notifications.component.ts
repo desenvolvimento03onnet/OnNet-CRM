@@ -1,3 +1,6 @@
+import { ModalPutUserComponent } from './../../modal/modal-put-user/modal-put-user.component';
+import { MatDialog } from '@angular/material/dialog';
+import { GlobalFunctions } from './../../global';
 import { CityService } from './../../services/city.service';
 import { City } from './../../models/City';
 import { QuestService } from './../../services/quest.service';
@@ -47,7 +50,9 @@ export class NotificationsComponent implements OnInit {
     private userService: UserService,
     private searchService: SearchService,
     private questService: QuestService,
-    private cityService: CityService
+    private cityService: CityService,
+    private globalFunc: GlobalFunctions,
+    private modal: MatDialog
   ) { }
 
   async ngOnInit() {
@@ -102,14 +107,16 @@ export class NotificationsComponent implements OnInit {
 
   applyFilterUser(event: Event) {
     if (this.users.length > 0) {
-      const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+      const padronize = this.globalFunc.padronize;
+
+      const filterValue = padronize((event.target as HTMLInputElement).value);
       const active = this.activeUsers;
 
       this.filterUsersValue = filterValue;
 
       this.dataSourceUsers.data = this.users.filter(function (user) {
-        return ((user.name.toLowerCase().indexOf(filterValue) != -1)
-          || (user.username.toLowerCase().indexOf(filterValue) != -1))
+        return ((padronize(user.name).indexOf(filterValue) != -1)
+          || (padronize(user.username).indexOf(filterValue) != -1))
           && (user.active == active);
       })
     }
@@ -117,13 +124,15 @@ export class NotificationsComponent implements OnInit {
 
   applyFilterSearch(event: Event) {
     if (this.searches.length > 0) {
-      const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+      const padronize = this.globalFunc.padronize;
+
+      const filterValue = padronize((event.target as HTMLInputElement).value);
       const active = this.activeSearches;
 
       this.filterSearchesValue = filterValue;
 
       this.dataSourceSearches = this.searches.filter(function (search) {
-        return (search.type.toLowerCase().indexOf(filterValue) != -1)
+        return (padronize(search.type).indexOf(filterValue) != -1)
           && (search.active == active);
       })
     }
@@ -131,13 +140,15 @@ export class NotificationsComponent implements OnInit {
 
   applyFilterQuest(event: Event) {
     if (this.quests.length > 0) {
-      const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+      const padronize = this.globalFunc.padronize;
+
+      const filterValue = padronize((event.target as HTMLInputElement).value);
       const active = this.activeQuests;
 
       this.filterQuestsValue = filterValue;
 
       this.dataSourceQuests = this.quests.filter(function (quest) {
-        return (quest.question.toLowerCase().indexOf(filterValue) != -1)
+        return (padronize(quest.question).indexOf(filterValue) != -1)
           && (quest.active == active);
       })
     }
@@ -145,14 +156,16 @@ export class NotificationsComponent implements OnInit {
 
   applyFilterCity(event: Event) {
     if (this.cities.length > 0) {
-      const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+      const padronize = this.globalFunc.padronize;
+
+      const filterValue = padronize((event.target as HTMLInputElement).value);
       const active = this.activeCities;
 
       this.filterCitiesValue = filterValue;
 
       this.dataSourceCities.data = this.cities.filter(function (city) {
-        return ((city.name.toLowerCase().indexOf(filterValue) != -1)
-          || city.user.username.toLowerCase().indexOf(filterValue) != -1)
+        return ((padronize(city.name).indexOf(filterValue) != -1)
+          || padronize(city.user.username).indexOf(filterValue) != -1)
           && (city.active == active);
       })
     }
@@ -160,13 +173,14 @@ export class NotificationsComponent implements OnInit {
 
   applyFilterUserActive(active: boolean) {
     if (this.users.length > 0) {
+      const padronize = this.globalFunc.padronize;
       const filterValue = this.filterUsersValue;
 
       this.activeUsers = active;
 
       this.dataSourceUsers.data = this.users.filter(function (user) {
-        return ((user.name.toLowerCase().indexOf(filterValue) != -1)
-          || (user.username.toLowerCase().indexOf(filterValue) != -1))
+        return ((padronize(user.name).indexOf(filterValue) != -1)
+          || (padronize(user.username).indexOf(filterValue) != -1))
           && (user.active == active);
       })
     }
@@ -174,12 +188,13 @@ export class NotificationsComponent implements OnInit {
 
   applyFilterSearchActive(active: boolean) {
     if (this.searches.length > 0) {
+      const padronize = this.globalFunc.padronize;
       const filterValue = this.filterSearchesValue;
 
       this.activeSearches = active;
 
       this.dataSourceSearches = this.searches.filter(function (search) {
-        return (search.type.toLowerCase().indexOf(filterValue) != -1)
+        return (padronize(search.type).indexOf(filterValue) != -1)
           && (search.active == active);
       })
     }
@@ -187,12 +202,13 @@ export class NotificationsComponent implements OnInit {
 
   applyFilterQuestActive(active: boolean) {
     if (this.quests.length > 0) {
+      const padronize = this.globalFunc.padronize;
       const filterValue = this.filterQuestsValue;
 
       this.activeQuests = active;
 
       this.dataSourceQuests = this.quests.filter(function (quest) {
-        return (quest.question.toLowerCase().indexOf(filterValue) != -1)
+        return (padronize(quest.question).indexOf(filterValue) != -1)
           && (quest.active == active);
       })
     }
@@ -200,15 +216,28 @@ export class NotificationsComponent implements OnInit {
 
   applyFilterCityActive(active: boolean) {
     if (this.cities.length > 0) {
+      const padronize = this.globalFunc.padronize;
       const filterValue = this.filterCitiesValue;
 
       this.activeCities = active;
 
       this.dataSourceCities.data = this.cities.filter(function (city) {
-        return ((city.name.toLowerCase().indexOf(filterValue) != -1)
-          || city.user.username.toLowerCase().indexOf(filterValue) != -1)
+        return ((padronize(city.name).indexOf(filterValue) != -1)
+          || (padronize(city.user.username).indexOf(filterValue)) != -1)
           && (city.active == active)
       })
     }
+  }
+
+  storeUser(user: User) {
+    this.modal.open(ModalPutUserComponent, {
+      width: '800px',
+      height: '600px',
+      // disableClose: true,
+      autoFocus: true,
+      data: user
+    }).beforeClosed().subscribe(() => {
+      this.refreshUsers();
+    })
   }
 }

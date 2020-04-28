@@ -4,6 +4,7 @@ export class User {
     username: String;
     password: String;
     active: Boolean;
+    permission_id: Number;
     created_at: Date;
     updated_at: Date;
 }
