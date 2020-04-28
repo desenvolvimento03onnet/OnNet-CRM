@@ -6,6 +6,7 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 declare interface MyAnswer{
+  id: number;
   rate: number;
   note: string;
 }
@@ -21,11 +22,12 @@ export class ModalSearchComponent implements OnInit {
   selectedIndex: number
   search: Search
   question: Quest[]
-  answer: MyAnswer
+  answer: MyAnswer[] = []
   note: string
   armazenaNota: number[] = []
 
   @ViewChild('stepIndex') stepIndex
+  @ViewChild('stepIcon') stepIcon
 
   constructor(
     private searchService: SearchService,
@@ -63,16 +65,40 @@ export class ModalSearchComponent implements OnInit {
     }
   }
 
-  montagemCorpo(){
-    this.answer = {
-      rate: this.rate,
-      note: this.note
+  logar(item){
+    //console.log('Logar: ', item)
+  }
+
+  montagemCorpo() {
+
+    for (let i = 0; i < this.stepIndex.selectedIndex; i++) {
+      console.log(this.stepIndex.selectedIndex)
+      console.log('ID IN FOR: ', this.answer[i].id)
+
+      if(this.answer[i].id === this.stepIndex.selectedIndex){
+
+        this.answer[i].id = this.stepIndex.selectedIndex
+        this.answer[i].rate = this.rate
+        this.answer[i].note = this.note
+
+        
+
+        i++
+      } else {
+        let aux = {
+          id: this.stepIndex.selectedIndex,
+          rate: this.rate,
+          note: this.note
+        }
+
+        
+        this.answer.push(aux)
+        return
+      }
     }
 
     console.log(this.answer)
 
-    this.armazenaNota.push(this.rate)
-    console.log('armzaenaNota', this.armazenaNota)
     this.rate = -1
     this.note = ''
   }

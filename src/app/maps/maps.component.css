@@ -11,12 +11,12 @@
 
 .main-content .container-fluid .row .card-body button{
     float: right;
-    border: solid 1px black;
+    border: solid 1px white;
     color: gray;
 }
 .main-content .container-fluid .row .card-body button:hover{
     transition: 0.2s;
-    border: solid 1px black;
+    border: solid 1px white;
     font-weight: 500;
     color: black;
 }
