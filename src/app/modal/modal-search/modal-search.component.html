@@ -15,11 +15,16 @@
         #stepIndex
         [ngClass]="{'without-greetings': stepIndex.selectedIndex != 0}"
     >
-    <ng-template matStepperIcon="edit">
-        <mat-icon>done</mat-icon>
-    </ng-template>
-        <mat-step *ngFor="let item of question" label="Pergunta - {{ armazenaNota[stepIndex.selectedIndex - item] }}">
 
+        <mat-step
+            *ngFor="let item of question"
+            label="Pergunta
+                {{ logar(stepIndex.selectedIndex) }}"
+        >
+
+            <ng-template matStepperIcon="edit">
+                <mat-icon>done</mat-icon>
+            </ng-template>
             <div class="container">
 
                 <mat-label class="question">
@@ -76,7 +81,8 @@
                                 'button-rate-three': rate === 3,
                                 'button-rate-four':  rate === 4,
                                 'button-rate-five':  rate === 5}"
-                >Próximo</button>
+                >Próximo
+                </button>
             </div>
 
         </mat-step>

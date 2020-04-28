@@ -72,7 +72,6 @@
 .rate-two:hover{
     transition: 0.2s;
     border-color: rgba(255, 85, 0, 0.77);
-    background: #fbfbfb;
     border-width: 2px;
     font-weight: 500;
 }
@@ -80,7 +79,6 @@
 .rate-three:hover{
     transition: 0.2s;
     border-color: rgba(255, 157, 0, 0.77);
-    background: #fbfbfb;
     border-width: 2px;
     font-weight: 500;
 }
@@ -88,14 +86,12 @@
 .rate-four:hover{
     transition: 0.2s;
     border-color: rgba(195, 201, 0, 0.77);
-    background: #fbfbfb;
     border-width: 2px;
     font-weight: 500;
 }
 
 .rate-five:hover{
     border-color: rgba(47, 186, 0, 0.77);
-    background: #fbfbfb;
     border-width: 2px;
     transition: 0.2;
     font-weight: 500;
