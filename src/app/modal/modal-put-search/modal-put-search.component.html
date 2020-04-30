@@ -1,0 +1,45 @@
+<div mat-dialog-title>Pesquisa</div>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+    <form>
+        <div class="row">
+            <div class="col">
+                <label for="name">Título da Pesquisa</label>
+                <input [(ngModel)]="search.type" name="type" class="inputEdit" type="name" autocomplete="off"
+                    placeholder="Título">
+            </div>
+
+            <div class="col-3 btnActive">
+                <label for="active">Usuário ativo</label>
+                <section name="active">
+                    <mat-slide-toggle (change)="changeActive($event.checked)" color="primary" [checked]="search.active">
+                    </mat-slide-toggle>
+                </section>
+            </div>
+        </div>
+
+        <label for="inSearch">Perguntas da Pesquisa</label>
+        <div id="inSearch" cdkDropList class="tableContent" (cdkDropListDropped)="drop($event)">
+            <div class="box move" *ngFor="let quest of questsInSearch" cdkDrag cdkDragBoundary=".tableContent">
+                {{quest.question}}
+                <mat-icon class="btnAdd" (click)="removeQuest(quest)">remove_circle</mat-icon>
+            </div>
+
+            <div class="noContent" *ngIf="questsInSearch.length == 0">
+                <i>Nenhuma pergunta referente a pesquisa</i>
+            </div>
+        </div>
+
+        <label for="outSearch">Outras Perguntas</label>
+        <div id="outSearch" cdkDropList class="tableContent">
+            <div class="box" *ngFor="let quest of questsOutSearch">
+                {{quest.question}}
+                <mat-icon class="btnAdd" (click)="addQuest(quest)">add_circle</mat-icon>
+            </div>
+
+            <div class="noContent" *ngIf="questsOutSearch.length == 0">
+                <i>Nenhuma pergunta a ser adicionada</i>
+            </div>
+        </div>
+    </form>
+</div>

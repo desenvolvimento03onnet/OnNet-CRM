@@ -12,12 +12,28 @@ export class QuestService {
         this.baseUrl = globalVar.baseURL + '/quest';
     }
 
-    get(): Observable<Quest[]> {
-        return this.http.get<Quest[]>(this.baseUrl);
+    get(...params: string[]): Observable<Quest[]> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
+        return this.http.get<Quest[]>(this.baseUrl + urlParams);
     }
 
     getById(id: Number): Observable<Quest> {
         return this.http.get<Quest>(this.baseUrl + '/' + id);
+    }
+
+    getExceptSearch(id: Number): Observable<Quest[]> {
+        return this.http.get<Quest[]>(this.baseUrl + '/exceptSearch/' + id);
     }
 
     post(request: {}): Observable<Quest> {

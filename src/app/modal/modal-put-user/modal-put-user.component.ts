@@ -20,7 +20,6 @@ export interface StoreUser {
 })
 export class ModalPutUserComponent implements OnInit {
   private permissions: Permission[]
-  private userPermission: Number;
   private user: StoreUser;
 
   constructor(

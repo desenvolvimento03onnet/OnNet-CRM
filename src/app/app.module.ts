@@ -1,3 +1,4 @@
+import { SearchQuestService } from './services/searchQuest.service';
 import { PermissionService } from './services/permission.service';
 import { SearchService } from './services/search.service';
 import { QuestService } from './services/quest.service';
@@ -77,6 +78,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 import { ModalSearchComponent } from './modal/modal-search/modal-search.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModalPutUserComponent } from './modal/modal-put-user/modal-put-user.component';
+import { ModalPutSearchComponent } from './modal/modal-put-search/modal-put-search.component';
 
 @NgModule({
   imports: [
@@ -140,7 +142,8 @@ import { ModalPutUserComponent } from './modal/modal-put-user/modal-put-user.com
     LoginComponent,
     TesteComponent,
     ModalSearchComponent,
-    ModalPutUserComponent
+    ModalPutUserComponent,
+    ModalPutSearchComponent
   ],
   providers: [
     {
@@ -156,6 +159,7 @@ import { ModalPutUserComponent } from './modal/modal-put-user/modal-put-user.com
     PermissionService,
     QuestService,
     SearchService,
+    SearchQuestService,
     UserService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

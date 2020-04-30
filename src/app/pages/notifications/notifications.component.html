@@ -1,6 +1,5 @@
 <div class="main-content">
     <div class="container-fluid">
-
         <mat-tab-group>
             <mat-tab label="Usuários">
                 <div class="row">
@@ -84,7 +83,7 @@
                         </mat-radio-group>
                     </div>
                     <div class="col-2">
-                        <button mat-raised-button class="btnGreen">
+                        <button mat-raised-button class="btnGreen" (click)="storeSearch(null)">
                             <mat-icon class="btnAdd">add_circle</mat-icon>
                             Pesquisa
                         </button>
@@ -98,7 +97,7 @@
                         </mat-expansion-panel-header>
 
                         <mat-list>
-                            <div mat-subheader>Status</div>
+                            <div mat-subheader (click)="storeSearch(search)">Status</div>
                             <div class="row">
                                 <div class="col">
                                     <mat-list-item>

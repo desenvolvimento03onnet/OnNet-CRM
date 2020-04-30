@@ -22,8 +22,20 @@ export class AnswerService {
         this.baseUrl = globalVar.baseURL + '/answer';
     }
 
-    get(): Observable<Answer[]> {
-        return this.http.get<Answer[]>(this.baseUrl);
+    get(...params: String[]): Observable<Answer[]> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
+        return this.http.get<Answer[]>(this.baseUrl + urlParams);
     }
 
     getById(id: Number): Observable<Answer> {

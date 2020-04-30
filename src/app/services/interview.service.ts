@@ -14,8 +14,20 @@ export class InterviewService {
         this.baseUrl = globalVar.baseURL + '/interview';
     }
 
-    get(params: String): Observable<Interview> {
-        return this.http.get<Interview>(this.baseUrl + '?' + params);
+    get(...params: String[]): Observable<Interview> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
+        return this.http.get<Interview>(this.baseUrl + urlParams);
     }
 
     getById(id: Number): Observable<Interview> {

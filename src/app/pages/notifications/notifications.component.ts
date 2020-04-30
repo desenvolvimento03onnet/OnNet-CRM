@@ -1,3 +1,4 @@
+import { ModalPutSearchComponent } from '../../modal/modal-put-search/modal-put-search.component';
 import { ModalPutUserComponent } from './../../modal/modal-put-user/modal-put-user.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalFunctions } from './../../global';
@@ -236,6 +237,18 @@ export class NotificationsComponent implements OnInit {
       // disableClose: true,
       autoFocus: true,
       data: user
+    }).beforeClosed().subscribe(() => {
+      this.refreshUsers();
+    })
+  }
+
+  storeSearch(search: Search) {
+    this.modal.open(ModalPutSearchComponent, {
+      width: '900px',
+      height: '650px',
+      // disableClose: true,
+      autoFocus: true,
+      data: search
     }).beforeClosed().subscribe(() => {
       this.refreshUsers();
     })
