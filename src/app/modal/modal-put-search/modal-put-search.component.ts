@@ -21,6 +21,7 @@ export class ModalPutSearchComponent implements OnInit {
   private questsInSearch: Quest[] = [];
   private questsOutSearch: Quest[] = [];
 
+  questsId: Number[] = [];
 
   private search: StoreSearch;
 
@@ -45,6 +46,12 @@ export class ModalPutSearchComponent implements OnInit {
 
       this.questsInSearch = searchIn[0].quests;
       this.questsOutSearch = questsOut;
+
+      this.questsInSearch.forEach(quest => {
+        this.questsId.push(quest.id);
+      })
+
+      this.search.quests = this.questsId;
     }
     else {
       this.questsOutSearch = await this.questService.get("active=1").toPromise();
@@ -58,10 +65,6 @@ export class ModalPutSearchComponent implements OnInit {
         active: this.data.active,
         quests: []
       }
-
-      this.data.quests.forEach(quest => {
-        this.search.quests.push(quest.id);
-      })
     }
     else {
       this.search = {
@@ -77,7 +80,7 @@ export class ModalPutSearchComponent implements OnInit {
   }
 
   addQuest(quest: Quest) {
-    this.questsInSearch.unshift(quest);
+    this.questsInSearch.push(quest);
     this.questsOutSearch.splice(this.questsOutSearch.indexOf(quest), 1);
   }
 
@@ -88,5 +91,75 @@ export class ModalPutSearchComponent implements OnInit {
 
   drop(event: CdkDragDrop<Quest[]>) {
     moveItemInArray(this.questsInSearch, event.previousIndex, event.currentIndex);
+  }
+
+  onSubmit() {
+    if (this.data)
+      this.putSearch()
+
+    else
+      this.postSearch();
+
+  }
+
+  postSearch() {
+    if (!this.search.type)
+      alert("Preencha o título da pesquisa")
+    else {
+      let quests: Number[] = [];
+
+      this.questsInSearch.forEach(quest => {
+        quests.push(quest.id);
+      });
+
+      this.search.quests = quests;
+
+      this.searchService.post(this.search).subscribe(
+        () => {
+          this.dialogRef.close();
+        },
+        err => {
+          console.log(err);
+          this.dialogRef.close();
+        }
+      )
+    }
+  }
+
+  putSearch() {
+    const searchSubmit = this.search;
+    let quests: Number[] = [];
+
+    this.questsInSearch.forEach(quest => {
+      quests.push(quest.id);
+    })
+    
+    searchSubmit.quests = quests;
+
+    if (this.search.type == this.data.type)
+      delete searchSubmit.type;
+
+    if (this.search.active == Boolean(this.data.active))
+      delete searchSubmit.active
+
+    if (JSON.stringify(quests) == JSON.stringify(this.questsId))
+      delete searchSubmit.quests
+
+    if (JSON.stringify(searchSubmit) != '{}') {
+      this.searchService.put(this.data.id, searchSubmit).subscribe(
+        () => {
+          this.dialogRef.close();
+        },
+        err => {
+          console.log(err);
+          this.dialogRef.close();
+        }
+      )
+    }
+    else {
+      alert("Nenhuma mudança realizada");
+      this.dialogRef.close();
+    }
+
   }
 }

@@ -107,14 +107,21 @@ export class ModalPutUserComponent implements OnInit {
     if (this.user.active == Boolean(this.data.active))
       delete userSubmit.active
 
-    this.userService.put(this.data.id, userSubmit).subscribe(
-      () => {
-        this.dialogRef.close();
-      },
-      err => {
-        console.log(err)
-        this.dialogRef.close();
-      }
-    );
+    if (JSON.stringify(userSubmit) != '{}') {
+      this.userService.put(this.data.id, userSubmit).subscribe(
+        () => {
+          this.dialogRef.close();
+        },
+        err => {
+          console.log(err)
+          this.dialogRef.close();
+        }
+      );
+    }
+    else {
+      alert("Nenhuma alteração realizada");
+      this.dialogRef.close();
+    }
+
   }
 }

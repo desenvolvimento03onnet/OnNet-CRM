@@ -79,6 +79,7 @@ import { ModalSearchComponent } from './modal/modal-search/modal-search.componen
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModalPutUserComponent } from './modal/modal-put-user/modal-put-user.component';
 import { ModalPutSearchComponent } from './modal/modal-put-search/modal-put-search.component';
+import { ModalPutQuestComponent } from './modal/modal-put-quest/modal-put-quest.component';
 
 @NgModule({
   imports: [
@@ -143,7 +144,8 @@ import { ModalPutSearchComponent } from './modal/modal-put-search/modal-put-sear
     TesteComponent,
     ModalSearchComponent,
     ModalPutUserComponent,
-    ModalPutSearchComponent
+    ModalPutSearchComponent,
+    ModalPutQuestComponent
   ],
   providers: [
     {

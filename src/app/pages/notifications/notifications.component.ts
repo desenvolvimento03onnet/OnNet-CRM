@@ -1,3 +1,4 @@
+import { ModalPutQuestComponent } from './../../modal/modal-put-quest/modal-put-quest.component';
 import { ModalPutSearchComponent } from '../../modal/modal-put-search/modal-put-search.component';
 import { ModalPutUserComponent } from './../../modal/modal-put-user/modal-put-user.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -57,6 +58,10 @@ export class NotificationsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.refreshAll();
+  }
+
+  refreshAll() {
     this.refreshUsers();
     this.refreshSearches();
     this.refreshQuests();
@@ -238,7 +243,7 @@ export class NotificationsComponent implements OnInit {
       autoFocus: true,
       data: user
     }).beforeClosed().subscribe(() => {
-      this.refreshUsers();
+      this.refreshAll();
     })
   }
 
@@ -250,7 +255,19 @@ export class NotificationsComponent implements OnInit {
       autoFocus: true,
       data: search
     }).beforeClosed().subscribe(() => {
-      this.refreshUsers();
+      this.refreshAll();
+    })
+  }
+
+  storeQuest(quest: Quest) {
+    this.modal.open(ModalPutQuestComponent, {
+      width: '900px',
+      height: '650px',
+      // disableClose: true,
+      autoFocus: true,
+      data: quest
+    }).beforeClosed().subscribe(() => {
+      this.refreshAll();
     })
   }
 }
