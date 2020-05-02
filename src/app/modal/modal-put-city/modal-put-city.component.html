@@ -1,0 +1,23 @@
+<div class="modal-content">
+    <div mat-dialog-title>Cidade</div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-content>
+        <form>
+            <label for="city">Cidade</label>
+            <input [(ngModel)]="city.name" name="city" class="inputEdit" type="name" autocomplete="off"
+                placeholder="Cidade">
+
+            <div class="btnCenter">
+                <label for="active">Cidade ativa</label>
+                <section name="active">
+                    <mat-slide-toggle (change)="changeActive($event.checked)" color="primary" [checked]="city.active">
+                    </mat-slide-toggle>
+                </section>
+            </div>
+        </form>
+    </div>
+    <div class="bot">
+        <button mat-raised-button class="btnRed">Cancelar</button>
+        <button mat-raised-button (click)="onSubmit()" class="btnGreen">Salvar</button>
+    </div>
+</div>

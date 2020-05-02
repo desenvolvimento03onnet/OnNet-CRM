@@ -1,3 +1,4 @@
+import { ModalPutCityComponent } from './../../modal/modal-put-city/modal-put-city.component';
 import { ModalPutQuestComponent } from './../../modal/modal-put-quest/modal-put-quest.component';
 import { ModalPutSearchComponent } from '../../modal/modal-put-search/modal-put-search.component';
 import { ModalPutUserComponent } from './../../modal/modal-put-user/modal-put-user.component';
@@ -266,6 +267,18 @@ export class NotificationsComponent implements OnInit {
       // disableClose: true,
       autoFocus: true,
       data: quest
+    }).beforeClosed().subscribe(() => {
+      this.refreshAll();
+    })
+  }
+
+  storeCity(city: City) {
+    this.modal.open(ModalPutCityComponent, {
+      width: '600px',
+      height: '400px',
+      // disableClose: true,
+      autoFocus: true,
+      data: city
     }).beforeClosed().subscribe(() => {
       this.refreshAll();
     })
