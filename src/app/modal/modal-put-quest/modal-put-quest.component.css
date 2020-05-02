@@ -1,0 +1,71 @@
+@import "../../../styles.css";
+
+.modal-content {
+    border: none;
+    box-shadow: none;
+}
+
+.mat-dialog-content {
+    max-height: 80vh;
+}
+
+.tableContent {
+    max-height: 400px;
+    overflow: auto;
+    border-radius: 4px;
+    box-shadow: 0 0 1px 1px #d2d1d4, 4px 4px 6px 1px #e8e8e8;
+    margin: 0 15px 20px;
+    background: #ddd;
+}
+
+.btnActive {
+    text-align: center;
+}
+
+.btnAdd {
+    color: #4f5a5f;
+    cursor: pointer;
+}
+
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+    max-width: 20px;
+    text-align: end;
+}
+
+.inputEdit {
+    width: 100%;
+    margin-bottom: 24px;
+    border-radius: 6px;
+    border: 1px solid #d4d4d4;
+    box-shadow: 2px 2px 4px 0px #cacaca;
+    padding: 10px;
+}
+
+.btnActive {
+    text-align: center;
+}
+
+.box {
+    padding: 20px 10px;
+    border-bottom: solid 1px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background: #f3f3f3;
+    font-size: 14px;
+}
+
+.noContent {
+    text-align: center;
+    margin: 40px 0;
+    color: #838383;
+}
+
+.box:last-child {
+    border: none;
+}

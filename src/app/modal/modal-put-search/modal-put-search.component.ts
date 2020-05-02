@@ -1,3 +1,4 @@
+import { SearchQuestService } from './../../services/searchQuest.service';
 import { Quest } from './../../models/Quest';
 import { QuestService } from './../../services/quest.service';
 import { SearchService } from './../../services/search.service';
@@ -6,7 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
-export interface StoreSearch {
+interface StoreSearch {
   type: String,
   quests: Number[],
   active: Boolean
@@ -30,32 +31,35 @@ export class ModalPutSearchComponent implements OnInit {
     private dialogRef: MatDialogRef<ModalPutSearchComponent>,
     private searchService: SearchService,
     private questService: QuestService,
+    private searchQuestService: SearchQuestService
   ) { }
 
   ngOnInit(): void {
-    this.refreshQuests();
     this.refreshSearch();
+    this.refreshQuests();
   }
 
   async refreshQuests() {
-    let questsOut: Quest[];
-
     if (this.data) {
-      const searchIn = await this.searchService.getById(this.data.id).toPromise();
-      questsOut = await this.questService.getExceptSearch(this.data.id).toPromise()
+      this.searchQuestService.getBySearch(this.data.id).subscribe(
+        searchQuests => {
+          searchQuests.forEach(searchQuest => {
+            this.questsInSearch.push(searchQuest.quest);
+            this.questsId.push(searchQuest.quest_id);
+          })
 
-      this.questsInSearch = searchIn[0].quests;
-      this.questsOutSearch = questsOut;
+          this.search.quests = this.questsId;
+        },
+        err => {
+          console.log(err);
+        }
+      )
 
-      this.questsInSearch.forEach(quest => {
-        this.questsId.push(quest.id);
-      })
-
-      this.search.quests = this.questsId;
+      this.questsOutSearch = await this.questService.getExceptSearch(this.data.id, "active=1").toPromise();
     }
-    else {
+    else
       this.questsOutSearch = await this.questService.get("active=1").toPromise();
-    }
+
   }
 
   refreshSearch() {
@@ -90,6 +94,7 @@ export class ModalPutSearchComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<Quest[]>) {
+    console.log(event);
     moveItemInArray(this.questsInSearch, event.previousIndex, event.currentIndex);
   }
 
@@ -133,7 +138,7 @@ export class ModalPutSearchComponent implements OnInit {
     this.questsInSearch.forEach(quest => {
       quests.push(quest.id);
     })
-    
+
     searchSubmit.quests = quests;
 
     if (this.search.type == this.data.type)
@@ -160,6 +165,5 @@ export class ModalPutSearchComponent implements OnInit {
       alert("Nenhuma mudança realizada");
       this.dialogRef.close();
     }
-
   }
 }

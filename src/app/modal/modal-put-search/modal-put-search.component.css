@@ -9,10 +9,6 @@
     padding: 10px;
 }
 
-.questTable {
-    width: 100%;
-}
-
 .tableContent {
     max-height: 400px;
     overflow: auto;

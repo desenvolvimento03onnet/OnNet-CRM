@@ -5,7 +5,7 @@ import { User } from './../../models/User';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 
-export interface StoreUser {
+interface StoreUser {
   name: String;
   username: String;
   password: String;

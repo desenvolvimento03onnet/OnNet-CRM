@@ -33,7 +33,7 @@
             </div>
 
             <label for="outSearch">Outras Perguntas</label>
-            <div id="outSearch" cdkDropList class="tableContent">
+            <div id="outSearch" class="tableContent">
                 <div class="box" *ngFor="let quest of questsOutSearch">
                     {{quest.question}}
                     <mat-icon class="btnAdd" (click)="addQuest(quest)">add_circle</mat-icon>

@@ -13,12 +13,40 @@ export class SearchService {
         this.baseUrl = globalVar.baseURL + '/search';
     }
 
-    get(): Observable<Search[]> {
-        return this.http.get<Search[]>(this.baseUrl);
+    get(...params: string[]): Observable<Search[]> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
+        return this.http.get<Search[]>(this.baseUrl + urlParams);
     }
 
     getById(id: Number): Observable<Search> {
         return this.http.get<Search>(this.baseUrl + '/' + id);
+    }
+
+    getExceptQuest(id: Number, ...params: string[]): Observable<Search[]> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
+        return this.http.get<Search[]>(this.baseUrl + '/exceptQuest/' + id + urlParams);
     }
 
     post(request: {}): Observable<Search> {
