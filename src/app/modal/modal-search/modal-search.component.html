@@ -2,7 +2,7 @@
         <mat-card-title>
             {{ data.name }} | {{ data.city.name }}
             <div class="icon-close">
-                <img matDialogClose src="../../../assets/img/exit-door.png" alt="Fechar"/>
+                <img (click)="exit()" src="../../../assets/img/exit-door.png" alt="Fechar"/>
             </div>
         </mat-card-title>
         
