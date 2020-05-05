@@ -108,6 +108,7 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
                 }, error => {
                   alert('Falha \n Envio não realizado, contactar o administrador do sistema')
                   console.error(error)
+                  
                 })
             }
           }, error => {
