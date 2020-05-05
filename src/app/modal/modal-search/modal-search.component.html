@@ -1,6 +1,6 @@
     <mat-card>
         <mat-card-title>
-            {{ data.name }} | {{ data.city }}
+            {{ data.name }} | {{ data.city.name }}
             <div class="icon-close">
                 <img matDialogClose src="../../../assets/img/exit-door.png" alt="Fechar"/>
             </div>
@@ -15,16 +15,11 @@
         #stepIndex
         [ngClass]="{'without-greetings': stepIndex.selectedIndex != 0}"
     >
-
         <mat-step
-            *ngFor="let item of question"
-            label="Pergunta
-                {{ logar(stepIndex.selectedIndex) }}"
+            *ngFor="let item of question; let index = index;"
+            label="{{ setLabel(index) }}"
         >
 
-            <ng-template matStepperIcon="edit">
-                <mat-icon>done</mat-icon>
-            </ng-template>
             <div class="container">
 
                 <mat-label class="question">
@@ -50,7 +45,7 @@
                 <div class="comment-area">
                     <mat-form-field>
                         <mat-placeholder>Comentário</mat-placeholder>
-                        <input type="text" matInput class="comment" [(ngModel)]="note">
+                        <input type="text" matInput class="comment" [(ngModel)]="note" autocomplete="off">
                     </mat-form-field>
                 </div>
 
@@ -67,15 +62,15 @@
                     mat-button
                     mat-dialog-close
                     class="button-finish"
+                    (click)="send()"
                 >Finalizar
                 </button>
 
                 <button 
                     *ngIf="stepIndex.selectedIndex != question.length - 1"
                     mat-button
-                    matStepperNext
                     class="button-next"
-                    (click)="montagemCorpo()"
+                    (click)="setBody(stepIndex)"
                     [ngClass]="{'button-rate-one':   rate === 1,
                                 'button-rate-two':   rate === 2,
                                 'button-rate-three': rate === 3,
@@ -86,5 +81,9 @@
             </div>
 
         </mat-step>
+
+        <ng-template matStepperIcon="edit">
+            <mat-icon>done</mat-icon>
+        </ng-template>
 
     </mat-horizontal-stepper>
