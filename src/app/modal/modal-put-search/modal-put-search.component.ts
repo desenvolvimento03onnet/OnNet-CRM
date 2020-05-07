@@ -22,9 +22,12 @@ export class ModalPutSearchComponent implements OnInit {
   private questsInSearch: Quest[] = [];
   private questsOutSearch: Quest[] = [];
 
-  questsId: Number[] = [];
+  private questsId: Number[] = [];
 
   private search: StoreSearch;
+
+  private questsInLoading = true;
+  private questsOutLoading = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Search,
@@ -35,8 +38,13 @@ export class ModalPutSearchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.refresh();
+  }
+
+  async refresh() {
     this.refreshSearch();
-    this.refreshQuests();
+    await this.refreshQuests();
+    this.questsInLoading = false;
   }
 
   async refreshQuests() {
@@ -48,7 +56,7 @@ export class ModalPutSearchComponent implements OnInit {
             this.questsId.push(searchQuest.quest_id);
           })
 
-          this.search.quests = this.questsId;
+          this.search.quests = this.questsId
         },
         err => {
           console.log(err);
@@ -56,10 +64,12 @@ export class ModalPutSearchComponent implements OnInit {
       )
 
       this.questsOutSearch = await this.questService.getExceptSearch(this.data.id, "active=1").toPromise();
+      this.questsOutLoading = false;
     }
-    else
+    else {
       this.questsOutSearch = await this.questService.get("active=1").toPromise();
-
+      this.questsOutLoading = false;
+    }
   }
 
   refreshSearch() {

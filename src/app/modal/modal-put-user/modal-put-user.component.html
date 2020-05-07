@@ -1,5 +1,8 @@
 <div class="modal-content">
-    <div mat-dialog-title>Usuário</div>
+    <div mat-dialog-title>
+        Usuário
+        <mat-icon class="btnCloseModal" (click)="dialogRef.close()">cancel</mat-icon>
+    </div>
     <mat-divider></mat-divider>
     <div mat-dialog-content>
         <form>
@@ -38,7 +41,8 @@
                 <div class="col btnCenter">
                     <label for="active">Usuário ativo</label>
                     <section name="active">
-                        <mat-slide-toggle (change)="changeActive($event.checked)" color="primary" [checked]="user.active">
+                        <mat-slide-toggle (change)="changeActive($event.checked)" color="primary"
+                            [checked]="user.active">
                         </mat-slide-toggle>
                     </section>
                 </div>
@@ -46,7 +50,7 @@
         </form>
     </div>
     <div class="bot">
-        <button mat-raised-button class="btnRed">Cancelar</button>
+        <button mat-raised-button class="btnRed" (click)="dialogRef.close()">Cancelar</button>
         <button mat-raised-button (click)="onSubmit()" class="btnGreen">Salvar</button>
     </div>
 </div>

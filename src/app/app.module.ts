@@ -81,6 +81,7 @@ import { ModalPutUserComponent } from './modal/modal-put-user/modal-put-user.com
 import { ModalPutSearchComponent } from './modal/modal-put-search/modal-put-search.component';
 import { ModalPutQuestComponent } from './modal/modal-put-quest/modal-put-quest.component';
 import { ModalPutCityComponent } from './modal/modal-put-city/modal-put-city.component';
+import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.component';
 
 @NgModule({
   imports: [
@@ -147,7 +148,8 @@ import { ModalPutCityComponent } from './modal/modal-put-city/modal-put-city.com
     ModalPutUserComponent,
     ModalPutSearchComponent,
     ModalPutQuestComponent,
-    ModalPutCityComponent
+    ModalPutCityComponent,
+    ModalConfirmComponent
   ],
   providers: [
     {

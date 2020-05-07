@@ -10,10 +10,8 @@
                 <div class="col-md-12">
                     <div class="card-body">
                         <div class="col-md-12 ml-auto mr-auto">
-                            <mat-accordion
-                                *ngFor="let item of search"
-                            >
-                                <mat-expansion-panel>
+                            <mat-accordion>
+                                <mat-expansion-panel *ngFor="let item of search">
                                     <mat-expansion-panel-header>
                                         <mat-panel-title>
                                             {{ item.type }}
@@ -22,38 +20,28 @@
                                             Pesquisa de {{ item.type }}
                                         </mat-panel-description>
 
-                                        </mat-expansion-panel-header>
-                                        <mat-form-field>
-                                            <mat-label>Nome</mat-label>
-                                            <input 
-                                                matInput
-                                                [(ngModel)]="name"
-                                                required>
-        
-                                        </mat-form-field>
-                                    
-                                        <mat-form-field>
-                                            <mat-placeholder>
-                                                Cidade
-                                            </mat-placeholder>
-                                            <mat-select 
-                                                [(ngModel)]="citySelected"
-                                                name="city"
-                                                required>
-        
-                                                <mat-option 
-                                                    *ngFor="let item of city"
-                                                    [value]="item">
-                                                        {{item.name}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                        <button 
-                                            mat-button
-                                            (click)="openSearch(item.id)">
-                                                Iniciar
-                                        </button>
-                                    </mat-expansion-panel>
+                                    </mat-expansion-panel-header>
+                                    <mat-form-field>
+                                        <mat-label>Nome</mat-label>
+                                        <input matInput [(ngModel)]="name" required>
+
+                                    </mat-form-field>
+
+                                    <mat-form-field>
+                                        <mat-placeholder>
+                                            Cidade
+                                        </mat-placeholder>
+                                        <mat-select [(ngModel)]="citySelected" name="city" required>
+
+                                            <mat-option *ngFor="let item of city" [value]="item">
+                                                {{item.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <button mat-button (click)="openSearch(item.id)">
+                                        Iniciar
+                                    </button>
+                                </mat-expansion-panel>
                             </mat-accordion>
                         </div>
                     </div>
@@ -61,4 +49,4 @@
             </div>
         </div>
     </div>
-  </div>
+</div>

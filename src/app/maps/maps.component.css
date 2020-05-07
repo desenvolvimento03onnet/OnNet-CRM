@@ -1,5 +1,4 @@
 .main-content .container-fluid .row .card-body{
-    background-color: #e2f5f4;
     border-radius: 6px;
 }
 
@@ -19,4 +18,8 @@
     border: solid 1px white;
     font-weight: 500;
     color: black;
+}
+
+.card{
+    background: #f3f3f3;
 }

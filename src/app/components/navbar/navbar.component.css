@@ -1,0 +1,9 @@
+.dropdown-item{
+    transition: all .2s ease;
+}
+
+.dropdown-item:hover,
+a:hover{
+    background: #627f8882 !important;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px #627f8866;
+}

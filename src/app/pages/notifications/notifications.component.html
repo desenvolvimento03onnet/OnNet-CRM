@@ -60,6 +60,13 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;"></tr>
                 </table>
+
+                <mat-card *ngIf="userLoading">
+                    <mat-card-content class="loading">
+                        <mat-progress-spinner mode="indeterminate">
+                        </mat-progress-spinner>
+                    </mat-card-content>
+                </mat-card>
             </mat-tab>
 
             <mat-tab label="Pesquisas">
@@ -91,13 +98,13 @@
                 </div>
 
                 <mat-accordion>
-                    <mat-expansion-panel class="background-grey" hideToggle *ngFor="let search of dataSourceSearches">
+                    <mat-expansion-panel class="background-grey" *ngFor="let search of dataSourceSearches">
                         <mat-expansion-panel-header>
                             <mat-panel-title>{{ search.type }}</mat-panel-title>
                         </mat-expansion-panel-header>
 
                         <mat-list>
-                            <div mat-subheader (click)="storeSearch(search)">Status</div>
+                            <div mat-subheader>Status</div>
                             <div class="row">
                                 <div class="col">
                                     <mat-list-item>
@@ -108,28 +115,19 @@
                                     </mat-list-item>
                                 </div>
                                 <div class="col-1 list-item-content">
-                                    <section>
-                                        <mat-slide-toggle color="primary" [checked]="search.active">
-                                        </mat-slide-toggle>
-                                    </section>
+                                    <mat-icon mat-list-icon matTooltip="Editar perguntas"
+                                        matTooltipClass="custom-tooltip" (click)="storeSearch(search)">create</mat-icon>
                                 </div>
                             </div>
-
 
                             <mat-divider></mat-divider>
 
                             <div mat-subheader>Perguntas</div>
-                            <div class="row">
-                                <div class="col">
-                                    <mat-list-item *ngFor="let quest of search.quests">
-                                        <mat-icon mat-list-icon>help</mat-icon>
-                                        <div mat-line>{{ quest.question }}</div>
-                                    </mat-list-item>
-                                </div>
-                                <div class="col-1 list-item-content">
-                                    <mat-icon mat-list-icon matTooltip="Editar perguntas"
-                                        matTooltipClass="custom-tooltip">create</mat-icon>
-                                </div>
+                            <div style="padding: 0 16px">
+                                <mat-list-item *ngFor="let quest of search.quests">
+                                    <mat-icon mat-list-icon>help</mat-icon>
+                                    <div mat-line>{{ quest.question }}</div>
+                                </mat-list-item>
                             </div>
 
                             <mat-divider></mat-divider>
@@ -189,7 +187,7 @@
                         </mat-expansion-panel-header>
 
                         <mat-list>
-                            <div mat-subheader (click)="storeQuest(quest)">Status</div>
+                            <div mat-subheader>Status</div>
                             <div class="row">
                                 <div class="col">
                                     <mat-list-item>
@@ -200,10 +198,9 @@
                                     </mat-list-item>
                                 </div>
                                 <div class="col-1 list-item-content">
-                                    <section>
-                                        <mat-slide-toggle color="primary" [checked]="quest.active">
-                                        </mat-slide-toggle>
-                                    </section>
+                                    <mat-icon mat-list-icon matTooltip="Editar pesquisas"
+                                        matTooltipClass="custom-tooltip" (click)="storeQuest(quest)">
+                                        create</mat-icon>
                                 </div>
                             </div>
 
@@ -219,8 +216,7 @@
                                     </mat-list-item>
                                 </div>
                                 <div class="col-1 list-item-content">
-                                    <mat-icon mat-list-icon matTooltip="Editar pesquisas"
-                                        matTooltipClass="custom-tooltip">create</mat-icon>
+
                                 </div>
                             </div>
 
