@@ -91,15 +91,15 @@ export class DashboardComponent implements OnInit {
   }
 
   async loadMatTables() {
-    const dataUser = await this.interviewService.groupByUser().toPromise();
-    const dataCity = await this.interviewService.groupByCity().toPromise();
+    const dataUser = await this.interviewService.groupByUser('active=1').toPromise();
+    const dataCity = await this.interviewService.groupByCity('active=1').toPromise();
 
     this.dataSourceUser = new MatTableDataSource(dataUser);
     this.dataSourceCity = new MatTableDataSource(dataCity);
   }
 
   async loadDataChart() {
-    const searches: Search[] = await this.searchService.get().toPromise();
+    const searches: Search[] = await this.searchService.get('active=1').toPromise();
 
     searches.forEach(element => {
       this.getDataChart(element.id).then(

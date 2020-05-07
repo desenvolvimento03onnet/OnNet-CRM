@@ -34,12 +34,36 @@ export class InterviewService {
         return this.http.get<Interview>(this.baseUrl + '/' + id);
     }
 
-    groupByCity(): Observable<InterviewsCount[]> {
-        return this.http.get<InterviewsCount[]>(this.baseUrl + '/groupBy/city');
+    groupByCity(...params: String[]): Observable<InterviewsCount[]> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
+        return this.http.get<InterviewsCount[]>(this.baseUrl + '/groupBy/city' + urlParams);
     }
 
-    groupByUser(): Observable<InterviewsCount[]> {
-        return this.http.get<InterviewsCount[]>(this.baseUrl + '/groupBy/user');
+    groupByUser(...params: String[]): Observable<InterviewsCount[]> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
+        return this.http.get<InterviewsCount[]>(this.baseUrl + '/groupBy/user' + urlParams);
     }
 
     post(request: {}): Observable<Interview> {
