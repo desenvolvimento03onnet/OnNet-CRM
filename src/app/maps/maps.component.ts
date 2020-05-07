@@ -1,10 +1,12 @@
+import { AnswerService } from './../services/answer.service';
+import { Interview } from './../models/Interview';
+import { InterviewService } from './../services/interview.service';
 import { SearchService } from './../services/search.service';
 import { City } from './../models/City';
 import { CityService } from './../services/city.service';
 import { ModalSearchComponent } from './../modal/modal-search/modal-search.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-maps',
@@ -18,13 +20,15 @@ export class MapsComponent implements OnInit{
   search: Object[]
   city: Object[]
   citySelected: City
+  interview: Interview
 
   @ViewChild('idSearch') MatButtonToggleGroup
 
   constructor(
-    private modal: MatDialog,
     private cityService: CityService,
     private searchService: SearchService,
+    private interviewService: InterviewService,
+    private modal: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -56,32 +60,52 @@ export class MapsComponent implements OnInit{
       })
   }
 
+  async openSearch(searchId: number){
+    if(this.name && this.citySelected){
+
+      const body = {
+        client_name: this.name,
+        interview_date: '2020-04-30',
+        city_id: this.citySelected.id,
+        search_id: searchId
+      }
+
+      //Criar Interview
+      await this.interviewService.post(body).subscribe(
+        success => {
+          console.log('Interview criada: ', success)
+          this.interview = success
+
+          this.modal.open(ModalSearchComponent, { 
+            width : '93%',
+            height: '89%',
+            disableClose: true,
+            autoFocus: true,
+            data: {
+                name: this.name,
+                city: this.citySelected,
+                greetings: this.setGreetings(),
+                user: this.getUser(),
+                idSearch: searchId,
+                interview: this.interview
+            }
+          })
+
+        }, error => {
+          console.error('Error', error)
+        })
+    }
+
+    else{
+      alert('Insira o valor correto')
+    }
+  }
+
   getUser(){
     window.sessionStorage.setItem('username', 'Goku Son')
     var username:string = window.sessionStorage.getItem('username')
 
     return username.substring(0, username.search(' '))
-  }
-
-  openSearch(searchId: number){
-    if(this.name && this.citySelected){
-      this.modal.open(ModalSearchComponent, { 
-          width : '93%',
-          height: '89%',
-          disableClose: true,
-          autoFocus: true,
-          data: {
-              name: this.name,
-              city: this.citySelected.name,
-              greetings: this.setGreetings(),
-              user: this.getUser(),
-              idSearch: searchId
-          }
-      })
-    }
-    else{
-      alert('Insira o valor correto')
-    }
   }
 
   setGreetings(){
