@@ -6,8 +6,8 @@ import { Search } from './../../models/Search';
 import { SearchService } from './../../services/search.service';
 import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CdkStepperNext, CdkStepper } from '@angular/cdk/stepper';
-import { MatStepper, MatStepperIcon, MatStepHeader } from '@angular/material/stepper';
+import { MatStepper } from '@angular/material/stepper';
+import { isString, isNumber } from 'util';
 
 @Component({
   selector: 'app-modal-search',
@@ -50,127 +50,129 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
     console.log('This.data: ', this.data)
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
+    //Não funfa
     this.data.name = ''
     this.data.city = ''
     this.data.greetings = ''
   }
 
-  async getSearch() {
-    await this.searchService.getById(this.data.idSearch).subscribe(
-      success => {
-        this.search = success
-        this.question = success[0]['quests']
-        console.log(this.search)
-      }, error => {
-        console.error(error)
-      })
+  getSearch() {
+    this.searchService.getById(this.data.idSearch).subscribe(success => {
+      this.search = success;
+      this.question = success[0]['quests'];
+      console.log(this.search);
+    }, error => {
+      console.error(error);
+    })
   }
 
-  async getInterview(){
-    await this.answerService.get('interview=' + this.data.interview.id).subscribe(
-      success => {
-        this.answer = success
-
-        console.log('Answer: ', this.answer)
-        for (let i = 0; i < this.answer.length; i++) {
-          this.idAnswer[i] = this.answer[i].id
-        }
-      }, error => {
-        console.error(error)
-      })
+  getInterview() {
+    this.answerService.get('interview=' + this.data.interview.id).subscribe(success => {
+      this.answer = success;
+      console.log('Answer: ', this.answer);
+      for (let i = 0; i < this.answer.length; i++) {
+        this.idAnswer[i] = this.answer[i].id
+        //this.notes[i] = null
+        console.log(this.notes)
+      }
+    }, error => {
+      console.error(error);
+    })
   }
 
-  async send() {
+  send(stepper: MatStepper) {
 
-    if(this.rate != 0){
+    if(this.rates[stepper.selectedIndex]) {
       this.notes.push(this.note)
       this.rates.push(this.rate)
 
-      for (let i = 0; i < this.answer.length; i++){
+      for (let i = 0; i < this.answer.length; i++) {
 
         this.body = {
           rate: this.rates[i],
           note: this.notes[i]
         }
 
-        await this.answerService.put(this.idAnswer[i], this.body).subscribe(
-          success => {
-            console.log(success)
-            if(i === this.idAnswer.length - 1){
-               this.interviewService.put(this.data.interview.id, {
-                finished: 1
-              }).subscribe (
-                success => {
-                  console.log(success)
-                  this.modalRef.close()
-                  alert('Enviado com Sucesso')
-                }, error => {
-                  alert('Falha \n Envio não realizado, contactar o administrador do sistema')
-                  console.error(error)
-                  
-                })
-            }
-          }, error => {
-            alert('Falha \n As respostas dessas perguntas não foram enviadas')
-          })
+        this.answerService.put(this.idAnswer[i], this.body).subscribe(success => {
+          console.log(success);
+          if (i === this.idAnswer.length - 1) {
+            this.interviewService.put(this.data.interview.id, {
+              finished: 1
+            }).subscribe(success => {
+              console.log(success);
+              this.modalRef.close();
+              alert('Enviado com Sucesso');
+            }, error => {
+              alert('Falha \n Envio não realizado, contactar o administrador do sistema');
+              console.error(error);
+            });
+          }
+        }, error => {
+          alert('Falha \n As respostas dessas perguntas não foram enviadas');
+        })
       }
+    } else {
+      alert(`Insira uma Nota`)
     }
   }
 
-  setLabel(index){
-    if(this.rates[index] != undefined){
+  exit() {
+    this.interviewService.delete(this.data.interview.id).subscribe(success => {
+      alert('Pesquisa excluída com sucesso');
+      this.modalRef.close();
+    }, error => {
+      alert('Ocorreu um erro na exclusão da pesquisa');
+    })
+  }
+
+  setLabel(index) {
+    if(this.rates[index] != undefined) {
       return `Nota: ${this.rates[index]}`
     } else {
-      return `Pergunta: ${index + 1}`
+      return `Pergunta`
     }
   }
 
-  setBody(stepper: MatStepper) {
+  setNoteBody(stepper: MatStepper) {
 
-    if(this.rate != 0){
+      this.notes.fill(this.notes[stepper.selectedIndex], stepper.selectedIndex, stepper.selectedIndex + 1)
 
-      if(!this.rates[stepper.selectedIndex]){
-        this.notes.push(this.note.trim())
-        this.rates.push(this.rate)
+      console.log('this.notes', this.notes)
+
+      if(this.rates[stepper.selectedIndex] != undefined){
+        stepper.next()
+      } else{
+        alert('Insira uma nota')
       }
 
-      if(this.rates[stepper.selectedIndex]){
-        this.notes.fill(this.note.trim(), stepper.selectedIndex, stepper.selectedIndex + 1)
-        this.rates.fill(this.rate, stepper.selectedIndex, stepper.selectedIndex + 1)
-
-        console.log('stepper.selectedIndex', stepper.selectedIndex)
-        console.log('this.rates', this.rates)
-        console.log('this.notes', this.notes)
-      }
-
-      this.note = ''
-      this.rate = 0
-      
-      stepper.next()
-    } else {
-      alert('Insira uma nota')
-    }
   }
 
-  setRate(rate: number){
+  getNoteBody(stepper: MatStepper) {
+    return this.notes[stepper.selectedIndex]
+  }
+
+  setRate(rate: number) {
     this.rate = rate
   }
 
-  edit(indexSelected){
-    indexSelected += 1
-    this.rates.fill(this.rate, indexSelected, indexSelected)
+  setRateBody(stepper: MatStepper) {
+    if(this.rate != 0) {
+      if(!this.rates[stepper.selectedIndex]){
+        this.rates.push(this.rate)
+        console.log(this.rates)
+      }
+      if(this.rates[stepper.selectedIndex]){
+        this.rates.fill(this.rate, stepper.selectedIndex, stepper.selectedIndex + 1)
+        console.log(this.rates)
+      }
+    }
+    
+    this.rate = 0
   }
 
-  async exit(){
-    await this.interviewService.delete(this.data.interview.id).subscribe(
-      success => {
-        alert('Pesquisa excluída com sucesso')
-        this.modalRef.close()
-      }, error => {
-        alert('Ocorreu um erro na exclusão da pesquisa')
-      }
-    )
+  getRate(stepper: MatStepper){
+    return this.rates[stepper.selectedIndex]
   }
 
 }
