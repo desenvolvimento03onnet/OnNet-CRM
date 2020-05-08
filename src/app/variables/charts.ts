@@ -93,7 +93,7 @@ Chart.elements.Rectangle.prototype.draw = function () {
 
     // let nextCorner = cornerAt(nextCornerId);
 
-    let width = 20;
+    let width = 30;
     let height = corners[0][1] - corners[1][1];
     let x = corners[1][0];
     let y = corners[1][1];
@@ -177,7 +177,7 @@ export function chartOptions() {
           position: 'bottom',
           labels: {
             usePointStyle: true,
-            padding: 16
+            padding: 16,
           }
         },
         elements: {
@@ -263,7 +263,7 @@ export function chartOptions() {
     ticks: {
       padding: 20,
     },
-    maxBarThickness: 10
+    maxBarThickness: 32
   });
 
   return options;

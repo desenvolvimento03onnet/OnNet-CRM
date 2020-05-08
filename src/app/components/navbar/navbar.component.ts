@@ -43,8 +43,8 @@ export class NavbarComponent implements OnInit {
 
     changePassword() {
         this.modal.open(ModalPutPasswordComponent, {
-            width: '500px',
-            height: '450px',
+            width: '450px',
+            height: '350px',
             autoFocus: true,
         })
     }
