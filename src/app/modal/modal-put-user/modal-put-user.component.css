@@ -1,24 +1,6 @@
 @import "../modal.component.css";
 @import "../../../styles.css";
 
-form {
-    margin: 20px 0;
-}
-
-.modal-content {
-    box-shadow: none;
-    border: none;
-}
-
-.inputEdit {
-    width: 100%;
-    margin-bottom: 24px;
-    border-radius: 6px;
-    border: 1px solid #d4d4d4;
-    box-shadow: 2px 2px 4px 0px #cacaca;
-    padding: 10px;
-}
-
 .name{
     padding: 0 15px;
 }

@@ -5,11 +5,6 @@ form {
     margin: 20px 0;
 }
 
-.modal-content {
-    box-shadow: none;
-    border: none;
-}
-
 .inputEdit {
     width: 100%;
     margin-bottom: 24px;

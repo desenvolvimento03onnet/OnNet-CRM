@@ -10,13 +10,11 @@ export class HttpInterceptorRequest {
         next: HttpHandler, //Passa ele para frente
     ): Observable<HttpEvent<any>> {
 
-        const setToken = window.sessionStorage.setItem('auth_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU4NjgwODE0OH0.j-ShwZefsG45-VDlW-hve6HqiXS-Wh5zP116gwF1MqY')
-        const authToken = window.sessionStorage.getItem('auth_token')
+        const authToken = sessionStorage.getItem('bearerToken')
 
         if (authToken) {
             req = req.clone({
-                // headers: req.headers.set('Authorization', `Bearer ${authToken}`),
-                headers: req.headers.set('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU4NjgwODE0OH0.j-ShwZefsG45-VDlW-hve6HqiXS-Wh5zP116gwF1MqY`)
+                headers: req.headers.set('Authorization', `Bearer ${authToken}`),
             })
         }
         return next.handle(req)

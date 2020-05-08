@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { SearchQuestService } from './services/searchQuest.service';
 import { PermissionService } from './services/permission.service';
 import { SearchService } from './services/search.service';
@@ -82,6 +83,7 @@ import { ModalPutSearchComponent } from './modal/modal-put-search/modal-put-sear
 import { ModalPutQuestComponent } from './modal/modal-put-quest/modal-put-quest.component';
 import { ModalPutCityComponent } from './modal/modal-put-city/modal-put-city.component';
 import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.component';
+import { ModalPutPasswordComponent } from './modal/modal-put-password/modal-put-password.component';
 
 @NgModule({
   imports: [
@@ -149,7 +151,8 @@ import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.compo
     ModalPutSearchComponent,
     ModalPutQuestComponent,
     ModalPutCityComponent,
-    ModalConfirmComponent
+    ModalConfirmComponent,
+    ModalPutPasswordComponent
   ],
   providers: [
     {
@@ -160,6 +163,7 @@ import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.compo
     GlobalVariables,
     GlobalFunctions,
     AnswerService,
+    AuthService,
     CityService,
     InterviewService,
     PermissionService,

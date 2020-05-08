@@ -3,3 +3,21 @@
     cursor: pointer;
     float: right;
 }
+
+.modal-content {
+    border: none;
+    box-shadow: none;
+}
+
+.inputEdit {
+    width: 100%;
+    margin-bottom: 24px;
+    border-radius: 6px;
+    border: 1px solid #d4d4d4;
+    box-shadow: 2px 2px 4px 0px #cacaca;
+    padding: 10px;
+}
+
+form {
+    margin: 20px 0;
+}
