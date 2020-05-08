@@ -1,6 +1,13 @@
-import { Login } from '../../models/login';
+import { UserService } from './../../services/user.service';
+import { Router } from '@angular/router';
+import { AuthService } from './../../services/auth.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+
+interface Login {
+  username: String;
+  password: String;
+}
 
 @Component({
   selector: 'app-login',
@@ -9,20 +16,43 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  private passwordVisible: boolean = false;
+  private passwordVisible: Boolean = false;
   private typeInput: String = "password"
+  private rememberPasswd: Boolean = false;
 
   private loginForm: FormGroup;
-  private login = new Login();
 
-  constructor(private formBuilder: FormBuilder) {
-    this.loginForm = formBuilder.group({
-      username: [this.login.username],
-      password: [this.login.password],
-    })
+  private login: Login = {
+    username: '',
+    password: ''
+  };
+
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private userService: UserService
+  ) {
+    const usrnm = localStorage.getItem('username');
+
+    this.login.username = usrnm ? usrnm : '';
   }
 
   ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      username: [this.login.username],
+      password: [this.login.password],
+    })
+
+    if (localStorage.getItem('username'))
+      this.rememberPasswd = true;
+
+    sessionStorage.clear();
+  }
+
+  onChange(event) {
+    if (!event.target.checked)
+      localStorage.removeItem('username')
   }
 
   showPassword() {
@@ -39,7 +69,25 @@ export class LoginComponent implements OnInit {
     const loginFormValue = this.loginForm.value;
     const rememberLogin: any = document.getElementById('remember')
 
-      console.log(loginFormValue);
-      console.log(rememberLogin.checked);
+    this.authService.getToken(loginFormValue).subscribe(
+      async suc => {
+        sessionStorage.setItem('bearerToken', suc.token.toString());
+
+        const user = await this.userService.get('username=' + loginFormValue.username).toPromise();
+
+        sessionStorage.setItem('userId', user[0].id.toString());
+
+        if (rememberLogin.checked)
+          localStorage.setItem('username', loginFormValue.username)
+
+        this.router.navigateByUrl('/dashboard')
+      },
+      err => {
+        if (err.status === 401)
+          alert("Usuário ou Senha inválidos");
+
+        console.log(err);
+      }
+    )
   }
 }

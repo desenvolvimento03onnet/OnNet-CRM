@@ -35,7 +35,7 @@
             </div>
 
             <div class="input-group input-group-checkbox">
-                <input checked type="checkbox" id="remember" name="remember" />
+                <input [checked]='rememberPasswd' type="checkbox" id="remember" name="remember" (change)="onChange($event)"/>
                 <label for="remember">Lembrar-me</label>
             </div>
 

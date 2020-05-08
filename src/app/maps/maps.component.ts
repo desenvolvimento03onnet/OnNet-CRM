@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent implements OnInit{
+export class MapsComponent implements OnInit {
 
   step: number = -1 //Iniciado em -1 pq é o único valor que não da nota
   name: string = ''
@@ -36,11 +36,11 @@ export class MapsComponent implements OnInit{
     this.getCity()
   }
 
-  setStep(index: number){
+  setStep(index: number) {
     this.step = index
   }
 
-  async getSearch(){
+  async getSearch() {
     await this.searchService.get().subscribe(
       success => {
         this.search = success
@@ -50,7 +50,7 @@ export class MapsComponent implements OnInit{
       })
   }
 
-  async getCity(){
+  async getCity() {
     await this.cityService.get().subscribe(
       success => {
         this.city = success
@@ -60,8 +60,8 @@ export class MapsComponent implements OnInit{
       })
   }
 
-  async openSearch(searchId: number){
-    if(this.name && this.citySelected){
+  async openSearch(searchId: number) {
+    if (this.name && this.citySelected) {
 
       const body = {
         client_name: this.name,
@@ -76,19 +76,21 @@ export class MapsComponent implements OnInit{
           console.log('Interview criada: ', success)
           this.interview = success
 
-          this.modal.open(ModalSearchComponent, { 
-            width : '93%',
+          this.modal.open(ModalSearchComponent, {
+            width: '93%',
             height: '89%',
             disableClose: true,
             autoFocus: true,
             data: {
-                name: this.name,
-                city: this.citySelected,
-                greetings: this.setGreetings(),
-                user: this.getUser(),
-                idSearch: searchId,
-                interview: this.interview
+              name: this.name,
+              city: this.citySelected,
+              greetings: this.setGreetings(),
+              user: this.getUser(),
+              idSearch: searchId,
+              interview: this.interview
             }
+          }).beforeClosed().subscribe(() => {
+            this.interviewService.put(success.id, { finished: true });
           })
 
         }, error => {
@@ -96,29 +98,29 @@ export class MapsComponent implements OnInit{
         })
     }
 
-    else{
+    else {
       alert('Insira o valor correto')
     }
   }
 
-  getUser(){
+  getUser() {
     window.sessionStorage.setItem('username', 'Goku Son')
-    var username:string = window.sessionStorage.getItem('username')
+    var username: string = window.sessionStorage.getItem('username')
 
     return username.substring(0, username.search(' '))
   }
 
-  setGreetings(){
+  setGreetings() {
 
     var hours = new Date().getHours()
 
-    if(hours >= 6 && hours < 12){
+    if (hours >= 6 && hours < 12) {
       return `Bom dia`
-    } 
+    }
     if (hours >= 12 && hours < 18) {
       return `Boa tarde`
     }
-    if (hours >= 18){
+    if (hours >= 18) {
       return `Boa noite`
     }
     else {

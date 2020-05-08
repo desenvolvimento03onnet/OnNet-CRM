@@ -121,3 +121,10 @@
 .btnRed:active {
     transform: scale(0.97);
 }
+
+.loading{
+    display: flex !important;
+    justify-content: center;
+    justify-items: center;
+    padding: 5px;
+}

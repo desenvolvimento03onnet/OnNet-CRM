@@ -42,7 +42,19 @@ export class AnswerService {
         return this.http.get<Answer>(this.baseUrl + '/' + id);
     }
 
-    countAnswersByQuest(searchId: Number): Observable<AnswersByQuest[]> {
+    countAnswersByQuest(searchId: Number, ...params: String[]): Observable<AnswersByQuest[]> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
         return this.http.get<AnswersByQuest[]>(this.baseUrl + '/groupBy/answersByQuest/' + searchId);
     }
 

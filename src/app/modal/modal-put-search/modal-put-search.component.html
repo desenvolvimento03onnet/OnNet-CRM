@@ -1,5 +1,8 @@
 <div class="modal-content">
-    <div mat-dialog-title>Pesquisa</div>
+    <div mat-dialog-title>
+        Pesquisa
+        <mat-icon class="btnCloseModal" (click)="dialogRef.close()">cancel</mat-icon>
+    </div>
     <mat-divider></mat-divider>
     <div mat-dialog-content>
         <form>
@@ -27,9 +30,16 @@
                     <mat-icon class="btnAdd" (click)="removeQuest(quest)">remove_circle</mat-icon>
                 </div>
 
-                <div class="noContent" *ngIf="questsInSearch.length == 0">
+                <div class="noContent" *ngIf="questsInSearch.length == 0 && !questsInLoading">
                     <i>Nenhuma pergunta referente a pesquisa</i>
                 </div>
+
+                <mat-card *ngIf="questsInLoading">
+                    <mat-card-content class="loading">
+                        <mat-progress-spinner mode="indeterminate">
+                        </mat-progress-spinner>
+                    </mat-card-content>
+                </mat-card>
             </div>
 
             <label for="outSearch">Outras Perguntas</label>
@@ -39,14 +49,21 @@
                     <mat-icon class="btnAdd" (click)="addQuest(quest)">add_circle</mat-icon>
                 </div>
 
-                <div class="noContent" *ngIf="questsOutSearch.length == 0">
+                <div class="noContent" *ngIf="questsOutSearch.length == 0 && !questsOutLoading">
                     <i>Nenhuma pergunta a ser adicionada</i>
                 </div>
+
+                <mat-card *ngIf="questsOutLoading">
+                    <mat-card-content class="loading">
+                        <mat-progress-spinner mode="indeterminate">
+                        </mat-progress-spinner>
+                    </mat-card-content>
+                </mat-card>
             </div>
         </form>
     </div>
     <div>
-        <button mat-raised-button class="btnRed">Cancelar</button>
+        <button mat-raised-button class="btnRed" (click)="dialogRef.close()">Cancelar</button>
         <button mat-raised-button (click)="onSubmit()" class="btnGreen">Salvar</button>
     </div>
 </div>

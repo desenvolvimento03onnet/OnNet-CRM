@@ -13,8 +13,20 @@ export class UserService {
     this.baseUrl = globalVar.baseURL + '/user';
   }
 
-  get(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl);
+  get(...params: String[]): Observable<User[]> {
+    var urlParams: string = '';
+
+    if (params) {
+      urlParams = '?';
+
+      params.forEach(param => {
+        urlParams += param + '&';
+      })
+
+      urlParams = urlParams.slice(0, -1);
+    }
+
+    return this.http.get<User[]>(this.baseUrl + urlParams);
   }
 
   getById(id: Number): Observable<User> {

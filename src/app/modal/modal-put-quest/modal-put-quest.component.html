@@ -1,5 +1,8 @@
 <div class="modal-content">
-    <div mat-dialog-title>Pergunta</div>
+    <div mat-dialog-title>
+        Pergunta
+        <mat-icon class="btnCloseModal" (click)="dialogRef.close()">cancel</mat-icon>
+    </div>
     <mat-divider></mat-divider>
     <div mat-dialog-content>
         <form>
@@ -27,9 +30,16 @@
                     <mat-icon class="btnAdd" (click)="removeSearch(search)">remove_circle</mat-icon>
                 </div>
 
-                <div class="noContent" *ngIf="searchesInQuest.length == 0">
+                <div class="noContent" *ngIf="searchesInQuest.length == 0 && !questsInLoading">
                     <i>Nenhuma pesquisa vinculada a esta pergunta</i>
                 </div>
+
+                <mat-card *ngIf="questsInLoading">
+                    <mat-card-content class="loading">
+                        <mat-progress-spinner mode="indeterminate">
+                        </mat-progress-spinner>
+                    </mat-card-content>
+                </mat-card>
             </div>
 
             <label for="outQuest">Outras Pesquisas</label>
@@ -39,14 +49,21 @@
                     <mat-icon class="btnAdd" (click)="addSearch(search)">add_circle</mat-icon>
                 </div>
 
-                <div class="noContent" *ngIf="searchesOutQuest.length == 0">
+                <div class="noContent" *ngIf="searchesOutQuest.length == 0 && !questsOutLoading">
                     <i>Nenhuma pesquisa a ser vinculada</i>
                 </div>
+
+                <mat-card *ngIf="questsOutLoading">
+                    <mat-card-content class="loading">
+                        <mat-progress-spinner mode="indeterminate">
+                        </mat-progress-spinner>
+                    </mat-card-content>
+                </mat-card>
             </div>
         </form>
     </div>
     <div class="bot">
-        <button mat-raised-button class="btnRed">Cancelar</button>
+        <button mat-raised-button class="btnRed" (click)="dialogRef.close()">Cancelar</button>
         <button mat-raised-button (click)="onSubmit()" class="btnGreen">Salvar</button>
     </div>
 </div>

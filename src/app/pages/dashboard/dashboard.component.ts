@@ -1,3 +1,4 @@
+import { GlobalFunctions } from './../../global';
 import { Search } from './../../models/Search';
 import { SearchService } from './../../services/search.service';
 import { MatSort } from '@angular/material/sort';
@@ -9,7 +10,7 @@ import { InterviewService } from './../../services/interview.service';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { chartOptions, parseOptions, chartQuestions } from "../../variables/charts";
 
-export interface AnswersByQuest {
+interface AnswersByQuest {
   quest_id: Number;
   question: String;
   rates: {
@@ -18,13 +19,13 @@ export interface AnswersByQuest {
   }[];
 }
 
-export interface SearchChart {
+interface SearchChart {
   id: Number;
   name: String;
   data: DataChart[];
 }
 
-export interface DataChart {
+interface DataChart {
   id: Number;
   quest: String;
   label: string;
@@ -49,7 +50,12 @@ export class DashboardComponent implements OnInit {
 
   private searchDataCharts: SearchChart[] = [];
 
+  private chartLoading = true;
+  private matCityLoading = true;
+  private matUserLoading = true;
+
   constructor(
+    private globalFunc: GlobalFunctions,
     private interviewService: InterviewService,
     private answerService: AnswerService,
     private searchService: SearchService) {
@@ -61,36 +67,39 @@ export class DashboardComponent implements OnInit {
     this.refresh();
   }
 
-  refresh() {
-    this.loadMatTables().then(
-      () => {
-        this.dataSourceCity.sort = this.sortCity;
-        this.dataSourceUser.sort = this.sortUser;
-      },
-      err => {
-        console.log(err);
-      }
-    );
+  async refresh() {
+    this.refreshMatTables().then(() => {
+      this.matCityLoading = false;
+      this.matUserLoading = false;
+    });
 
-    this.refreshDataChart().then(
-      () => {
-        this.loadCharts();
-      },
-      err => {
-        console.log(err);
-      });
+    this.refreshDataChart().then(() => {
+      this.chartLoading = false;
+    })
+  }
+
+  async refreshDataChart() {
+    await this.loadDataChart();
+    this.loadCharts();
+  }
+
+  async refreshMatTables() {
+    await this.loadMatTables();
+
+    this.dataSourceCity.sort = this.sortCity;
+    this.dataSourceUser.sort = this.sortUser;
   }
 
   async loadMatTables() {
-    const dataUser = await this.interviewService.groupByUser().toPromise();
-    const dataCity = await this.interviewService.groupByCity().toPromise();
+    const dataUser = await this.interviewService.groupByUser('active=1').toPromise();
+    const dataCity = await this.interviewService.groupByCity('active=1').toPromise();
 
     this.dataSourceUser = new MatTableDataSource(dataUser);
     this.dataSourceCity = new MatTableDataSource(dataCity);
   }
 
-  async refreshDataChart() {
-    const searches: Search[] = await this.searchService.get().toPromise();
+  async loadDataChart() {
+    const searches: Search[] = await this.searchService.get('active=1').toPromise();
 
     searches.forEach(element => {
       this.getDataChart(element.id).then(
@@ -136,6 +145,9 @@ export class DashboardComponent implements OnInit {
   }
 
   async getDataChart(searchId: Number) {
+
+    let params: string[] = [];
+
     const answersByQuest: AnswersByQuest[] = await this.answerService.countAnswersByQuest(searchId).toPromise();
 
     let dataCharts: DataChart[] = [];

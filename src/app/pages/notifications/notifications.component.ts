@@ -29,6 +29,7 @@ export class NotificationsComponent implements OnInit {
   private dataSourceUsers = new MatTableDataSource([]);
   private activeUsers: boolean = true;
   private filterUsersValue: string = "";
+  private userLoading = true;
 
   //search tab
   private searches: Search[] = [];
@@ -74,6 +75,8 @@ export class NotificationsComponent implements OnInit {
       users => {
         this.users = users;
         this.applyFilterUserActive(this.activeUsers);
+        
+        this.userLoading = false
       },
       err => {
         console.log(err);
@@ -240,7 +243,7 @@ export class NotificationsComponent implements OnInit {
     this.modal.open(ModalPutUserComponent, {
       width: '800px',
       height: '600px',
-      // disableClose: true,
+      disableClose: true,
       autoFocus: true,
       data: user
     }).beforeClosed().subscribe(() => {
@@ -252,7 +255,7 @@ export class NotificationsComponent implements OnInit {
     this.modal.open(ModalPutSearchComponent, {
       width: '900px',
       height: '650px',
-      // disableClose: true,
+      disableClose: true,
       autoFocus: true,
       data: search
     }).beforeClosed().subscribe(() => {
@@ -264,7 +267,7 @@ export class NotificationsComponent implements OnInit {
     this.modal.open(ModalPutQuestComponent, {
       width: '900px',
       height: '650px',
-      // disableClose: true,
+      disableClose: true,
       autoFocus: true,
       data: quest
     }).beforeClosed().subscribe(() => {
@@ -276,7 +279,7 @@ export class NotificationsComponent implements OnInit {
     this.modal.open(ModalPutCityComponent, {
       width: '600px',
       height: '400px',
-      // disableClose: true,
+      disableClose: true,
       autoFocus: true,
       data: city
     }).beforeClosed().subscribe(() => {

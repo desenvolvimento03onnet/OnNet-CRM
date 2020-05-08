@@ -6,6 +6,7 @@
                 <p class="card-category">Gráfico de pesquisas por pergunta</p>
             </div>
             <div class="card-body">
+
                 <mat-accordion>
                     <mat-expansion-panel class="background-white" *ngFor="let chart of searchDataCharts">
                         <mat-expansion-panel-header>
@@ -36,6 +37,13 @@
                         </div>
                     </mat-expansion-panel>
                 </mat-accordion>
+
+                <mat-card *ngIf="chartLoading">
+                    <mat-card-content class="loading">
+                        <mat-progress-spinner mode="indeterminate">
+                        </mat-progress-spinner>
+                    </mat-card-content>
+                </mat-card>
             </div>
         </div>
 
@@ -64,6 +72,13 @@
                                         <tr mat-header-row *matHeaderRowDef="displayedColumnsCity; sticky: true"></tr>
                                         <tr mat-row *matRowDef="let row; columns: displayedColumnsCity;"></tr>
                                     </table>
+
+                                    <mat-card *ngIf="matCityLoading">
+                                        <mat-card-content class="loading">
+                                            <mat-progress-spinner mode="indeterminate">
+                                            </mat-progress-spinner>
+                                        </mat-card-content>
+                                    </mat-card>
                                 </div>
                             </div>
 
@@ -83,6 +98,13 @@
                                         <tr mat-header-row *matHeaderRowDef="displayedColumnsUser; sticky: true"></tr>
                                         <tr mat-row *matRowDef="let row; columns: displayedColumnsUser;"></tr>
                                     </table>
+
+                                    <mat-card *ngIf="matUserLoading">
+                                        <mat-card-content class="loading">
+                                            <mat-progress-spinner mode="indeterminate">
+                                            </mat-progress-spinner>
+                                        </mat-card-content>
+                                    </mat-card>
                                 </div>
                             </div>
                         </div>

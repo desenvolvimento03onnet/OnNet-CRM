@@ -1,9 +1,5 @@
+@import "../modal.component.css";
 @import "../../../styles.css";
-
-.modal-content {
-    border: none;
-    box-shadow: none;
-}
 
 .mat-dialog-content {
     max-height: 80vh;
