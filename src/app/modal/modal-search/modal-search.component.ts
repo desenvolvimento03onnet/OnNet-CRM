@@ -176,3 +176,4 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
   }
 
 }
+
