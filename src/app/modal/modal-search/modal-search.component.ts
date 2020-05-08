@@ -7,7 +7,6 @@ import { SearchService } from './../../services/search.service';
 import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
-import { isString, isNumber } from 'util';
 
 @Component({
   selector: 'app-modal-search',
@@ -142,7 +141,7 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
 
       if(this.rates[stepper.selectedIndex] != undefined){
         stepper.next()
-      } else{
+      } else {
         alert('Insira uma nota')
       }
 
@@ -176,4 +175,3 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
   }
 
 }
-

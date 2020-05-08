@@ -165,6 +165,9 @@
     color: rgb(89, 167, 63);
 }
 
+::ng-deep .mat-horizontal-stepper-header{
+    pointer-events: none !important;
+}
 /*background: linear-gradient(to right, 
     #ff4747,
     #ff6c47,
