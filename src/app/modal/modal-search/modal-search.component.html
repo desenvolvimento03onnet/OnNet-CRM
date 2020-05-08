@@ -15,10 +15,10 @@
         #stepIndex
         [ngClass]="{'without-greetings': stepIndex.selectedIndex != 0}"
     >
+
         <mat-step
             *ngFor="let item of question; let index = index;"
             label="{{ setLabel(index) }}"
-            disableRipple="false"
         >
 
             <div class="container">
@@ -87,6 +87,7 @@
                 </button>
 
             </div>
+        
         </mat-step>
 
         <ng-template matStepperIcon="edit">
