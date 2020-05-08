@@ -103,10 +103,12 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
               }).subscribe (
                 success => {
                   console.log(success)
+                  this.modalRef.close()
                   alert('Enviado com Sucesso')
                 }, error => {
                   alert('Falha \n Envio não realizado, contactar o administrador do sistema')
                   console.error(error)
+                  
                 })
             }
           }, error => {
@@ -158,6 +160,17 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
   edit(indexSelected){
     indexSelected += 1
     this.rates.fill(this.rate, indexSelected, indexSelected)
+  }
+
+  async exit(){
+    await this.interviewService.delete(this.data.interview.id).subscribe(
+      success => {
+        alert('Pesquisa excluída com sucesso')
+        this.modalRef.close()
+      }, error => {
+        alert('Ocorreu um erro na exclusão da pesquisa')
+      }
+    )
   }
 
 }
