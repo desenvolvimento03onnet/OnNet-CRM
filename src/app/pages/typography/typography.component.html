@@ -1,97 +1,85 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="card">
-        <div class="card-header card-header-danger">
-            <h4 class="card-title">Material Dashboard Heading</h4>
-            <p class="card-category">Created using Roboto Font Family</p>
+    <div class="card background-grey">
+        <div class="card-header card-header-blue">
+            <h4 class="card-title">Histórico</h4>
+            <p class="card-category">Lista de Pesquisas Recentes</p>
         </div>
         <div class="card-body">
             <div id="typography">
-                <div class="card-title">
-                    <h2>Typography</h2>
-                </div>
-                <div class="row">
-                    <div class="tim-typo">
-                        <h1>
-                            <span class="tim-note">Header 1</span>The Life of Material Dashboard </h1>
+                <mat-card>
+                    <div class="row">
+                        <mat-form-field>
+                            <mat-label>Buscar</mat-label>
+                            <input matInput (keyup)="applyFilter($event)">
+                        </mat-form-field>
+                        <div class="mat-elevation-z8">
+                            <table mat-table [dataSource]="data" matSort>
+                                <!--Pesquisa-->
+                                <ng-container matColumnDef="search">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Pesquisa</th>
+                                    <td mat-cell *matCellDef="let item;"> {{ item.pesquisa }} </td>
+                                </ng-container>
+
+                                <!--Nome-->
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+                                    <td mat-cell *matCellDef="let item;">{{ item.nome }}</td>
+                                </ng-container>
+
+                                <!--Questão-->
+                                <ng-container matColumnDef="question">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Pergunta</th>
+                                    <td mat-cell *matCellDef="let item;">{{ item.pergunta }}</td>
+                                </ng-container>
+
+                                <!--Nota-->
+                                <ng-container matColumnDef="rate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nota</th>
+                                    <td mat-cell *matCellDef="let item;">{{ item.nota }}</td>
+                                </ng-container>
+
+                                <!--Comentário-->
+                                <ng-container matColumnDef="note">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentários</th>
+                                    <td mat-cell *matCellDef="let item;">{{ item.comentario }}</td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" ></mat-paginator>
+
+                        </div>
+
+                        <!--<div class="col">
+                            <div class="matTables matShadow">
+                                <table mat-table [dataSource]="dataSourceCity" matSort #sortCity="matSort">
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cidade </th>
+                                        <td mat-cell *matCellDef="let element;"> {{element.name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="count">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Pesquisas </th>
+                                        <td mat-cell *matCellDef="let element;"> {{element.count}} </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumnsCity; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsCity;"></tr>
+                                </table>
+
+                                <mat-card *ngIf="matCityLoading">
+                                    <mat-card-content class="loading">
+                                        <mat-progress-spinner mode="indeterminate">
+                                        </mat-progress-spinner>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>-->
                     </div>
-                    <div class="tim-typo">
-                        <h2>
-                            <span class="tim-note">Header 2</span>The Life of Material Dashboard</h2>
-                    </div>
-                    <div class="tim-typo">
-                        <h3>
-                            <span class="tim-note">Header 3</span>The Life of Material Dashboard</h3>
-                    </div>
-                    <div class="tim-typo">
-                        <h4>
-                            <span class="tim-note">Header 4</span>The Life of Material Dashboard</h4>
-                    </div>
-                    <div class="tim-typo">
-                        <h5>
-                            <span class="tim-note">Header 5</span>The Life of Material Dashboard</h5>
-                    </div>
-                    <div class="tim-typo">
-                        <h6>
-                            <span class="tim-note">Header 6</span>The Life of Material Dashboard</h6>
-                    </div>
-                    <div class="tim-typo">
-                        <p>
-                            <span class="tim-note">Paragraph</span>
-                            I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.</p>
-                    </div>
-                    <div class="tim-typo">
-                        <span class="tim-note">Quote</span>
-                        <blockquote class="blockquote">
-                            <p>
-                                I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.
-                            </p>
-                            <small>
-                                Kanye West, Musician
-                            </small>
-                        </blockquote>
-                    </div>
-                    <div class="tim-typo">
-                        <span class="tim-note">Muted Text</span>
-                        <p class="text-muted">
-                            I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...
-                        </p>
-                    </div>
-                    <div class="tim-typo">
-                        <span class="tim-note">Primary Text</span>
-                        <p class="text-primary">
-                            I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-                    </div>
-                    <div class="tim-typo">
-                        <span class="tim-note">Info Text</span>
-                        <p class="text-info">
-                            I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-                    </div>
-                    <div class="tim-typo">
-                        <span class="tim-note">Success Text</span>
-                        <p class="text-success">
-                            I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-                    </div>
-                    <div class="tim-typo">
-                        <span class="tim-note">Warning Text</span>
-                        <p class="text-warning">
-                            I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...
-                        </p>
-                    </div>
-                    <div class="tim-typo">
-                        <span class="tim-note">Danger Text</span>
-                        <p class="text-danger">
-                            I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-                    </div>
-                    <div class="tim-typo">
-                        <h2>
-                            <span class="tim-note">Small Tag</span>
-                            Header with small subtitle
-                            <br>
-                            <small>Use "small" tag for the headers</small>
-                        </h2>
-                    </div>
-                </div>
+                </mat-card>
             </div>
         </div>
     </div>
