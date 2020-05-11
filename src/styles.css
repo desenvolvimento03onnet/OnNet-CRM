@@ -122,9 +122,17 @@
     transform: scale(0.97);
 }
 
-.loading{
+.loading {
     display: flex !important;
     justify-content: center;
     justify-items: center;
     padding: 5px;
+}
+
+.non-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
