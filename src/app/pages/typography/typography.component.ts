@@ -1,3 +1,5 @@
+import { Answer } from './../../models/Answer';
+import { AnswerService } from './../../services/answer.service';
 import { GlobalFunctions } from './../../global';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit } from '@angular/core';
@@ -10,33 +12,49 @@ import { Component, OnInit } from '@angular/core';
 export class TypographyComponent implements OnInit {
 
   constructor(
+    private answerService: AnswerService,
     private globalFunc: GlobalFunctions,
   ) { }
 
   ngOnInit() {
+    this.getAnswers()
   }
 
-  dados: Object[] = [
-    { pesquisa: 'Satisfação', nome: 'Vinícius Gomes Correia', pergunta: 'O atendente foi cordial e esclareceu todas as dúvidas?', nota: '5', comentario: 'Comentário'},
-    { pesquisa: 'Satisfação', nome: 'Vinícius Gomes Correia', pergunta: 'A data agendada foi cumprida?', nota: '5', comentario: 'Comentário'},
-    { pesquisa: 'Satisfação', nome: 'Vinícius Gomes Correia', pergunta: 'Em relação a funcionamento da internet, o técnico conferiu o sinal do wi-fi em seus equipamentos? Ex: Celular, Notebooks, Smart TV etc.', nota: '5', comentario: 'Comentário'},
-    { pesquisa: 'Verificação', nome: 'Eduardo Alcebíades', pergunta: 'O problema foi resolvido?', nota: '5', comentario: 'Comentário 2'},
-    { pesquisa: 'Verificação', nome: 'Eduardo Alcebíades', pergunta: 'O técnico ao finalizar a verificação da internet deixou o ambiente organizado?', nota: '5', comentario: 'Comentário 2'},
-    { pesquisa: 'Verificação', nome: 'Eduardo Alcebíades', pergunta: 'O técnico ao finalizar a verificação da internet deixou o ambiente organizado?', nota: '5', comentario: 'Comentário 2'},
-    { pesquisa: 'Verificação', nome: 'Eduardo Alcebíades', pergunta: 'O problema foi resolvido?', nota: '5', comentario: 'Comentário 2'},
-    { pesquisa: 'Verificação', nome: 'Eduardo Alcebíades', pergunta: 'O técnico ao finalizar a verificação da internet deixou o ambiente organizado?', nota: '5', comentario: 'Comentário 2'},
-    { pesquisa: 'Verificação', nome: 'Eduardo Alcebíades', pergunta: 'O técnico ao finalizar a verificação da internet deixou o ambiente organizado?', nota: '5', comentario: 'Comentário 2'}
-  ]
-
-  data = new MatTableDataSource(this.dados)
-
-  displayedColumns: string[] = ['search', 'name', 'question', 'rate', 'note']
+  answer: Answer[] = []
+  filterAnswerValue: string = ''
+  dataSourceAnswers = new MatTableDataSource([])
+  displayedColumns: string[] = ['search', 'name', 'question', 'rate', 'note', 'user', 'date']
 
   applyFilter(event: Event){
-    const padronize = this.globalFunc.padronize;
+    const padronize = this.globalFunc.padronize
 
     const filterValue = padronize((event.target as HTMLInputElement).value)
-    this.data.filter = filterValue.trim().toLowerCase()
+
+    this.filterAnswerValue = filterValue
+    this.dataSourceAnswers.data = this.answer.filter( function (answer) {
+      return ((padronize(answer.interview.client_name).indexOf(filterValue) != -1))
+    })
+  }
+
+  /*
+        this.filterUsersValue = filterValue;
+
+      this.dataSourceUsers.data = this.users.filter(function (user) {
+        return ((padronize(user.name).indexOf(filterValue) != -1)
+          || (padronize(user.username).indexOf(filterValue) != -1))
+          && (user.active == active);
+      })
+  */
+
+  getAnswers(){
+    this.answerService.get().subscribe(
+      answer => {
+        this.dataSourceAnswers.data = answer
+        console.log(this.dataSourceAnswers.data)
+      }, error => {
+        console.error(error)
+      }
+    )
   }
 
 }
