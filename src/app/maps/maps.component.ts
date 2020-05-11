@@ -1,4 +1,3 @@
-import { AnswerService } from './../services/answer.service';
 import { Interview } from './../models/Interview';
 import { InterviewService } from './../services/interview.service';
 import { SearchService } from './../services/search.service';
