@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <form [formGroup]='loginForm'>
+        <form [formGroup]='loginForm' class="non-select">
             <div class="input-group input-group-icon">
                 <input formControlName="username" type="text" placeholder="Usuário" />
                 <div class="input-icon"><i class="fa fa-user"></i></div>
@@ -28,14 +28,17 @@
                 <input formControlName="password" [type]=typeInput placeholder="Senha" />
                 <div class="input-icon"><i class="fa fa-lock"></i></div>
 
-                <div *ngIf=!passwordVisible class="input-icon-after"><i class="fa fa-eye-slash"
-                        (click)="showPassword()"></i></div>
-                <div *ngIf=passwordVisible class="input-icon-after"><i class="fa fa-eye" (click)="showPassword()"></i>
+                <div *ngIf=!passwordVisible class="input-icon-after">
+                    <mat-icon (click)="showPassword()">visibility_off</mat-icon>
+                </div>
+                <div *ngIf=passwordVisible class="input-icon-after">
+                    <mat-icon (click)="showPassword()">visibility</mat-icon>
                 </div>
             </div>
 
             <div class="input-group input-group-checkbox">
-                <input [checked]='rememberPasswd' type="checkbox" id="remember" name="remember" (change)="onChange($event)"/>
+                <input [checked]='rememberPasswd' type="checkbox" id="remember" name="remember"
+                    (change)="onChange($event)" />
                 <label for="remember">Lembrar-me</label>
             </div>
 

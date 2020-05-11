@@ -34,15 +34,6 @@
     width: 100%;
 }
 
-.card-login form {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
 .card-login h2 {
     font-size: 12pt;
     color: #8898aa;
@@ -119,10 +110,11 @@
     pointer-events: visible;
 }
 
-.input-icon-after i {
+.input-icon-after mat-icon {
     font-size: 16px;
     cursor: pointer;
     color: #5b666d;
+    margin: 16px 0 0;
 }
 
 .input-group-checkbox {
@@ -141,7 +133,7 @@
 
 .input-group-checkbox input + label:before {
     content: "\2713";
-    border: 1px solid #31c788;
+    border: 1px solid #aaaaaa;
     border-radius: 3px;
     width: 18px;
     height: 18px;
