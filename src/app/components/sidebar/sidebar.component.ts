@@ -24,11 +24,14 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
+  isMaster: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+
+    this.isMaster = sessionStorage.getItem('isMaster') == '1' ? true : false;
   }
   isMobileMenu() {
     if ($(window).width() > 991) {

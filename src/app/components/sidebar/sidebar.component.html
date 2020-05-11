@@ -1,7 +1,7 @@
 <div class="logo">
     <div class="simple-text">
         <div class="logo-img">
-            <img src="../../../assets/img/logo/logoHalfColorWhite.png"/>
+            <img src="../../../assets/img/logo/logoHalfColorWhite.png" />
         </div>
         OnNet CRM
     </div>
@@ -52,10 +52,46 @@
         </ul>
     </div>
     <ul class="nav">
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="material-icons">{{menuItem.icon}}</i>
-                <p>{{menuItem.title}}</p>
+        <li routerLinkActive="active" class="nav-item" *ngIf="isMaster">
+            <a class="nav-link" routerLink="/dashboard">
+                <i class="material-icons">dashboard</i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+        <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="/user-profile">
+                <i class="material-icons">person</i>
+                <p>Perfil de Usuário</p>
+            </a>
+        </li>
+        <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="/table-list">
+                <i class="material-icons">content_paste</i>
+                <p>Lista de tabelas</p>
+            </a>
+        </li>
+        <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="/typography">
+                <i class="material-icons">library_books</i>
+                <p>Tipográfico</p>
+            </a>
+        </li>
+        <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="/icons">
+                <i class="material-icons">bubble_chart</i>
+                <p>Ícones</p>
+            </a>
+        </li>
+        <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="/maps">
+                <i class="material-icons">question_answer</i>
+                <p>Pesquisas</p>
+            </a>
+        </li>
+        <li routerLinkActive="active" class="nav-item" *ngIf="isMaster">
+            <a class="nav-link" routerLink="/notifications">
+                <i class="material-icons">settings</i>
+                <p>Configurações</p>
             </a>
         </li>
     </ul>

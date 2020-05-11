@@ -1,3 +1,5 @@
+import { GlobalFunctions } from './../../global';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from './../../services/user.service';
 import { Permission } from './../../models/Permission';
 import { PermissionService } from './../../services/permission.service';
@@ -26,7 +28,9 @@ export class ModalPutUserComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: User,
     private dialogRef: MatDialogRef<ModalPutUserComponent>,
     private permissionService: PermissionService,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private globalFunc: GlobalFunctions
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +39,8 @@ export class ModalPutUserComponent implements OnInit {
         this.permissions = permissions;
       },
       err => {
+        this.globalFunc.showNotification("Não foi possível carregar as permissões", 2)
+
         console.log(err)
       });
 
@@ -76,15 +82,18 @@ export class ModalPutUserComponent implements OnInit {
 
   postUser() {
     if (!this.user.name || !this.user.username || !this.user.password || this.user.permission_id == 0)
-      alert("Preencha todos os campos");
+      this.snackBar.open('Preencha todos os campos', 'Fechar');
     else
       this.userService.post(this.user).subscribe(
         () => {
+          this.globalFunc.showNotification("Usuário criado com sucesso!", 1)
+
           this.dialogRef.close();
         },
         err => {
+          this.globalFunc.showNotification("Ocorreu um erro durante a criação", 3)
+
           console.log(err);
-          this.dialogRef.close();
         }
       );
   }
@@ -110,18 +119,17 @@ export class ModalPutUserComponent implements OnInit {
     if (JSON.stringify(userSubmit) != '{}') {
       this.userService.put(this.data.id, userSubmit).subscribe(
         () => {
+          this.globalFunc.showNotification("Usuário alterado com sucesso!", 1)
+
           this.dialogRef.close();
         },
         err => {
           console.log(err)
-          this.dialogRef.close();
+          this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 3)
         }
       );
     }
-    else {
-      alert("Nenhuma alteração realizada");
-      this.dialogRef.close();
-    }
-
+    else
+      this.snackBar.open('Nenhuma alteração realizada', 'Fechar', { duration: 1000 })
   }
 }

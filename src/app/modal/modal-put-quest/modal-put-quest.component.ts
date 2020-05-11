@@ -1,3 +1,5 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { GlobalFunctions } from './../../global';
 import { QuestService } from './../../services/quest.service';
 import { SearchQuestService } from './../../services/searchQuest.service';
 import { SearchService } from './../../services/search.service';
@@ -32,7 +34,9 @@ export class ModalPutQuestComponent implements OnInit {
     private dialogRef: MatDialogRef<ModalPutQuestComponent>,
     private questService: QuestService,
     private searchService: SearchService,
-    private searchQuestService: SearchQuestService
+    private searchQuestService: SearchQuestService,
+    private snackBar: MatSnackBar,
+    private globalFunc: GlobalFunctions
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +53,7 @@ export class ModalPutQuestComponent implements OnInit {
     if (this.data) {
       this.quest = {
         question: this.data.question,
-        active: this.data.active,
+        active: Boolean(this.data.active),
         searches: []
       }
     }
@@ -108,7 +112,7 @@ export class ModalPutQuestComponent implements OnInit {
 
   postQuest() {
     if (!this.quest.question)
-      alert("Insira a descrição da pergunta");
+      this.snackBar.open('Insira a descrição da pergunta', 'Fechar');
     else {
       let searches: Number[] = [];
 
@@ -118,13 +122,15 @@ export class ModalPutQuestComponent implements OnInit {
 
       this.quest.searches = searches;
 
-      console.log(this.quest);
-
       this.questService.post(this.quest).subscribe(
         () => {
+          this.globalFunc.showNotification("Pergunta criada com sucesso!", 1)
+
           this.dialogRef.close();
         },
         err => {
+          this.globalFunc.showNotification("Ocorreu um erro durante a criação", 3)
+
           console.log(err);
         }
       )
@@ -153,17 +159,19 @@ export class ModalPutQuestComponent implements OnInit {
     if (JSON.stringify(questSubmit) != '{}') {
       this.questService.put(this.data.id, questSubmit).subscribe(
         () => {
+          this.globalFunc.showNotification("Pergunta alterada com sucesso!", 1)
+
           this.dialogRef.close();
         },
         err => {
           console.log(err);
-          this.dialogRef.close();
+
+          this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 3)
         }
       )
     }
     else {
-      alert("Nenhuma mudança realizada");
-      this.dialogRef.close();
+      this.snackBar.open('Nenhuma alteração realizada', 'Fechar', { duration: 1000 })
     }
   }
 }

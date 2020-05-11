@@ -41,7 +41,7 @@ export class MapsComponent implements OnInit {
   }
 
   async getSearch() {
-    await this.searchService.get().subscribe(
+    await this.searchService.get('active=1').subscribe(
       success => {
         this.search = success
         console.log('Search:', this.search)
@@ -51,7 +51,7 @@ export class MapsComponent implements OnInit {
   }
 
   async getCity() {
-    await this.cityService.get().subscribe(
+    await this.cityService.get('active=1').subscribe(
       success => {
         this.city = success
         console.log(this.city)

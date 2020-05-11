@@ -1,3 +1,4 @@
+import { GlobalFunctions } from './../../global';
 import { SearchQuestService } from './../../services/searchQuest.service';
 import { Quest } from './../../models/Quest';
 import { QuestService } from './../../services/quest.service';
@@ -6,6 +7,7 @@ import { Search } from './../../models/Search';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface StoreSearch {
   type: String,
@@ -34,7 +36,9 @@ export class ModalPutSearchComponent implements OnInit {
     private dialogRef: MatDialogRef<ModalPutSearchComponent>,
     private searchService: SearchService,
     private questService: QuestService,
-    private searchQuestService: SearchQuestService
+    private searchQuestService: SearchQuestService,
+    private snackBar: MatSnackBar,
+    private globalFunc: GlobalFunctions
   ) { }
 
   ngOnInit(): void {
@@ -59,6 +63,8 @@ export class ModalPutSearchComponent implements OnInit {
           this.search.quests = this.questsId
         },
         err => {
+          this.globalFunc.showNotification("Não foi possível carregar as perguntas", 2)
+
           console.log(err);
         }
       )
@@ -76,7 +82,7 @@ export class ModalPutSearchComponent implements OnInit {
     if (this.data) {
       this.search = {
         type: this.data.type,
-        active: this.data.active,
+        active: Boolean(this.data.active),
         quests: []
       }
     }
@@ -104,7 +110,6 @@ export class ModalPutSearchComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<Quest[]>) {
-    console.log(event);
     moveItemInArray(this.questsInSearch, event.previousIndex, event.currentIndex);
   }
 
@@ -119,7 +124,7 @@ export class ModalPutSearchComponent implements OnInit {
 
   postSearch() {
     if (!this.search.type)
-      alert("Preencha o título da pesquisa")
+      this.snackBar.open('Preencha o título da pesquisa', 'Fechar');
     else {
       let quests: Number[] = [];
 
@@ -131,11 +136,14 @@ export class ModalPutSearchComponent implements OnInit {
 
       this.searchService.post(this.search).subscribe(
         () => {
+          this.globalFunc.showNotification("Pesquisa criada com sucesso!", 1)
+
           this.dialogRef.close();
         },
         err => {
+          this.globalFunc.showNotification("Ocorreu um erro durante a criação", 3)
+
           console.log(err);
-          this.dialogRef.close();
         }
       )
     }
@@ -163,17 +171,19 @@ export class ModalPutSearchComponent implements OnInit {
     if (JSON.stringify(searchSubmit) != '{}') {
       this.searchService.put(this.data.id, searchSubmit).subscribe(
         () => {
+          this.globalFunc.showNotification("Pesquisa alterada com sucesso!", 1)
+
           this.dialogRef.close();
         },
         err => {
           console.log(err);
-          this.dialogRef.close();
+          this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 3)
         }
       )
     }
-    else {
-      alert("Nenhuma mudança realizada");
-      this.dialogRef.close();
-    }
+    else
+      this.snackBar.open('Nenhuma alteração realizada', 'Fechar', {
+        duration: 1000,
+      })
   }
 }

@@ -6,21 +6,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AuthGuardService } from './guard/authGuard.service';
 
 const routes: Routes = [
-  {
-    path: 'teste',
-    component: TesteComponent
-  },
   {
     path: 'login',
     component: LoginComponent
   },
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  }, {
     path: '',
     component: AdminLayoutComponent,
     children: [{
