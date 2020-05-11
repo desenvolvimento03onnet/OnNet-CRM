@@ -59,8 +59,8 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
   getSearch() {
     this.searchService.getById(this.data.idSearch).subscribe(success => {
       this.search = success;
-      this.question = success[0]['quests'];
-      console.log(this.search);
+      console.log('CU',this.search);
+      this.question = success['quests'];
     }, error => {
       console.error(error);
     })

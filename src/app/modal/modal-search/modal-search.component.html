@@ -2,24 +2,19 @@
         <mat-card-title>
             {{ data.name }} | {{ data.city.name }}
             <div class="icon-close">
-                <img (click)="exit()" src="../../../assets/img/exit-door.png" alt="Fechar"/>
+                <img (click)="exit()" src="../../../assets/img/exit-door.png" alt="Fechar" />
             </div>
         </mat-card-title>
-        
+
         <mat-card-subtitle *ngIf="stepIndex.selectedIndex == 0">
-            Olá, <b>{{ data.greetings }}</b> meu nome é <b>{{ data.user }}</b> sou consultor de relacionamentos da OnNet Telecom e gostaria de fazer uma rápida pesquisa de satisfação com você, pois a sua opinião é muito importante para nós.
+            Olá, <b>{{ data.greetings }}</b> meu nome é <b>{{ data.user }}</b> sou consultor de relacionamentos da OnNet
+            Telecom e gostaria de fazer uma rápida pesquisa de satisfação com você, pois a sua opinião é muito
+            importante para nós.
         </mat-card-subtitle>
     </mat-card>
-    <mat-horizontal-stepper 
-        linear
-        #stepIndex
-        [ngClass]="{'without-greetings': stepIndex.selectedIndex != 0}"
-    >
+    <mat-horizontal-stepper linear #stepIndex [ngClass]="{'without-greetings': stepIndex.selectedIndex != 0}">
 
-        <mat-step
-            *ngFor="let item of question; let index = index;"
-            label="{{ setLabel(index) }}"
-        >
+        <mat-step *ngFor="let item of question; let index = index;" label="{{ setLabel(index) }}">
 
             <div class="container">
 
@@ -27,67 +22,58 @@
                     {{ item.question }}
                 </mat-label>
 
-                <div class="rate-one"   [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 1 ? 'inset 2px #ff0000' : ''}" (click)="setRate(1)" (click)="setRateBody(stepIndex)" >
+                <div class="rate-one"
+                    [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 1 ? 'inset 2px #ff0000' : ''}"
+                    (click)="setRate(1)" (click)="setRateBody(stepIndex)">
                     1
                 </div>
-                <div class="rate-two"   [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 2 ? 'inset 2px #ff5500' : ''}" (click)="setRate(2)" (click)="setRateBody(stepIndex)" >
+                <div class="rate-two"
+                    [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 2 ? 'inset 2px #ff5500' : ''}"
+                    (click)="setRate(2)" (click)="setRateBody(stepIndex)">
                     2
                 </div>
-                <div class="rate-three" [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 3 ? 'inset 2px #ff9d00' : ''}" (click)="setRate(3)" (click)="setRateBody(stepIndex)" >
+                <div class="rate-three"
+                    [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 3 ? 'inset 2px #ff9d00' : ''}"
+                    (click)="setRate(3)" (click)="setRateBody(stepIndex)">
                     3
                 </div>
-                <div class="rate-four"  [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 4 ? 'inset 2px #c3c900' : ''}" (click)="setRate(4)" (click)="setRateBody(stepIndex)" >
+                <div class="rate-four"
+                    [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 4 ? 'inset 2px #c3c900' : ''}"
+                    (click)="setRate(4)" (click)="setRateBody(stepIndex)">
                     4
                 </div>
-                <div class="rate-five"  [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 5 ? 'inset 2px #2fba00' : ''}" (click)="setRate(5)" (click)="setRateBody(stepIndex)" >
+                <div class="rate-five"
+                    [ngStyle]="{'border': rates[stepIndex.selectedIndex] === 5 ? 'inset 2px #2fba00' : ''}"
+                    (click)="setRate(5)" (click)="setRateBody(stepIndex)">
                     5
                 </div>
 
                 <div class="comment-area">
                     <mat-form-field>
                         <mat-placeholder>Comentário</mat-placeholder>
-                        <input
-                            type="text"
-                            matInput
-                            class="comment"
-                            [(ngModel)]="notes[stepIndex.selectedIndex]"
-                            autocomplete="off"
-                            value="{{ getNoteBody(stepIndex) }}"
-                        >
+                        <input type="text" matInput class="comment" [(ngModel)]="notes[stepIndex.selectedIndex]"
+                            autocomplete="off" value="{{ getNoteBody(stepIndex) }}">
                     </mat-form-field>
                 </div>
 
-                <button
-                    *ngIf="stepIndex.selectedIndex != 0"
-                    mat-button
-                    matStepperPrevious
-                    class="button-previous"
-                >Anterior
+                <button *ngIf="stepIndex.selectedIndex != 0" mat-button matStepperPrevious
+                    class="button-previous">Anterior
                 </button>
 
-                <button
-                    *ngIf="stepIndex.selectedIndex == question.length - 1"
-                    mat-button
-                    class="button-finish"
-                    (click)="send(stepIndex)"
-                >Finalizar
+                <button *ngIf="stepIndex.selectedIndex == question.length - 1" mat-button class="button-finish"
+                    (click)="send(stepIndex)">Finalizar
                 </button>
 
-                <button 
-                    *ngIf="stepIndex.selectedIndex != question.length - 1"
-                    mat-button
-                    class="button-next"
-                    (click)="setNoteBody(stepIndex)"
-                    [ngClass]="{'button-rate-one':   rate === 1,
+                <button *ngIf="stepIndex.selectedIndex != question.length - 1" mat-button class="button-next"
+                    (click)="setNoteBody(stepIndex)" [ngClass]="{'button-rate-one':   rate === 1,
                                 'button-rate-two':   rate === 2,
                                 'button-rate-three': rate === 3,
                                 'button-rate-four':  rate === 4,
-                                'button-rate-five':  rate === 5}"
-                >Próximo
+                                'button-rate-five':  rate === 5}">Próximo
                 </button>
 
             </div>
-        
+
         </mat-step>
 
         <ng-template matStepperIcon="edit">
