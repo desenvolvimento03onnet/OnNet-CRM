@@ -69,15 +69,29 @@ export class DashboardComponent implements OnInit {
     this.refresh();
   }
 
-  async refresh() {
+  refresh() {
     this.refreshMatTables().then(() => {
       this.matCityLoading = false;
       this.matUserLoading = false;
-    });
+    }).catch(err => {
+      this.matCityLoading = false;
+      this.matUserLoading = false;
+      
+      console.log(err);
+
+      this.globalFunc.showNotification("Não foi possível carregar o número de pesquisas", 2)
+    }
+    );
 
     this.refreshDataChart().then(() => {
       this.chartLoading = false;
-    })
+    }).catch(err => {
+      this.chartLoading = false;
+
+      console.log(err);
+
+      this.globalFunc.showNotification("Não foi possível carregar os gráficos de pesquisas", 2)
+    });
   }
 
   async refreshDataChart() {

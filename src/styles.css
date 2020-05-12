@@ -136,3 +136,9 @@
     -moz-user-select: none;
     -ms-user-select: none;
 }
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+    stroke-width: 2% !important;
+    stroke: cornflowerblue;
+}

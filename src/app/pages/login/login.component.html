@@ -1,4 +1,6 @@
 <div class="content">
+    <mat-spinner *ngIf="loading" class="loadingLogin"></mat-spinner>
+
     <div class="card-login">
         <div class="card-img">
             <img src="../../../assets/img/logo/logoMarcaHalfColor.png">
@@ -18,14 +20,21 @@
             </div>
         </div>
 
+        <div id="invalidLoginForm" class="invalidLogin">
+            <p>Nome de usuário ou senha inválidos</p>
+        </div>
+
         <form [formGroup]='loginForm' class="non-select">
+
             <div class="input-group input-group-icon">
-                <input formControlName="username" type="text" placeholder="Usuário" />
+                <input formControlName="username" type="text" placeholder="Usuário"
+                    (input)="displayLoginError(false)" />
                 <div class="input-icon"><i class="fa fa-user"></i></div>
             </div>
 
             <div class="input-group input-group-icon">
-                <input formControlName="password" [type]=typeInput placeholder="Senha" />
+                <input formControlName="password" [type]=typeInput placeholder="Senha"
+                    (input)="displayLoginError(false)" />
                 <div class="input-icon"><i class="fa fa-lock"></i></div>
 
                 <div *ngIf=!passwordVisible class="input-icon-after">

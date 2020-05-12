@@ -75,11 +75,15 @@ export class NotificationsComponent implements OnInit {
       users => {
         this.users = users;
         this.applyFilterUserActive(this.activeUsers);
-        
+
         this.userLoading = false
       },
       err => {
+        this.userLoading = false
+
         console.log(err);
+
+        this.globalFunc.showNotification("Não foi possível carregar os usuários", 2);
       });
   }
 
@@ -91,6 +95,8 @@ export class NotificationsComponent implements OnInit {
       },
       err => {
         console.log(err)
+
+        this.globalFunc.showNotification("Não foi possível carregar as pesquisas", 2);
       });
   }
 
@@ -102,6 +108,8 @@ export class NotificationsComponent implements OnInit {
       },
       err => {
         console.log(err);
+        
+        this.globalFunc.showNotification("Não foi possível carregar as perguntas", 2);
       }
     )
   }
@@ -111,6 +119,11 @@ export class NotificationsComponent implements OnInit {
       cities => {
         this.cities = cities;
         this.applyFilterCityActive(this.activeCities);
+      },
+      err => {
+        console.log(err);
+
+        this.globalFunc.showNotification("Não foi possível carregar as cidades", 2);
       }
     )
   }

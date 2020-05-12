@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
     mobile_menu_visible: any = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
+    private isMaster: boolean = false;
 
     constructor(
         location: Location,
@@ -25,6 +26,7 @@ export class NavbarComponent implements OnInit {
     ) {
         this.location = location;
         this.sidebarVisible = false;
+        this.isMaster = sessionStorage.getItem('isMaster') === '1' ? true : false;
     }
 
     ngOnInit() {

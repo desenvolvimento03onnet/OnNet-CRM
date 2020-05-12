@@ -130,6 +130,6 @@ export class ModalPutUserComponent implements OnInit {
       );
     }
     else
-      this.snackBar.open('Nenhuma alteração realizada', 'Fechar', { duration: 1000 })
+      this.snackBar.open('Nenhuma alteração realizada', 'Fechar', { duration: 2000 })
   }
 }
