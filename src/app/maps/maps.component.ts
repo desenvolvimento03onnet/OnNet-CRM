@@ -1,3 +1,4 @@
+import { UserService } from './../services/user.service';
 import { Interview } from './../models/Interview';
 import { InterviewService } from './../services/interview.service';
 import { SearchService } from './../services/search.service';
@@ -20,6 +21,7 @@ export class MapsComponent implements OnInit {
   city: Object[]
   citySelected: City
   interview: Interview
+  username: String = ''
 
   @ViewChild('idSearch') MatButtonToggleGroup
 
@@ -27,39 +29,32 @@ export class MapsComponent implements OnInit {
     private cityService: CityService,
     private searchService: SearchService,
     private interviewService: InterviewService,
+    private userService: UserService,
     private modal: MatDialog,
   ) { }
 
   ngOnInit() {
     this.getSearch()
     this.getCity()
+    this.getUser()
   }
 
   setStep(index: number) {
     this.step = index
   }
 
+  getSearch() {
+    this.searchService.get().subscribe(
   async getSearch() {
     await this.searchService.get('active=1').subscribe(
       success => {
         this.search = success
-        console.log('Search:', this.search)
       }, error => {
         console.error(error)
       })
   }
 
-  async getCity() {
-    await this.cityService.get('active=1').subscribe(
-      success => {
-        this.city = success
-        console.log(this.city)
-      }, error => {
-        console.error(error)
-      })
-  }
-
-  async openSearch(searchId: number) {
+  openSearch(searchId: number) {
     if (this.name && this.citySelected) {
 
       const body = {
@@ -70,9 +65,8 @@ export class MapsComponent implements OnInit {
       }
 
       //Criar Interview
-      await this.interviewService.post(body).subscribe(
+      this.interviewService.post(body).subscribe(
         success => {
-          console.log('Interview criada: ', success)
           this.interview = success
 
           this.modal.open(ModalSearchComponent, {
@@ -84,7 +78,7 @@ export class MapsComponent implements OnInit {
               name: this.name,
               city: this.citySelected,
               greetings: this.setGreetings(),
-              user: this.getUser(),
+              user: this.username.substring(0, this.username.search(' ')),
               idSearch: searchId,
               interview: this.interview
             }
@@ -103,10 +97,14 @@ export class MapsComponent implements OnInit {
   }
 
   getUser() {
-    window.sessionStorage.setItem('username', 'Goku Son')
-    var username: string = window.sessionStorage.getItem('username')
+    const id:number = parseInt(window.sessionStorage.getItem('userId'))
 
-    return username.substring(0, username.search(' '))
+    this.userService.getById(id).subscribe(
+      success => {
+        this.username = success['name']
+      }, error => {
+        console.error(error)
+      })
   }
 
   setGreetings() {

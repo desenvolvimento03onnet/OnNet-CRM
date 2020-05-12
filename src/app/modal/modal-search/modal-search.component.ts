@@ -27,21 +27,21 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
   answer: Answer[]
   idAnswer = []
 
-  body: Object = { 
-    rate: Number, 
+  body: Object = {
+    rate: Number,
     note: String
   }
 
   @ViewChild('stepIndex') stepIndex
   @ViewChild('index') index
-  
+
   constructor(
     private searchService: SearchService,
     private answerService: AnswerService,
     private interviewService: InterviewService,
     private modal: MatDialog,
     private modalRef: MatDialogRef<ModalSearchComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {  }
+  ) { }
 
   ngOnInit(): void {
     this.getSearch()
@@ -59,7 +59,7 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
   getSearch() {
     this.searchService.getById(this.data.idSearch).subscribe(success => {
       this.search = success;
-      console.log('CU',this.search);
+      console.log('CU', this.search);
       this.question = success['quests'];
     }, error => {
       console.error(error);
@@ -82,7 +82,7 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
 
   send(stepper: MatStepper) {
 
-    if(this.rates[stepper.selectedIndex]) {
+    if (this.rates[stepper.selectedIndex]) {
       this.notes.push(this.note)
       this.rates.push(this.rate)
 
@@ -126,7 +126,7 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
   }
 
   setLabel(index) {
-    if(this.rates[index] != undefined) {
+    if (this.rates[index] != undefined) {
       return `Nota: ${this.rates[index]}`
     } else {
       return `Pergunta`
@@ -135,15 +135,15 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
 
   setNoteBody(stepper: MatStepper) {
 
-      this.notes.fill(this.notes[stepper.selectedIndex], stepper.selectedIndex, stepper.selectedIndex + 1)
+    this.notes.fill(this.notes[stepper.selectedIndex], stepper.selectedIndex, stepper.selectedIndex + 1)
 
-      console.log('this.notes', this.notes)
+    console.log('this.notes', this.notes)
 
-      if(this.rates[stepper.selectedIndex] != undefined){
-        stepper.next()
-      } else {
-        alert('Insira uma nota')
-      }
+    if (this.rates[stepper.selectedIndex] != undefined) {
+      stepper.next()
+    } else {
+      alert('Insira uma nota')
+    }
 
   }
 
@@ -156,21 +156,21 @@ export class ModalSearchComponent implements OnInit, OnDestroy {
   }
 
   setRateBody(stepper: MatStepper) {
-    if(this.rate != 0) {
-      if(!this.rates[stepper.selectedIndex]){
+    if (this.rate != 0) {
+      if (!this.rates[stepper.selectedIndex]) {
         this.rates.push(this.rate)
         console.log(this.rates)
       }
-      if(this.rates[stepper.selectedIndex]){
+      if (this.rates[stepper.selectedIndex]) {
         this.rates.fill(this.rate, stepper.selectedIndex, stepper.selectedIndex + 1)
         console.log(this.rates)
       }
     }
-    
+
     this.rate = 0
   }
 
-  getRate(stepper: MatStepper){
+  getRate(stepper: MatStepper) {
     return this.rates[stepper.selectedIndex]
   }
 
