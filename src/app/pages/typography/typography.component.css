@@ -1,3 +1,11 @@
 table{
     width: 100%;
 }
+mat-form-field{
+    padding-left: 22px;
+    padding-top: 22px;
+}
+/*Não funfa*/
+.pergunta, .detalhado, .geral{
+    overflow-x: hidden;
+}
