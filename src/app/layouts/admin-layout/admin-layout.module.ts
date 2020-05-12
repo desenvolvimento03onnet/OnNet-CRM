@@ -1,3 +1,4 @@
+import { AuthGuardService } from '../../guard/authGuard.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -46,6 +47,7 @@ import { MatRippleModule, MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { PermissionGuardService } from 'app/guard/permissionGuard.service';
 
 @NgModule({
   imports: [
@@ -108,7 +110,8 @@ import { MatSelectModule } from '@angular/material/select';
     CUSTOM_ELEMENTS_SCHEMA
   ],
   providers: [
-    UserService
+    AuthGuardService,
+    PermissionGuardService
   ]
 })
 

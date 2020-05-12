@@ -1,3 +1,4 @@
+import { PermissionGuardService } from './../../guard/permissionGuard.service';
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
@@ -7,6 +8,7 @@ import { TypographyComponent } from '../../pages/typography/typography.component
 import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
+import { AuthGuardService } from 'app/guard/authGuard.service';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -46,11 +48,11 @@ export const AdminLayoutRoutes: Routes = [
     //     }]
     // }
 
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'user-profile', component: UserProfileComponent },
-    { path: 'table-list', component: TableListComponent },
-    { path: 'typography', component: TypographyComponent },
-    { path: 'icons', component: IconsComponent },
-    { path: 'maps', component: MapsComponent },
-    { path: 'notifications', component: NotificationsComponent },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService, PermissionGuardService] },
+    { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuardService] },
+    { path: 'table-list', component: TableListComponent, canActivate: [AuthGuardService] },
+    { path: 'typography', component: TypographyComponent, canActivate: [AuthGuardService] },
+    { path: 'icons', component: IconsComponent, canActivate: [AuthGuardService] },
+    { path: 'maps', component: MapsComponent, canActivate: [AuthGuardService] },
+    { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuardService, PermissionGuardService] },
 ];

@@ -77,6 +77,9 @@ export class LoginComponent implements OnInit {
 
         sessionStorage.setItem('userId', user[0].id.toString());
 
+        if (user[0].permission_id < 3)
+          sessionStorage.setItem('isMaster', '1');
+
         if (rememberLogin.checked)
           localStorage.setItem('username', loginFormValue.username)
 

@@ -13,8 +13,20 @@ export class CityService {
         this.baseUrl = globalVar.baseURL + '/city';
     }
 
-    get(): Observable<City[]> {
-        return this.http.get<City[]>(this.baseUrl);
+    get(...params: String[]): Observable<City[]> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
+        return this.http.get<City[]>(this.baseUrl + urlParams);
     }
 
     getById(id: Number): Observable<City> {

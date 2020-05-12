@@ -1,3 +1,4 @@
+import { AuthGuardService } from './guard/authGuard.service';
 import { AuthService } from './services/auth.service';
 import { SearchQuestService } from './services/searchQuest.service';
 import { PermissionService } from './services/permission.service';
@@ -164,6 +165,7 @@ import { ModalPutPasswordComponent } from './modal/modal-put-password/modal-put-
     GlobalFunctions,
     AnswerService,
     AuthService,
+    AuthGuardService,
     CityService,
     InterviewService,
     PermissionService,

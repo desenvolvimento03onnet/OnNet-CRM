@@ -54,6 +54,8 @@ export class DashboardComponent implements OnInit {
   private matCityLoading = true;
   private matUserLoading = true;
 
+  private totalInterviews: Number = 0;
+
   constructor(
     private globalFunc: GlobalFunctions,
     private interviewService: InterviewService,
@@ -93,6 +95,8 @@ export class DashboardComponent implements OnInit {
   async loadMatTables() {
     const dataUser = await this.interviewService.groupByUser('active=1').toPromise();
     const dataCity = await this.interviewService.groupByCity('active=1').toPromise();
+
+    this.totalInterviews = dataCity.map(c => c.count).reduce((acc, value: any) => acc + value, 0);
 
     this.dataSourceUser = new MatTableDataSource(dataUser);
     this.dataSourceCity = new MatTableDataSource(dataCity);

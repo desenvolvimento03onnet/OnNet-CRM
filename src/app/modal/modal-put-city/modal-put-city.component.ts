@@ -1,3 +1,5 @@
+import { GlobalFunctions } from './../../global';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CityService } from './../../services/city.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { City } from './../../models/City';
@@ -20,7 +22,9 @@ export class ModalPutCityComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: City,
     private dialogRef: MatDialogRef<ModalPutCityComponent>,
-    private cityService: CityService
+    private cityService: CityService,
+    private snackBar: MatSnackBar,
+    private globalFunc: GlobalFunctions
   ) { }
 
   ngOnInit(): void {
@@ -56,15 +60,18 @@ export class ModalPutCityComponent implements OnInit {
 
   postCity() {
     if (!this.city.name.trim())
-      alert("Preencha o nome da cidade");
+      this.snackBar.open('Preencha o nome da cidade', 'Fechar');
     else
       this.cityService.post(this.city).subscribe(
         () => {
+          this.globalFunc.showNotification("Cidade criada com sucesso!", 1)
+
           this.dialogRef.close();
         },
         err => {
+          this.globalFunc.showNotification("Ocorreu um erro durante a criação", 3)
+
           console.log(err);
-          this.dialogRef.close();
         }
       )
   }
@@ -81,17 +88,18 @@ export class ModalPutCityComponent implements OnInit {
     if (JSON.stringify(citySubmit) != '{}') {
       this.cityService.put(this.data.id, citySubmit).subscribe(
         () => {
+          this.globalFunc.showNotification("Cidade alterada com sucesso!", 1)
+
           this.dialogRef.close();
         },
         err => {
+          this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 3)
+
           console.log(err)
-          this.dialogRef.close();
         }
       )
     }
-    else {
-      alert("Nenhuma alteração realizada");
-      this.dialogRef.close();
-    }
+    else
+      this.snackBar.open('Nenhuma alteração realizada', 'Fechar', { duration: 1000 })
   }
 }

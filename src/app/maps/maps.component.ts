@@ -45,18 +45,10 @@ export class MapsComponent implements OnInit {
 
   getSearch() {
     this.searchService.get().subscribe(
+  async getSearch() {
+    await this.searchService.get('active=1').subscribe(
       success => {
         this.search = success
-      }, error => {
-        console.error(error)
-      })
-  }
-
-  getCity() {
-    this.cityService.get().subscribe(
-      success => {
-        this.city = success
-        console.log(this.city)
       }, error => {
         console.error(error)
       })
