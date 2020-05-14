@@ -2,10 +2,19 @@ table{
     width: 100%;
 }
 mat-form-field{
-    padding-left: 22px;
-    padding-top: 22px;
+    padding: 10px;
 }
 /*Não funfa*/
 .pergunta, .detalhado, .geral{
     overflow-x: hidden;
+}
+
+.radio-group {
+    display: flex;
+    float: right;
+}
+
+.radio-button {
+    padding: 1px;
+    margin: 7px;
 }
