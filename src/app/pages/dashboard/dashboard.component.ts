@@ -148,7 +148,7 @@ export class DashboardComponent implements OnInit {
             type: 'bar',
             options: chartQuestions.options,
             data: {
-              labels: ["Nota 5", "Nota 4", "Nota 3", "Nota 2", "Nota 1"],
+              labels: ["Nota 1", "Nota 2", "Nota 3", "Nota 4", "Nota 5"],
               datasets: [
                 {
                   label: quest.label,
@@ -179,7 +179,7 @@ export class DashboardComponent implements OnInit {
       })
 
       answersByQuest[i].rates.forEach(element => {
-        dataCharts[i].values[4 - (element.rate - 1)] = parseInt(element.count);
+        dataCharts[i].values[element.rate - 1] = parseInt(element.count);
       });
     }
 

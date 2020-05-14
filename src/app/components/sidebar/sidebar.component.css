@@ -6,3 +6,7 @@
 .sideba .nav p {
     color: #fff;
 }
+
+.dropdown-item{
+    color: #fff !important;
+}

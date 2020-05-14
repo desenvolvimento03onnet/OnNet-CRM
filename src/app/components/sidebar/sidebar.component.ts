@@ -1,3 +1,6 @@
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ModalPutPasswordComponent } from './../../modal/modal-put-password/modal-put-password.component';
 import { Component, OnInit } from '@angular/core';
 
 declare const $: any;
@@ -26,7 +29,7 @@ export class SidebarComponent implements OnInit {
   menuItems: any[];
   isMaster: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router, private modal: MatDialog) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
@@ -38,5 +41,26 @@ export class SidebarComponent implements OnInit {
       return false;
     }
     return true;
+  };
+
+
+
+  changePassword() {
+    this.sidebarClose()
+    this.modal.open(ModalPutPasswordComponent, {
+      width: '500px',
+      height: '400px',
+      autoFocus: true,
+    })
+  }
+
+  logout() {
+    sessionStorage.removeItem('bearerToken');
+    this.router.navigateByUrl('/login');
+  }
+
+  sidebarClose() {
+    const body = document.getElementsByTagName('body')[0];
+    body.classList.remove('nav-open');
   };
 }

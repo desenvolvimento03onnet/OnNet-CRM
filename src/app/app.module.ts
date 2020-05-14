@@ -21,19 +21,11 @@ import { ComponentsModule } from './components/components.module';
 
 import { AppComponent } from './app.component';
 
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
-import { TableListComponent } from './pages/table-list/table-list.component';
-import { TypographyComponent } from './pages/typography/typography.component';
-import { IconsComponent } from './icons/icons.component';
-import { MapsComponent } from './maps/maps.component';
-import { NotificationsComponent } from './pages/notifications/notifications.component';
 import {
   AgmCoreModule
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './pages/login/login.component';
-import { TesteComponent } from './pages/teste/teste.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -83,7 +75,6 @@ import { ModalPutUserComponent } from './modal/modal-put-user/modal-put-user.com
 import { ModalPutSearchComponent } from './modal/modal-put-search/modal-put-search.component';
 import { ModalPutQuestComponent } from './modal/modal-put-quest/modal-put-quest.component';
 import { ModalPutCityComponent } from './modal/modal-put-city/modal-put-city.component';
-import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.component';
 import { ModalPutPasswordComponent } from './modal/modal-put-password/modal-put-password.component';
 
 @NgModule({
@@ -146,13 +137,11 @@ import { ModalPutPasswordComponent } from './modal/modal-put-password/modal-put-
     AppComponent,
     AdminLayoutComponent,
     LoginComponent,
-    TesteComponent,
     ModalSearchComponent,
     ModalPutUserComponent,
     ModalPutSearchComponent,
     ModalPutQuestComponent,
     ModalPutCityComponent,
-    ModalConfirmComponent,
     ModalPutPasswordComponent
   ],
   providers: [

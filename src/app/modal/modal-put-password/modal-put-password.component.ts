@@ -1,3 +1,5 @@
+import { GlobalFunctions } from './../../global';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from './../../services/auth.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -29,7 +31,9 @@ export class ModalPutPasswordComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<ModalPutPasswordComponent>
+    private dialogRef: MatDialogRef<ModalPutPasswordComponent>,
+    private snackBar: MatSnackBar,
+    private globalFunc: GlobalFunctions
   ) { }
 
   ngOnInit(): void {
@@ -48,13 +52,13 @@ export class ModalPutPasswordComponent implements OnInit {
     const user = await this.userService.getById(parseInt(sessionStorage.getItem('userId'))).toPromise();
 
     if (!passwdFormValue.currentPasswd)
-      alert('Preencha a senha atual');
+      this.snackBar.open('Preencha a senha atual', 'Fechar', { duration: 2000 })
 
     else if (!passwdFormValue.newPasswd)
-      alert('Preencha a nova senha');
+      this.snackBar.open('Preencha a nova senha', 'Fechar', { duration: 2000 })
 
     else if (!passwdFormValue.confirmPasswd)
-      alert('Confirme a senha')
+      this.snackBar.open('Confirme a senha', 'Fechar', { duration: 2000 })
 
     else {
       this.authService.getToken({ username: user.username, password: passwdFormValue.currentPasswd })
@@ -64,14 +68,17 @@ export class ModalPutPasswordComponent implements OnInit {
               this.putPasswd(user.id, passwdFormValue.confirmPasswd);
 
             else
-              alert('As senhas não coincidem')
+              this.snackBar.open('As senhas não coincidem', 'Fechar', { duration: 2000 })
           },
           err => {
             if (err.status === 401)
-              alert('Senha atual inválida')
+              this.snackBar.open('Senha atual inválida', 'Fechar', { duration: 2000 })
 
-            else
+            else {
+              this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 1)
+
               console.log(err);
+            }
           }
         )
     }
@@ -80,11 +87,13 @@ export class ModalPutPasswordComponent implements OnInit {
   putPasswd(id: Number, password: String) {
     this.userService.put(id, { password: password }).subscribe(
       () => {
-        alert('Senha alterada');
+        this.globalFunc.showNotification("Senha alterada com sucesso!", 1)
 
         this.dialogRef.close();
       },
       err => {
+        this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 1)
+
         console.log(err);
       }
     );

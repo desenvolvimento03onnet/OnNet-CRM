@@ -1,3 +1,5 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { GlobalFunctions } from './../global';
 import { UserService } from './../services/user.service';
 import { Interview } from './../models/Interview';
 import { InterviewService } from './../services/interview.service';
@@ -31,9 +33,15 @@ export class MapsComponent implements OnInit {
     private interviewService: InterviewService,
     private userService: UserService,
     private modal: MatDialog,
+    private globalFunc: GlobalFunctions,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
+    this.refresh();
+  }
+
+  refresh() {
     this.getSearch()
     this.getCity()
     this.getUser()
@@ -48,64 +56,25 @@ export class MapsComponent implements OnInit {
       success => {
         this.search = success
       }, error => {
+        this.globalFunc.showNotification("Não foi possível carregar as pesquisas", 2)
+
         console.error(error)
       })
   }
 
-  async getCity() {
-    await this.cityService.get('active=1').subscribe(
+  getCity() {
+    this.cityService.get('active=1').subscribe(
       success => {
         this.city = success
-        console.log(this.city)
       }, error => {
+        this.globalFunc.showNotification("Não foi possível carregar as cidades", 2)
+
         console.error(error)
       })
-  }
-
-  openSearch(searchId: number) {
-    if (this.name && this.citySelected) {
-
-      const body = {
-        client_name: this.name,
-        interview_date: '2020-04-30',
-        city_id: this.citySelected.id,
-        search_id: searchId
-      }
-
-      //Criar Interview
-      this.interviewService.post(body).subscribe(
-        success => {
-          this.interview = success
-
-          this.modal.open(ModalSearchComponent, {
-            width: '93%',
-            height: '89%',
-            disableClose: true,
-            autoFocus: true,
-            data: {
-              name: this.name,
-              city: this.citySelected,
-              greetings: this.setGreetings(),
-              user: this.username.substring(0, this.username.search(' ')),
-              idSearch: searchId,
-              interview: this.interview
-            }
-          }).beforeClosed().subscribe(() => {
-            this.interviewService.put(success.id, { finished: true });
-          })
-
-        }, error => {
-          console.error('Error', error)
-        })
-    }
-
-    else {
-      alert('Insira o valor correto')
-    }
   }
 
   getUser() {
-    const id:number = parseInt(window.sessionStorage.getItem('userId'))
+    const id: number = parseInt(window.sessionStorage.getItem('userId'))
 
     this.userService.getById(id).subscribe(
       success => {
@@ -115,8 +84,44 @@ export class MapsComponent implements OnInit {
       })
   }
 
-  setGreetings() {
+  openSearch(searchId: number) {
+    if (!this.name)
+      this.snackBar.open('Preencha o nome do cliente', 'Fechar');
 
+    else if (!this.citySelected)
+      this.snackBar.open('Preencha a cidade', 'Fechar');
+
+    else {
+      const body = {
+        client_name: this.name,
+        city: this.citySelected,
+        search_id: searchId
+      }
+
+      this.modal.open(ModalSearchComponent, {
+        width: '93%',
+        height: '89%',
+        disableClose: true,
+        autoFocus: true,
+        data: {
+          interview: body,
+          user: this.username.substring(0, this.username.search(' ')),
+          greetings: this.setGreetings()
+        }
+      })
+
+      // //Criar Interview
+      // this.interviewService.post(body).subscribe(
+      //   success => {
+      //     this.interview = success
+
+      //   }, error => {
+      //     console.error('Error', error)
+      //   })
+    }
+  }
+
+  setGreetings() {
     var hours = new Date().getHours()
 
     if (hours >= 6 && hours < 12) {
