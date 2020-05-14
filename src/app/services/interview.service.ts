@@ -30,6 +30,10 @@ export class InterviewService {
         return this.http.get<Interview>(this.baseUrl + urlParams);
     }
 
+    getHisotry(...params: String[]): Observable<Interview> {
+        return this.http.get<Interview>(this.baseUrl + params);
+    }
+
     getById(id: Number): Observable<Interview> {
         return this.http.get<Interview>(this.baseUrl + '/' + id);
     }

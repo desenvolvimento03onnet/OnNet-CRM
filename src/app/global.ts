@@ -10,6 +10,9 @@ export class GlobalVariables {
 export class GlobalFunctions {
 
     padronize(text: string | String) {
+        if(!text){
+            return ''
+        }
         return text.toLowerCase().normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z\s])/g, '')
     }
 

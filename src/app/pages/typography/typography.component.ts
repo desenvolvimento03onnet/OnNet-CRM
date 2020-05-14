@@ -1,3 +1,5 @@
+import { HistoryAll } from './../../models/HistoryAll';
+import { Interview } from './../../models/Interview';
 import { InterviewService } from './../../services/interview.service';
 import { MatSort } from '@angular/material/sort';
 import { Answer } from './../../models/Answer';
@@ -5,25 +7,38 @@ import { AnswerService } from './../../services/answer.service';
 import { GlobalFunctions } from './../../global';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+
+declare interface Paginator{
+  total: Number,
+  perPage: Number,
+  page: Number,
+  lastPage: Number,
+  data: Array<Object>
+}
 
 @Component({
   selector: 'app-typography',
   templateUrl: './typography.component.html',
-  styleUrls: ['./typography.component.css']
+  styleUrls: ['./typography.component.css'],
 })
 export class TypographyComponent implements OnInit {
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort
+  @ViewChild('sortAnswer', { static: true }) private sortAnswer: MatSort
 
   answer: Answer[] = []
   filterAnswerValue: string = ''
   dataSourceAnswers = new MatTableDataSource([])
-  displayedColumnsAnswer: string[] = ['search', 'name', 'question', 'rate', 'note', 'user', 'date']
+  displayedColumnsAnswer: string[] = ['search', 'name', 'question', 'rate', 'note', 'city', 'user', 'date']
 
-  interview: any
+  historyAll: HistoryAll[] = []
   filterSearchValue: string = ''
-  dataSourceInterview = new MatTableDataSource([])
-  displayedColumnsSearch: string[] = ['search', 'average']
+  dataSourceHistoryAll = new MatTableDataSource([])
+  displayedColumnsHistoryAll: string[] = ['search', 'name', 'question', 'rate', 'note', 'city', 'user', 'date']
+
+  type: string = 'client'
+
+  minDate = new Date(2020, 4, 14)
 
   constructor(
     private answerService: AnswerService,
@@ -32,55 +47,107 @@ export class TypographyComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.getAnswers()
-    this.dataSourceAnswers.sort = this.sort
+    this.dataSourceAnswers.sort = this.sortAnswer
+    this.getInterviewAll()
   }
 
-  applyFilter(event: Event) {
-    const padronize = this.globalFunc.padronize
-    const filterValue = padronize((event.target as HTMLInputElement).value)
-    this.filterAnswerValue = filterValue
+  dateFilter
 
-    console.log(this.answer)
-    this.dataSourceAnswers.data = this.answer.filter(function (answer) {
-      return (padronize(answer.note).indexOf(filterValue) != -1)
+  logar(){
+    const convert = this.globalFunc.dataConverter
+    console.log(convert(this.dateFilter))
+  }
+
+  applyFilter(filterValue: string) {
+
+    switch(this.type){
+      case 'city':
+        this.filterCity(filterValue)
+        break;
+      case 'client':
+        this.filterClient(filterValue)
+        break;
+      case 'quest':
+        this.filterQuest(filterValue)
+        break;
+      case 'note':
+        this.filterNote(filterValue)
+        break;
+      case 'user':
+        this.filterUser(filterValue)
+        break;
+      case 'search':
+        this.filterDate(filterValue)
+        break;
+    }
+    //this.dataSourceAnswers.filter = //filterValue.trim().toLowerCase()
+  }
+
+  setFilter(type: string){
+    this.type = type
+  }
+
+  filterCity(value: string){
+    const padronize = this.globalFunc.padronize
+
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      return (padronize(historyAll.city).indexOf(value) != -1)
     })
   }
 
-  /*
-      const padronize = this.globalFunc.padronize;
+  filterClient(value: string){
+    const padronize = this.globalFunc.padronize
 
-      const filterValue = padronize((event.target as HTMLInputElement).value);
-      const active = this.activeUsers;
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      console.log(historyAll.updated_at)
+      return (padronize(historyAll.client_name).indexOf(value) != -1)
+    })
+  }
 
-      this.filterUsersValue = filterValue;
+  filterQuest(value: string){
+    const padronize = this.globalFunc.padronize
 
-      this.dataSourceUsers.data = this.users.filter(function (user) {
-        return ((padronize(user.name).indexOf(filterValue) != -1)
-          || (padronize(user.username).indexOf(filterValue) != -1))
-          && (user.active == active);
-      })
-  */
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      return (padronize(historyAll.question).indexOf(value) != -1)
+    })
+  }
 
-  getAnswers() {
-    this.answerService.get().subscribe(
-      answer => {
-        this.answer = answer
-        this.dataSourceAnswers.data = answer
+  filterNote(value: string){
+    const padronize = this.globalFunc.padronize
+
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      return (padronize(historyAll.note).indexOf(value) != -1)
+    })
+  }
+
+  filterUser(value: string){
+    const padronize = this.globalFunc.padronize
+
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      return (padronize(historyAll.user).indexOf(value) != -1)
+    })
+  }
+
+  filterDate(value: string){
+    const padronize = this.globalFunc.padronize
+
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      return (padronize(historyAll.search).indexOf(value) != -1)
+    })
+  }
+
+  getInterviewAll() {
+    this.interviewService.getHisotry('/historic/all').subscribe(
+      success => {
+        this.historyAll = success['data']
+        this.dataSourceHistoryAll.data = this.historyAll
+        console.log(success['data'])
       }, error => {
         console.error(error)
       })
   }
 
-  getAnswer() {
-    this.interviewService.get().subscribe(
-      interview => {
-        this.interview = interview
-        this.dataSourceInterview.data = this.interview
-        console.log(this.interview)
-      }, error => {
-        console.error(error)
-      })
-  }
+  paginator: Paginator
+  
 
 }
