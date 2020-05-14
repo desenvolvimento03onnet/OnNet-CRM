@@ -24,9 +24,9 @@
 
             <label for="inQuest">Pesquisas vinculadas </label>
             <div id="inQuest" class="tableContent">
-                <div class="box" *ngFor="let search of searchesInQuest">
+                <div class="box" *ngFor="let search of searchesInQuest" [ngClass]="{'unclick': !quest.active}">
                     {{search.type}}
-                    <mat-icon class="btnAdd" (click)="removeSearch(search)">remove_circle</mat-icon>
+                    <mat-icon *ngIf="quest.active" class="btnAdd" (click)="removeSearch(search)">remove_circle</mat-icon>
                 </div>
 
                 <div class="noContent" *ngIf="searchesInQuest.length == 0 && !questsInLoading">
@@ -43,9 +43,9 @@
 
             <label for="outQuest">Outras Pesquisas</label>
             <div id="outQuest" class="tableContent">
-                <div class="box" *ngFor="let search of searchesOutQuest">
+                <div class="box" *ngFor="let search of searchesOutQuest" [ngClass]="{'unclick': !quest.active}">
                     {{search.type}}
-                    <mat-icon class="btnAdd" (click)="addSearch(search)">add_circle</mat-icon>
+                    <mat-icon *ngIf="quest.active" class="btnAdd" (click)="addSearch(search)">add_circle</mat-icon>
                 </div>
 
                 <div class="noContent" *ngIf="searchesOutQuest.length == 0 && !questsOutLoading">

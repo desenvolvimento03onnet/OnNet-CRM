@@ -24,9 +24,10 @@
 
             <label for="inSearch">Perguntas da Pesquisa</label>
             <div id="inSearch" cdkDropList class="tableContent" (cdkDropListDropped)="drop($event)">
-                <div class="box move" *ngFor="let quest of questsInSearch" cdkDrag cdkDragBoundary=".tableContent">
+                <div class="box move" *ngFor="let quest of questsInSearch" cdkDrag [cdkDragDisabled]="!search.active"
+                    cdkDragBoundary=".tableContent" [ngClass]="{'unclick': !search.active}">
                     {{quest.question}}
-                    <mat-icon class="btnAdd" (click)="removeQuest(quest)">remove_circle</mat-icon>
+                    <mat-icon *ngIf="search.active" class="btnAdd" (click)="removeQuest(quest)">remove_circle</mat-icon>
                 </div>
 
                 <div class="noContent" *ngIf="questsInSearch.length == 0 && !questsInLoading">
@@ -43,9 +44,9 @@
 
             <label for="outSearch">Outras Perguntas</label>
             <div id="outSearch" class="tableContent">
-                <div class="box" *ngFor="let quest of questsOutSearch">
+                <div class="box" *ngFor="let quest of questsOutSearch" [ngClass]="{'unclick': !search.active}">
                     {{quest.question}}
-                    <mat-icon class="btnAdd" (click)="addQuest(quest)">add_circle</mat-icon>
+                    <mat-icon *ngIf="search.active" class=" btnAdd" (click)="addQuest(quest)">add_circle</mat-icon>
                 </div>
 
                 <div class="noContent" *ngIf="questsOutSearch.length == 0 && !questsOutLoading">

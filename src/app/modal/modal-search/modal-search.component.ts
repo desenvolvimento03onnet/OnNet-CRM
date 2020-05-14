@@ -50,7 +50,7 @@ export class ModalSearchComponent implements OnInit {
   }
 
   getQuests() {
-    this.searchQuestService.getBySearch(this.data.interview.search_id, 'active=1').subscribe(
+    this.searchQuestService.getBySearch(this.data.interview.search_id).subscribe(
       searchQuests => {
         searchQuests.forEach(searchQuest => {
           this.answerBody.push({

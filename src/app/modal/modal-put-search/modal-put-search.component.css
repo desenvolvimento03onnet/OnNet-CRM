@@ -84,3 +84,8 @@ td.mat-footer-cell:last-of-type {
     margin: 40px 0;
     color: #838383;
 }
+
+.unclick{
+    opacity: .6;
+    cursor: default;
+}

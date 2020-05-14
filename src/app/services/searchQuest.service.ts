@@ -20,36 +20,12 @@ export class SearchQuestService {
         return this.http.get<SearchQuest>(this.baseUrl + '/' + id);
     }
 
-    getBySearch(id: Number, ...params: String[]): Observable<SearchQuest[]> {
-        var urlParams: string = '';
-
-        if (params) {
-            urlParams = '?';
-
-            params.forEach(param => {
-                urlParams += param + '&';
-            })
-
-            urlParams = urlParams.slice(0, -1);
-        }
-
-        return this.http.get<SearchQuest[]>(this.baseUrl + '/search/' + id + urlParams);
+    getBySearch(id: Number): Observable<SearchQuest[]> {
+        return this.http.get<SearchQuest[]>(this.baseUrl + '/search/' + id);
     }
 
-    getByQuest(id: Number, ...params: String[]) {
-        var urlParams: string = '';
-
-        if (params) {
-            urlParams = '?';
-
-            params.forEach(param => {
-                urlParams += param + '&';
-            })
-
-            urlParams = urlParams.slice(0, -1);
-        }
-
-        return this.http.get<SearchQuest[]>(this.baseUrl + '/quest/' + id + urlParams);
+    getByQuest(id: Number) {
+        return this.http.get<SearchQuest[]>(this.baseUrl + '/quest/' + id);
     }
 
     delete(id: Number) {

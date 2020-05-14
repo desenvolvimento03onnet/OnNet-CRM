@@ -65,3 +65,7 @@ td.mat-footer-cell:last-of-type {
 .box:last-child {
     border: none;
 }
+
+.unclick{
+    opacity: .6;
+}

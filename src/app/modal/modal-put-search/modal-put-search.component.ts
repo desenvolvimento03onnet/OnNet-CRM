@@ -132,7 +132,11 @@ export class ModalPutSearchComponent implements OnInit {
         quests.push(quest.id);
       });
 
-      this.search.quests = quests;
+      if (this.search.active == false)
+        this.search.quests = [];
+
+      else
+        this.search.quests = quests;
 
       this.searchService.post(this.search).subscribe(
         () => {
@@ -162,11 +166,15 @@ export class ModalPutSearchComponent implements OnInit {
     if (this.search.type == this.data.type)
       delete searchSubmit.type;
 
-    if (this.search.active == Boolean(this.data.active))
-      delete searchSubmit.active
+    if (JSON.stringify(quests) == JSON.stringify(this.questsId) || Boolean(this.data.active) == false)
+      delete searchSubmit.quests;
 
-    if (JSON.stringify(quests) == JSON.stringify(this.questsId))
-      delete searchSubmit.quests
+    if (this.search.active == Boolean(this.data.active))
+      delete searchSubmit.active;
+
+    else if (this.search.active == false)
+      searchSubmit.quests = [];
+
 
     if (JSON.stringify(searchSubmit) != '{}') {
       this.searchService.put(this.data.id, searchSubmit).subscribe(
