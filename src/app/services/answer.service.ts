@@ -3,15 +3,7 @@ import { Observable } from 'rxjs';
 import { GlobalVariables } from './../global';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-
-export interface AnswersByQuest {
-    quest_id: Number;
-    question: String;
-    rates: {
-        rate: number;
-        count: string;
-    }[];
-}
+import { CountRates } from 'app/models/CountRates';
 
 @Injectable()
 export class AnswerService {
@@ -42,11 +34,10 @@ export class AnswerService {
         return this.http.get<Answer>(this.baseUrl + '/' + id);
     }
 
-    countAnswersByQuest(searchId: Number, ...params: String[]): Observable<AnswersByQuest[]> {
-        var urlParams: string = '';
+    countRates(searchId: Number, quest: Number, ...params: String[]): Observable<CountRates[]> {
+        var urlParams: string = '?quest=' + quest + '&';
 
         if (params) {
-            urlParams = '?';
 
             params.forEach(param => {
                 urlParams += param + '&';
@@ -55,7 +46,7 @@ export class AnswerService {
             urlParams = urlParams.slice(0, -1);
         }
 
-        return this.http.get<AnswersByQuest[]>(this.baseUrl + '/groupBy/answersByQuest/' + searchId);
+        return this.http.get<CountRates[]>(this.baseUrl + '/countRates/' + searchId + urlParams);
     }
 
     put(id: Number, request: {}): Observable<Answer> {

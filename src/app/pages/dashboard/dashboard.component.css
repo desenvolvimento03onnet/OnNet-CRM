@@ -33,3 +33,21 @@
     float: right;
     margin: auto;
 }
+
+.removeDateFilter {
+    margin: 0 10px !important;
+}
+
+.label{
+    display: flex;
+    justify-content: space-between;
+}
+
+.label h3 {
+    margin: auto 0;
+}
+
+.accordion-title{
+    font-size: 13pt;
+    font-weight: 400;
+}

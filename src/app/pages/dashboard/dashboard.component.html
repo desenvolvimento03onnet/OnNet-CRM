@@ -77,27 +77,85 @@
             <div class="card-body">
 
                 <mat-accordion>
-                    <mat-expansion-panel class="background-white" *ngFor="let chart of searchDataCharts">
+                    <mat-expansion-panel class="background-white" *ngFor="let search of searchesChart">
                         <mat-expansion-panel-header>
-                            <mat-panel-title>{{chart.name}}</mat-panel-title>
+                            <mat-panel-title class="accordion-title">
+                                {{search.type}}
+                            </mat-panel-title>
+
+                            <mat-panel-description>
+                                ISC {{calcIscGeneral(search).toFixed(2)}}
+                            </mat-panel-description>
                         </mat-expansion-panel-header>
 
                         <div class="row">
-                            <div class="col" *ngFor="let data of chart.data">
+                            <div class="col" style="margin: 0;">
+                                <mat-form-field>
+                                    <mat-placeholder>
+                                        Cidade
+                                    </mat-placeholder>
+                                    <mat-select name="city" [(ngModel)]="search.filters.city">
+                                        <mat-option (click)="filterSearch(search)">-</mat-option>
+                                        <mat-option *ngFor="let city of cities" [value]="city"
+                                            (click)="filterSearch(search)">
+                                            {{city.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col">
+                                <mat-form-field>
+                                    <button mat-button class="removeDateFilter" *ngIf="search.filters.beginDate"
+                                        matSuffix mat-icon-button aria-label="Clear"
+                                        (click)="search.filters.beginDate=null; filterSearch(search)">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+
+                                    <mat-label>Data de Início</mat-label>
+                                    <input matInput (dateInput)="filterSearch(search)" [matDatepicker]="begin" disabled
+                                        [(ngModel)]="search.filters.beginDate">
+                                    <mat-datepicker-toggle matSuffix [for]="begin"></mat-datepicker-toggle>
+                                    <mat-datepicker #begin disabled="false"></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col">
+                                <mat-form-field>
+                                    <button mat-button class="removeDateFilter" *ngIf="search.filters.endDate" matSuffix
+                                        mat-icon-button aria-label="Clear"
+                                        (click)="search.filters.endDate=null; filterSearch(search)">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+
+                                    <mat-label>Data de Fim</mat-label>
+                                    <input (dateInput)="filterSearch(search)" matInput [matDatepicker]="end" disabled
+                                        [(ngModel)]="search.filters.endDate">
+                                    <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+                                    <mat-datepicker #end disabled="false"></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col" *ngFor="let quest of search.infoCharts">
                                 <div class="matShadow dash-card">
                                     <div class="card-header bg-transparent">
 
                                         <h6 class="text-uppercase text-muted ls-1 mb-1">Avaliação
-                                            <i class="fa fa-info-circle infoIcon" matTooltip={{data.quest}}
+                                            <i class="fa fa-info-circle infoIcon" matTooltip={{quest.question}}
                                                 matTooltipClass="custom-tooltip"></i>
                                         </h6>
-                                        <h2 class="mb-0">
-                                            {{data.label}}
-                                        </h2>
+                                        <div class="label">
+                                            <h2 class="mb-0">
+                                                {{quest.label}}
+                                            </h2>
+                                            <h3>ISC {{quest.iscQuest.toFixed(2)}}</h3>
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="chart">
-                                            <canvas id="search{{chart.id}}-quest{{data.id}}"
+                                            <canvas id="search{{search.search_id}}-quest{{quest.quest_id}}"
                                                 class="chart-canvas"></canvas>
                                         </div>
                                     </div>

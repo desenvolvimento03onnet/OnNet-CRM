@@ -6,7 +6,12 @@
                     <div class="col-6">
                         <mat-form-field>
                             <mat-label>Buscar</mat-label>
-                            <input matInput (keyup)="applyFilterUser($event)">
+                            <input matInput (keyup)="applyFilterUser($event)" autocomplete="off"
+                                [(ngModel)]="filterUsersValue">
+                            <!-- <button mat-button *ngIf="filterUsersValue" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="filterUsersValue=''">
+                                <mat-icon>close</mat-icon>
+                            </button> -->
                         </mat-form-field>
                     </div>
                     <div class="col">
