@@ -1,5 +1,5 @@
+import { HistoryCity } from './../../models/HistoryCity';
 import { HistoryAll } from './../../models/HistoryAll';
-import { Interview } from './../../models/Interview';
 import { InterviewService } from './../../services/interview.service';
 import { MatSort } from '@angular/material/sort';
 import { Answer } from './../../models/Answer';
@@ -7,9 +7,9 @@ import { AnswerService } from './../../services/answer.service';
 import { GlobalFunctions } from './../../global';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatRadioButton } from '@angular/material/radio';
 
-declare interface Paginator{
+declare interface Paginator {
   total: Number,
   perPage: Number,
   page: Number,
@@ -25,6 +25,7 @@ declare interface Paginator{
 export class TypographyComponent implements OnInit {
 
   @ViewChild('sortAnswer', { static: true }) private sortAnswer: MatSort
+  @ViewChild('sortCity', { static: true }) private sortCity: MatSort
 
   answer: Answer[] = []
   filterAnswerValue: string = ''
@@ -36,9 +37,9 @@ export class TypographyComponent implements OnInit {
   dataSourceHistoryAll = new MatTableDataSource([])
   displayedColumnsHistoryAll: string[] = ['search', 'name', 'question', 'rate', 'note', 'city', 'user', 'date']
 
-  type: string = 'client'
-
   minDate = new Date(2020, 4, 14)
+
+  paginator: Paginator
 
   constructor(
     private answerService: AnswerService,
@@ -47,64 +48,150 @@ export class TypographyComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.dataSourceAnswers.sort = this.sortAnswer
+    this.dataSourceHistoryAll.sort = this.sortAnswer
+    this.dataSourceHistoryCity.sort = this.sortCity
     this.getInterviewAll()
+    this.getHistoryCity()
   }
+  dateFilter = new Date('')
+  newDate = this.globalFunc.dataConverter(this.dateFilter)
 
-  dateFilter
-
-  logar(){
-    const convert = this.globalFunc.dataConverter
-    console.log(convert(this.dateFilter))
+  //#region Teste
+  @ViewChild('cityActivyHistoryCity') cityActivyHistoryCity: MatRadioButton
+  @ViewChild('searchActivyHistoryCity') searchActivyHistoryCity: MatRadioButton
+  test() {
+    console.log(this.cityActivyHistoryCity.checked)
   }
+  //#endregion
 
-  applyFilter(filterValue: string) {
+  //#region Pesquisas Cidade
 
-    switch(this.type){
-      case 'city':
-        this.filterCity(filterValue)
-        break;
-      case 'client':
-        this.filterClient(filterValue)
-        break;
-      case 'quest':
-        this.filterQuest(filterValue)
-        break;
-      case 'note':
-        this.filterNote(filterValue)
-        break;
-      case 'user':
-        this.filterUser(filterValue)
-        break;
-      case 'search':
-        this.filterDate(filterValue)
-        break;
+  historyCity: any
+  filterHistoryCityValue: string = ''
+  dataSourceHistoryCity = new MatTableDataSource([])
+  displayedColumnsHistoryCity: string[] = ['search', 'city', 'avarage']
+
+  selectFilterCity
+
+  typeHistoryCity: string
+
+  applyFilterCity(value: string) {
+    const padronize = this.globalFunc.padronize
+    const newValue = padronize(value)
+
+    if (this.cityActivyHistoryCity.checked) {
+      this.filterHistorySearch(newValue)
     }
-    //this.dataSourceAnswers.filter = //filterValue.trim().toLowerCase()
+    else if (this.searchActivyHistoryCity.checked) {
+      this.filterHistoryCity(newValue)
+    }
   }
 
-  setFilter(type: string){
-    this.type = type
-  }
-
-  filterCity(value: string){
+  filterAll(valueFilter: string, data = new MatTableDataSource, historyCity: any, teste, arg) {
     const padronize = this.globalFunc.padronize
-
-    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
-      return (padronize(historyAll.city).indexOf(value) != -1)
+    const arr: any[] = []
+    arr.push(historyCity)
+    data.data = arr.filter(function (teste) {
+      console.log(arg)
+      return (padronize(arg).indexOf(valueFilter) != -1)
     })
   }
 
-  filterClient(value: string){
+  filterHistoryCity(valueFilter: string) {
     const padronize = this.globalFunc.padronize
 
-    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
-      console.log(historyAll.updated_at)
-      return (padronize(historyAll.client_name).indexOf(value) != -1)
+    this.dataSourceHistoryCity.data = this.historyCity.filter(function (historyCity) {
+      return (padronize(historyCity.city).indexOf(valueFilter) != -1)
     })
   }
 
-  filterQuest(value: string){
+  filterHistorySearch(valueFilter: string) {
+    const padronize = this.globalFunc.padronize
+
+    this.dataSourceHistoryCity.data = this.historyCity.filter(function (historyCity) {
+      return (padronize(historyCity.search).indexOf(valueFilter) != -1)
+    })
+  }
+
+  getHistoryCity() {
+    this.interviewService.getHisotry('/historic/avarage/city').subscribe(
+      historyCity => {
+        this.historyCity = historyCity
+        this.dataSourceHistoryCity.data = this.historyCity
+        console.log(this.historyCity)
+      }, error => {
+        console.error(error)
+      })
+  }
+
+  //#endregion
+
+  //#region Perguntas Geral
+
+  @ViewChild('cityActivyHistorySearch') cityActivyHistorySearch: MatRadioButton
+  @ViewChild('clientActivyHistorySearch') clientActivyHistorySearch: MatRadioButton
+  @ViewChild('questActivyHistorySearch') questActivyHistorySearch: MatRadioButton
+  @ViewChild('noteActivyHistorySearch') noteActivyHistorySearch: MatRadioButton
+  @ViewChild('userActivyHistorySearch') userActivyHistorySearch: MatRadioButton
+  @ViewChild('searchActivyHistorySearch') searchActivyHistorySearch: MatRadioButton
+
+  applyFilterSearch(value: string) {
+    const padronize = this.globalFunc.padronize
+    const newValue = padronize(value)
+
+    if (this.cityActivyHistorySearch.checked) {
+      this.filterCitySearch(newValue)
+    }
+    else if (this.clientActivyHistorySearch.checked) {
+      this.filterClientSearch(newValue)
+    }
+    else if (this.questActivyHistorySearch.checked) {
+      this.filterQuestSearch(newValue)
+    }
+    else if (this.noteActivyHistorySearch.checked) {
+      this.filterNoteSearch(newValue)
+    }
+    else if (this.userActivyHistorySearch.checked) {
+      this.filterUserSearch(newValue)
+    }
+    else if (this.searchActivyHistorySearch.checked) {
+      this.filterSearchSearch(newValue)
+    }
+  }
+
+  logar() {
+    const convert = this.globalFunc.dataConverter
+    var newDate: string = convert(this.dateFilter)
+
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      return (historyAll.updated_at.toString()).indexOf(newDate) != -1
+    })
+  }
+
+  filterCitySearch(value: string) {
+    const padronize = this.globalFunc.padronize
+    const convert = this.globalFunc.dataConverter
+
+    var newDate: string = convert(this.dateFilter)
+
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      console.log(newDate)
+      return ((padronize(historyAll.city).indexOf(value) != -1))
+    })
+  }
+
+  filterClientSearch(value: string) {
+    const padronize = this.globalFunc.padronize
+    const convert = this.globalFunc.dataConverter
+
+    var newDate: string = convert(this.dateFilter)
+
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      return ((padronize(historyAll.client_name).indexOf(value) != -1))
+    })
+  }
+
+  filterQuestSearch(value: string) {
     const padronize = this.globalFunc.padronize
 
     this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
@@ -112,7 +199,7 @@ export class TypographyComponent implements OnInit {
     })
   }
 
-  filterNote(value: string){
+  filterNoteSearch(value: string) {
     const padronize = this.globalFunc.padronize
 
     this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
@@ -120,7 +207,7 @@ export class TypographyComponent implements OnInit {
     })
   }
 
-  filterUser(value: string){
+  filterUserSearch(value: string) {
     const padronize = this.globalFunc.padronize
 
     this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
@@ -128,7 +215,15 @@ export class TypographyComponent implements OnInit {
     })
   }
 
-  filterDate(value: string){
+  filterDateSearch(value: string) {
+    const padronize = this.globalFunc.padronize
+
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      return (padronize(historyAll.search).indexOf(value) != -1)
+    })
+  }
+
+  filterSearchSearch(value: string) {
     const padronize = this.globalFunc.padronize
 
     this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
@@ -146,8 +241,18 @@ export class TypographyComponent implements OnInit {
         console.error(error)
       })
   }
+  //#endregion
 
-  paginator: Paginator
-  
 
 }
+
+
+/*JONATHAN ALVES DA SILVA
+jonathana648
+123
+58:F9:87:68:F6:27
+SPL E-99-E6/1
+4/4
+2
+
+OLT_PATOS 2 CHASSI 4*/
