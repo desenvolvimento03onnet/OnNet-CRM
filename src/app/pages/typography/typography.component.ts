@@ -80,10 +80,10 @@ export class TypographyComponent implements OnInit {
     const newValue = padronize(value)
 
     if (this.cityActivyHistoryCity.checked) {
-      this.filterHistorySearch(newValue)
+      this.filterHistoryCity(newValue)
     }
     else if (this.searchActivyHistoryCity.checked) {
-      this.filterHistoryCity(newValue)
+      this.filterHistorySearch(newValue)
     }
   }
 
@@ -157,15 +157,6 @@ export class TypographyComponent implements OnInit {
     else if (this.searchActivyHistorySearch.checked) {
       this.filterSearchSearch(newValue)
     }
-  }
-
-  logar() {
-    const convert = this.globalFunc.dataConverter
-    var newDate: string = convert(this.dateFilter)
-
-    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
-      return (historyAll.updated_at.toString()).indexOf(newDate) != -1
-    })
   }
 
   filterCitySearch(value: string) {
@@ -245,14 +236,3 @@ export class TypographyComponent implements OnInit {
 
 
 }
-
-
-/*JONATHAN ALVES DA SILVA
-jonathana648
-123
-58:F9:87:68:F6:27
-SPL E-99-E6/1
-4/4
-2
-
-OLT_PATOS 2 CHASSI 4*/
