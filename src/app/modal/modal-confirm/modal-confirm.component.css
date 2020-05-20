@@ -1,0 +1,23 @@
+.confirm-modal h3 {
+    margin: 0 0 12px 0;
+}
+
+.btnConfirmModal {
+    float: right;
+    margin: 16px 0 0 0;
+}
+
+.btnConfirm {
+    margin: 0 0 0 12px;
+    background: #ddd;
+    border-radius: 4px;
+    width: 75px;
+    height: 35px;
+    font-weight: 300;
+    border: none;
+}
+
+.confirm {
+    background: #3399c2;
+    color: #fff;
+}

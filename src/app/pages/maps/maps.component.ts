@@ -1,12 +1,13 @@
+import { Search } from './../../models/Search';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { GlobalFunctions } from './../global';
-import { UserService } from './../services/user.service';
-import { Interview } from './../models/Interview';
-import { InterviewService } from './../services/interview.service';
-import { SearchService } from './../services/search.service';
-import { City } from './../models/City';
-import { CityService } from './../services/city.service';
-import { ModalSearchComponent } from './../modal/modal-search/modal-search.component';
+import { GlobalFunctions } from '../../global';
+import { UserService } from '../../services/user.service';
+import { Interview } from '../../models/Interview';
+import { InterviewService } from '../../services/interview.service';
+import { SearchService } from '../../services/search.service';
+import { City } from '../../models/City';
+import { CityService } from '../../services/city.service';
+import { ModalSearchComponent } from '../../modal/modal-interview/modal-interview.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -18,12 +19,12 @@ import { MatDialog } from '@angular/material/dialog';
 export class MapsComponent implements OnInit {
 
   step: number = -1 //Iniciado em -1 pq é o único valor que não da nota
-  name: string = ''
-  search: Object[]
-  city: Object[]
-  citySelected: City
-  interview: Interview
-  username: String = ''
+  name: string = '';
+  searches: Search[] = [];
+  cities: City[] = [];
+  citySelected: City;
+  interview: Interview;
+  username: String = '';
 
   @ViewChild('idSearch') MatButtonToggleGroup
 
@@ -54,7 +55,7 @@ export class MapsComponent implements OnInit {
   getSearch() {
     this.searchService.get('active=1').subscribe(
       success => {
-        this.search = success
+        this.searches = success
       }, error => {
         this.globalFunc.showNotification("Não foi possível carregar as pesquisas", 2)
 
@@ -65,7 +66,7 @@ export class MapsComponent implements OnInit {
   getCity() {
     this.cityService.get('active=1').subscribe(
       success => {
-        this.city = success
+        this.cities = success
       }, error => {
         this.globalFunc.showNotification("Não foi possível carregar as cidades", 2)
 
@@ -84,18 +85,18 @@ export class MapsComponent implements OnInit {
       })
   }
 
-  openSearch(searchId: number) {
+  openSearch(search: Search) {
     if (!this.name)
-      this.snackBar.open('Preencha o nome do cliente', 'Fechar');
+      this.snackBar.open('Preencha o nome do cliente', 'Fechar', { duration: 2000 });
 
     else if (!this.citySelected)
-      this.snackBar.open('Preencha a cidade', 'Fechar');
+      this.snackBar.open('Preencha a cidade', 'Fechar', { duration: 2000 });
 
     else {
       const body = {
         client_name: this.name,
         city: this.citySelected,
-        search_id: searchId
+        search_id: search.id
       }
 
       this.modal.open(ModalSearchComponent, {
@@ -106,18 +107,10 @@ export class MapsComponent implements OnInit {
         data: {
           interview: body,
           user: this.username.substring(0, this.username.search(' ')),
+          search_type: search.type,
           greetings: this.setGreetings()
         }
       })
-
-      // //Criar Interview
-      // this.interviewService.post(body).subscribe(
-      //   success => {
-      //     this.interview = success
-
-      //   }, error => {
-      //     console.error('Error', error)
-      //   })
     }
   }
 

@@ -103,6 +103,7 @@
     transition: transform 0.1s ease !important;
     background: #00b96c !important;
     color: #fff !important;
+    font-weight: 400;
 }
 
 .btnGreen:active {
@@ -116,9 +117,38 @@
     transition: transform 0.1s ease !important;
     background: #ec4646 !important;
     color: #fff !important;
+    font-weight: 400;
 }
 
 .btnRed:active {
+    transform: scale(0.97);
+}
+
+.btnBlue {
+    float: right;
+    margin-left: 10px !important;
+    box-shadow: 0px 6px 10px -5px #6b6b6b44, 0 0 1px 1px #dee5e7 !important;
+    transition: transform 0.1s ease !important;
+    background: #3399c2 !important;
+    color: #fff !important;
+    font-weight: 400;
+}
+
+.btnBlue:active {
+    transform: scale(0.97);
+}
+
+.btnGray {
+    float: right;
+    margin-left: 10px !important;
+    box-shadow: 0px 6px 10px -5px #6b6b6b44, 0 0 1px 1px #dee5e7 !important;
+    transition: transform 0.1s ease !important;
+    background: #ddd !important;
+    color: #000 !important;
+    font-weight: 400;
+}
+
+.btnGray {
     transform: scale(0.97);
 }
 

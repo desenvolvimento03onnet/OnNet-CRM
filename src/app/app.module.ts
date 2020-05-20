@@ -69,13 +69,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
-import { ModalSearchComponent } from './modal/modal-search/modal-search.component';
+import { ModalSearchComponent } from './modal/modal-interview/modal-interview.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModalPutUserComponent } from './modal/modal-put-user/modal-put-user.component';
 import { ModalPutSearchComponent } from './modal/modal-put-search/modal-put-search.component';
 import { ModalPutQuestComponent } from './modal/modal-put-quest/modal-put-quest.component';
 import { ModalPutCityComponent } from './modal/modal-put-city/modal-put-city.component';
 import { ModalPutPasswordComponent } from './modal/modal-put-password/modal-put-password.component';
+import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.component';
+import { FileSaverModule } from 'ngx-filesaver';
 
 @NgModule({
   imports: [
@@ -132,6 +134,7 @@ import { ModalPutPasswordComponent } from './modal/modal-put-password/modal-put-
     MatTreeModule,
     PortalModule,
     ScrollingModule,
+    FileSaverModule
   ],
   declarations: [
     AppComponent,
@@ -142,7 +145,8 @@ import { ModalPutPasswordComponent } from './modal/modal-put-password/modal-put-
     ModalPutSearchComponent,
     ModalPutQuestComponent,
     ModalPutCityComponent,
-    ModalPutPasswordComponent
+    ModalPutPasswordComponent,
+    ModalConfirmComponent
   ],
   providers: [
     {

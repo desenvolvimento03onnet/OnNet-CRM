@@ -11,13 +11,13 @@
                     <div class="card-body">
                         <div class="col-md-12 ml-auto mr-auto">
                             <mat-accordion>
-                                <mat-expansion-panel *ngFor="let item of search">
+                                <mat-expansion-panel *ngFor="let search of searches">
                                     <mat-expansion-panel-header>
                                         <mat-panel-title>
-                                            {{ item.type }}
+                                            {{ search.type }}
                                         </mat-panel-title>
                                         <mat-panel-description>
-                                            Pesquisa de {{ item.type }}
+                                            Pesquisa de {{ search.type }}
                                         </mat-panel-description>
 
                                     </mat-expansion-panel-header>
@@ -33,12 +33,12 @@
                                         </mat-placeholder>
                                         <mat-select [(ngModel)]="citySelected" name="city" required>
 
-                                            <mat-option *ngFor="let item of city" [value]="item">
-                                                {{item.name}}
+                                            <mat-option *ngFor="let city of cities" [value]="city">
+                                                {{city.name}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
-                                    <button mat-button (click)="openSearch(item.id)">
+                                    <button mat-button (click)="openSearch(search)">
                                         Iniciar
                                     </button>
                                 </mat-expansion-panel>

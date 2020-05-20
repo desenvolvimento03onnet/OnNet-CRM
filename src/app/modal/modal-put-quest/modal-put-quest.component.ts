@@ -9,9 +9,9 @@ import { Quest } from './../../models/Quest';
 import { Component, OnInit, Inject } from '@angular/core';
 
 interface StoreQuest {
-  question: String;
-  active: Boolean;
-  searches: Number[];
+  question?: String;
+  active?: Boolean;
+  searches?: Number[];
 }
 
 @Component({
@@ -36,7 +36,7 @@ export class ModalPutQuestComponent implements OnInit {
     private searchService: SearchService,
     private searchQuestService: SearchQuestService,
     private snackBar: MatSnackBar,
-    private globalFunc: GlobalFunctions
+    private functions: GlobalFunctions
   ) { }
 
   ngOnInit(): void {
@@ -110,9 +110,10 @@ export class ModalPutQuestComponent implements OnInit {
       this.postQuest();
   }
 
-  postQuest() {
+  async postQuest() {
     if (!this.quest.question)
-      this.snackBar.open('Insira a descrição da pergunta', 'Fechar');
+      this.snackBar.open('Insira a descrição da pergunta', 'Fechar', { duration: 2000 });
+
     else {
       let searches: Number[] = [];
 
@@ -126,59 +127,67 @@ export class ModalPutQuestComponent implements OnInit {
       else
         this.quest.searches = searches;
 
-      this.questService.post(this.quest).subscribe(
-        () => {
-          this.globalFunc.showNotification("Pergunta criada com sucesso!", 1)
+      const close: boolean = await this.functions.confirm("Confirmar criação da pergunta?", {
+        width: "350px"
+      })
 
-          this.dialogRef.close();
-        },
-        err => {
-          this.globalFunc.showNotification("Ocorreu um erro durante a criação", 3)
+      if (close === true)
+        this.questService.post(this.quest).subscribe(
+          () => {
+            this.functions.showNotification("Pergunta criada com sucesso!", 1)
 
-          console.log(err);
-        }
-      )
+            this.dialogRef.close();
+          },
+          err => {
+            this.functions.showNotification("Ocorreu um erro durante a criação", 3)
+
+            console.log(err);
+          }
+        )
     }
   }
 
-  putQuest() {
-    const questSubmit = this.quest;
+  async putQuest() {
+    const questSubmit: StoreQuest = {};
     let searches: Number[] = [];
 
     this.searchesInQuest.forEach(search => {
       searches.push(search.id);
     })
 
-    questSubmit.searches = searches;
+    if (this.quest.question != this.data.question)
+      questSubmit.question = this.quest.question;
 
-    if (this.quest.question == this.data.question)
-      delete questSubmit.question;
+    if (JSON.stringify(searches) != JSON.stringify(this.searchesId) && Boolean(this.quest.active) == true)
+      questSubmit.searches = searches;
 
-    if (JSON.stringify(searches) == JSON.stringify(this.searchesId) || Boolean(this.data.active) == false)
-      delete questSubmit.searches;
+    if (this.quest.active != Boolean(this.data.active)) {
+      questSubmit.active = this.quest.active;
 
-    if (this.quest.active == Boolean(this.data.active))
-      delete questSubmit.active;
-
-    else if (this.quest.active == false)
-      questSubmit.searches = [];
+      if (this.quest.active == false)
+        questSubmit.searches = [];
+    }
 
     if (JSON.stringify(questSubmit) != '{}') {
-      this.questService.put(this.data.id, questSubmit).subscribe(
-        () => {
-          this.globalFunc.showNotification("Pergunta alterada com sucesso!", 1)
+      const close: boolean = await this.functions.confirm("Confirmar alteração da pergunta?", {
+        width: "350px"
+      })
 
-          this.dialogRef.close();
-        },
-        err => {
-          console.log(err);
+      if (close === true)
+        this.questService.put(this.data.id, questSubmit).subscribe(
+          () => {
+            this.functions.showNotification("Pergunta alterada com sucesso!", 1)
 
-          this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 3)
-        }
-      )
+            this.dialogRef.close();
+          },
+          err => {
+            console.log(err);
+
+            this.functions.showNotification("Ocorreu um erro durante a alteração", 3)
+          }
+        )
     }
-    else {
+    else
       this.snackBar.open('Nenhuma alteração realizada', 'Fechar', { duration: 2000 })
-    }
   }
 }

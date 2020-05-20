@@ -1,4 +1,4 @@
-@import '../../styles.css';
+@import '../../../styles.css';
 
 .main-content .container-fluid .row .card-body{
     border-radius: 6px;

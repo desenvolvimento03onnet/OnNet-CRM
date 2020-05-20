@@ -8,11 +8,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 
 interface StoreUser {
-  name: String;
-  username: String;
-  password: String;
-  permission_id: Number;
-  active: Boolean;
+  name?: String;
+  username?: String;
+  password?: String;
+  permission_id?: Number;
+  active?: Boolean;
 }
 
 @Component({
@@ -30,7 +30,7 @@ export class ModalPutUserComponent implements OnInit {
     private permissionService: PermissionService,
     private userService: UserService,
     private snackBar: MatSnackBar,
-    private globalFunc: GlobalFunctions
+    private functions: GlobalFunctions
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class ModalPutUserComponent implements OnInit {
         this.permissions = permissions;
       },
       err => {
-        this.globalFunc.showNotification("Não foi possível carregar as permissões", 2)
+        this.functions.showNotification("Não foi possível carregar as permissões", 2)
 
         console.log(err)
       });
@@ -80,54 +80,66 @@ export class ModalPutUserComponent implements OnInit {
       this.postUser();
   }
 
-  postUser() {
+  async postUser() {
     if (!this.user.name || !this.user.username || !this.user.password || this.user.permission_id == 0)
-      this.snackBar.open('Preencha todos os campos', 'Fechar');
-    else
-      this.userService.post(this.user).subscribe(
-        () => {
-          this.globalFunc.showNotification("Usuário criado com sucesso!", 1)
+      this.snackBar.open('Preencha todos os campos', 'Fechar', { duration: 2000 });
 
-          this.dialogRef.close();
-        },
-        err => {
-          this.globalFunc.showNotification("Ocorreu um erro durante a criação", 3)
+    else {
+      const close: boolean = await this.functions.confirm("Confirmar criação do usuário?", {
+        width: "350px"
+      })
 
-          console.log(err);
-        }
-      );
+      if (close === true)
+        this.userService.post(this.user).subscribe(
+          () => {
+            this.functions.showNotification("Usuário criado com sucesso!", 1)
+
+            this.dialogRef.close();
+          },
+          err => {
+            this.functions.showNotification("Ocorreu um erro durante a criação", 3)
+
+            console.log(err);
+          }
+        );
+    }
   }
 
-  putUser() {
-    const userSubmit = this.user;
+  async putUser() {
+    const userSubmit: StoreUser = {};
 
-    if (this.user.name == this.data.name)
-      delete userSubmit.name;
+    if (this.user.name != this.data.name)
+      userSubmit.name = this.user.name;
 
-    if (this.user.username == this.data.username)
-      delete userSubmit.username
+    if (this.user.username != this.data.username)
+      userSubmit.username = this.user.username;
 
-    if (!this.user.password)
-      delete userSubmit.password
+    if (this.user.password)
+      userSubmit.password = this.user.password;
 
-    if (this.user.permission_id == this.data.permission_id)
-      delete userSubmit.permission_id
+    if (this.user.permission_id != this.data.permission_id)
+      userSubmit.permission_id = this.user.permission_id;
 
-    if (this.user.active == Boolean(this.data.active))
-      delete userSubmit.active
+    if (this.user.active != Boolean(this.data.active))
+      userSubmit.active = this.user.active;
 
     if (JSON.stringify(userSubmit) != '{}') {
-      this.userService.put(this.data.id, userSubmit).subscribe(
-        () => {
-          this.globalFunc.showNotification("Usuário alterado com sucesso!", 1)
+      const close: boolean = await this.functions.confirm("Confirmar alteração do usuário?", {
+        width: "350px"
+      })
 
-          this.dialogRef.close();
-        },
-        err => {
-          console.log(err)
-          this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 3)
-        }
-      );
+      if (close === true)
+        this.userService.put(this.data.id, userSubmit).subscribe(
+          () => {
+            this.functions.showNotification("Usuário alterado com sucesso!", 1)
+
+            this.dialogRef.close();
+          },
+          err => {
+            console.log(err)
+            this.functions.showNotification("Ocorreu um erro durante a alteração", 3)
+          }
+        );
     }
     else
       this.snackBar.open('Nenhuma alteração realizada', 'Fechar', { duration: 2000 })

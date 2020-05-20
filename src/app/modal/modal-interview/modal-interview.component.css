@@ -1,0 +1,125 @@
+@import "../../../styles.css";
+@import "../modal.component.css";
+
+.mat-dialog-content {
+    overflow: auto;
+}
+
+.mat-card {
+    margin-bottom: 15px;
+}
+
+.mat-card .mat-card-title .icon-close {
+    float: right;
+}
+
+.mat-card .mat-card-title .icon-close:hover {
+    float: right;
+    box-shadow: -0.8px 6.5px 2px gray;
+}
+
+.mat-card .mat-card-subtitle {
+    padding-top: 4px;
+    width: 95%;
+    text-align: justify;
+}
+
+.selected {
+    background: #3f51b5 !important;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.rate {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    margin-top: 25px;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    line-height: 2.65;
+    text-align: center;
+    font-weight: lighter;
+    font-size: 20pt;
+    border: solid 1px #cacaca;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 2px 2px 3px 1px #ddd;
+}
+
+.rate:hover {
+    background: #566ce9dc;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.rate:active {
+    transition: all 0.05s ease;
+    transform: scale(1);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 13vh 11vh 12vh 10vh 5vh;
+    align-content: center;
+    justify-items: center;
+}
+
+.without-greetings {
+    margin-top: calc(10% - 4%);
+}
+
+.container .question {
+    grid-column: 1/6;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    font-size: 17pt;
+}
+
+.interview-content {
+    max-height: 100%;
+}
+
+.container .show-rate {
+    grid-column: 3/3;
+    grid-row: 3;
+    line-height: 2.5;
+    justify-self: center;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 28pt;
+}
+
+.container .button-previous {
+    grid-column: 1;
+    grid-row: 5;
+}
+
+.container .button-next,
+.button-finish {
+    grid-column: 5;
+    grid-row: 5;
+}
+
+.comment-area .mat-form-field {
+    width: 70vw;
+}
+
+.comment-area {
+    align-self: center;
+    justify-self: center;
+    grid-column: 1/6;
+    grid-row: 4;
+}
+
+::ng-deep .mat-horizontal-stepper-header {
+    pointer-events: none !important;
+}
+
+.loadInterview{
+    margin: 200px auto 0;
+}
