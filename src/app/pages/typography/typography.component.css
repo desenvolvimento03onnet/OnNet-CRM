@@ -1,11 +1,15 @@
-table{
+table {
     width: 100%;
 }
-mat-form-field{
+
+mat-form-field {
     padding: 10px;
 }
+
 /*Não funfa*/
-.pergunta, .detalhado, .geral{
+.pergunta,
+.detalhado,
+.geral {
     overflow-x: hidden;
 }
 
@@ -17,4 +21,39 @@ mat-form-field{
 .radio-button {
     padding: 1px;
     margin: 7px;
+}
+
+td {
+    max-width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+th {
+    max-width: 25px;
+}
+
+mat-tab {
+    overflow: hidden;
+}
+
+.lim-small {
+    min-width: 9px;
+    max-width: 10px;
+}
+
+.lim-small-more {
+    min-width: 4px;
+    max-width: 5px;
+}
+
+.lim-medium {
+    min-width: 14px;
+    max-width: 15px;
+}
+
+.lim-high {
+    min-width: 40px;
+    max-width: 41px;
 }
