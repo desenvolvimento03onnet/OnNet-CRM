@@ -27,6 +27,7 @@ interface InterviewBody {
   client_name: String;
   search_id: Number;
   city_id: Number;
+  interview_date: String;
 }
 
 interface AnswerBody {
@@ -129,14 +130,14 @@ export class ModalSearchComponent implements OnInit {
   }
 
   async submit() {
-
     const interviewBody: InterviewBody = {
       client_name: this.data.interview.client_name,
       search_id: this.data.interview.search_id,
-      city_id: this.data.interview.city.id
+      city_id: this.data.interview.city.id,
+      interview_date: this.functions.dateConverter(new Date())
     }
 
-    this.functions.confirm("Deseja finalizar a pesquisa agora?", {}).then(suc => {
+    this.functions.confirm("Deseja finalizar a pesquisa agora?").then(suc => {
       if (suc === true) {
         this.showButtons = false;
 

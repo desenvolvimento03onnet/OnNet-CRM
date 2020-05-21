@@ -1,4 +1,4 @@
-import { Search } from './../../models/Search';
+import { Search } from '../../models/Search';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GlobalFunctions } from '../../global';
 import { UserService } from '../../services/user.service';
@@ -13,8 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-maps',
-  templateUrl: './maps.component.html',
-  styleUrls: ['./maps.component.css']
+  templateUrl: './interview.component.html',
+  styleUrls: ['./interview.component.css']
 })
 export class MapsComponent implements OnInit {
 

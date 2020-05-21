@@ -7,6 +7,7 @@ export class Interview {
     search_id: Number;
     city_id: Number;
     user_id: Number;
+    interview_date: Date;
     created_at: Date;
     updated_at: Date;
     search: Search;

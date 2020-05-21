@@ -88,14 +88,14 @@
                             </mat-panel-description>
                         </mat-expansion-panel-header>
 
-                        <div class="row">
+                        <div id="filters" class="row">
                             <div class="col" style="margin: 0;">
                                 <mat-form-field>
                                     <mat-placeholder>
                                         Cidade
                                     </mat-placeholder>
                                     <mat-select name="city" [(ngModel)]="search.filters.city">
-                                        <mat-option (click)="filterSearch(search)">-</mat-option>
+                                        <mat-option (click)="filterSearch(search)"></mat-option>
                                         <mat-option *ngFor="let city of cities" [value]="city"
                                             (click)="filterSearch(search)">
                                             {{city.name}}

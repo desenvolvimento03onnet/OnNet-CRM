@@ -252,7 +252,7 @@ export class DashboardComponent implements OnInit {
   }
 
   filterSearch(searchChart: DataChart) {
-    const toDate = this.globalFunc.dataConverter;
+    const toDate = this.globalFunc.dateConverter;
     var params: String = "";
 
     if (searchChart.filters.city)

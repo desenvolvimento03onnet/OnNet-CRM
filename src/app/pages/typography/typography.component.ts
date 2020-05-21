@@ -44,7 +44,7 @@ export class TypographyComponent implements OnInit {
   }
 
   dateFilter = new Date('')
-  newDate = this.globalFunc.dataConverter(this.dateFilter)
+  newDate = this.globalFunc.dateConverter(this.dateFilter)
 
   @ViewChild('cityActivyHistoryCity') cityActivyHistoryCity: MatRadioButton
   @ViewChild('searchActivyHistoryCity') searchActivyHistoryCity: MatRadioButton
@@ -134,9 +134,18 @@ export class TypographyComponent implements OnInit {
     }
   }
 
+  logar() {
+    const convert = this.globalFunc.dateConverter
+    var newDate: string = convert(this.dateFilter)
+
+    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+      return (historyAll.updated_at.toString()).indexOf(newDate) != -1
+    })
+  }
+
   filterCitySearch(value: string) {
     const padronize = this.globalFunc.padronize
-    const convert = this.globalFunc.dataConverter
+    const convert = this.globalFunc.dateConverter
 
     var newDate: string = convert(this.dateFilter)
 
@@ -148,7 +157,7 @@ export class TypographyComponent implements OnInit {
 
   filterClientSearch(value: string) {
     const padronize = this.globalFunc.padronize
-    const convert = this.globalFunc.dataConverter
+    const convert = this.globalFunc.dateConverter
 
     var newDate: string = convert(this.dateFilter)
 
