@@ -2,8 +2,9 @@
     <mat-card>
         <mat-card-title>
             {{ data.interview.client_name }} | {{ data.interview.city.name }}
-
-            <mat-icon *ngIf="showButtons" class="btnCloseModal" (click)="close()">close</mat-icon>
+            <div class="icon-close" class="btnCloseModal">
+                <img (click)="close()" src="../../../assets/img/exit-door.png" alt="Fechar"/>
+            </div>
         </mat-card-title>
 
         <mat-card-subtitle *ngIf="index == 0">

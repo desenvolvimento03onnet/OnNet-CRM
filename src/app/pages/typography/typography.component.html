@@ -165,12 +165,12 @@
                         </table>
 
                         <button (click)="teste()">Previous</button>
-                        
+
                         <mat-paginator
                             #paginatorAll
                             [length]="total"
                             [pageSize]="120"
-                            (page)="pageEvent($event)"
+                            (page)="pageEvent = onPaginateChange($event)"
                         >
                         </mat-paginator>
                     </mat-tab>
