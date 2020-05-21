@@ -1,21 +1,12 @@
-import { HistoryCity } from './../../models/HistoryCity';
 import { HistoryAll } from './../../models/HistoryAll';
 import { InterviewService } from './../../services/interview.service';
 import { MatSort } from '@angular/material/sort';
 import { Answer } from './../../models/Answer';
-import { AnswerService } from './../../services/answer.service';
 import { GlobalFunctions } from './../../global';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatRadioButton } from '@angular/material/radio';
-
-declare interface Paginator {
-  total: Number,
-  perPage: Number,
-  page: Number,
-  lastPage: Number,
-  data: Array<Object>
-}
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-typography',
@@ -26,50 +17,44 @@ export class TypographyComponent implements OnInit {
 
   @ViewChild('sortAnswer', { static: true }) private sortAnswer: MatSort
   @ViewChild('sortCity', { static: true }) private sortCity: MatSort
+  @ViewChild('paginatorAll') private paginatorAll: MatPaginator
 
-  answer: Answer[] = []
-  filterAnswerValue: string = ''
-  dataSourceAnswers = new MatTableDataSource([])
   displayedColumnsAnswer: string[] = ['search', 'name', 'question', 'rate', 'note', 'city', 'user', 'date']
+  dataSourceAnswers = new MatTableDataSource([])
+  filterAnswerValue: string = ''
+  answer: Answer[] = []
 
-  historyAll: HistoryAll[] = []
-  filterSearchValue: string = ''
-  dataSourceHistoryAll = new MatTableDataSource([])
   displayedColumnsHistoryAll: string[] = ['search', 'name', 'question', 'rate', 'note', 'city', 'user', 'date']
-
-  minDate = new Date(2020, 4, 14)
-
-  paginator: Paginator
+  dataSourceHistoryAll = new MatTableDataSource([])
+  filterSearchValue: string = ''
+  historyAll: HistoryAll[] = []
 
   constructor(
-    private answerService: AnswerService,
     private interviewService: InterviewService,
     private globalFunc: GlobalFunctions,
   ) { }
 
   async ngOnInit() {
+    this.getInterviewAll(1)
+    this.getHistoryCity()
+    await this.getPaginator()
     this.dataSourceHistoryAll.sort = this.sortAnswer
     this.dataSourceHistoryCity.sort = this.sortCity
-    this.getInterviewAll()
-    this.getHistoryCity()
+    this.dataSourceHistoryAll.paginator = this.paginatorAll
   }
+
   dateFilter = new Date('')
   newDate = this.globalFunc.dataConverter(this.dateFilter)
 
-  //#region Teste
   @ViewChild('cityActivyHistoryCity') cityActivyHistoryCity: MatRadioButton
   @ViewChild('searchActivyHistoryCity') searchActivyHistoryCity: MatRadioButton
-  test() {
-    console.log(this.cityActivyHistoryCity.checked)
-  }
-  //#endregion
 
   //#region Pesquisas Cidade
 
-  historyCity: any
-  filterHistoryCityValue: string = ''
-  dataSourceHistoryCity = new MatTableDataSource([])
   displayedColumnsHistoryCity: string[] = ['search', 'city', 'avarage']
+  dataSourceHistoryCity = new MatTableDataSource([])
+  filterHistoryCityValue: string = ''
+  historyCity: any
 
   selectFilterCity
 
@@ -85,16 +70,6 @@ export class TypographyComponent implements OnInit {
     else if (this.searchActivyHistoryCity.checked) {
       this.filterHistorySearch(newValue)
     }
-  }
-
-  filterAll(valueFilter: string, data = new MatTableDataSource, historyCity: any, teste, arg) {
-    const padronize = this.globalFunc.padronize
-    const arr: any[] = []
-    arr.push(historyCity)
-    data.data = arr.filter(function (teste) {
-      console.log(arg)
-      return (padronize(arg).indexOf(valueFilter) != -1)
-    })
   }
 
   filterHistoryCity(valueFilter: string) {
@@ -128,12 +103,12 @@ export class TypographyComponent implements OnInit {
 
   //#region Perguntas Geral
 
-  @ViewChild('cityActivyHistorySearch') cityActivyHistorySearch: MatRadioButton
+  @ViewChild('searchActivyHistorySearch') searchActivyHistorySearch: MatRadioButton
   @ViewChild('clientActivyHistorySearch') clientActivyHistorySearch: MatRadioButton
   @ViewChild('questActivyHistorySearch') questActivyHistorySearch: MatRadioButton
+  @ViewChild('cityActivyHistorySearch') cityActivyHistorySearch: MatRadioButton
   @ViewChild('noteActivyHistorySearch') noteActivyHistorySearch: MatRadioButton
   @ViewChild('userActivyHistorySearch') userActivyHistorySearch: MatRadioButton
-  @ViewChild('searchActivyHistorySearch') searchActivyHistorySearch: MatRadioButton
 
   applyFilterSearch(value: string) {
     const padronize = this.globalFunc.padronize
@@ -177,9 +152,16 @@ export class TypographyComponent implements OnInit {
 
     var newDate: string = convert(this.dateFilter)
 
-    this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
-      return ((padronize(historyAll.client_name).indexOf(value) != -1))
-    })
+    if (newDate === 'NaN-NaN-NaN' || newDate === null) {
+      this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+        return ((padronize(historyAll.client_name).indexOf(value) != -1))
+      })
+    } else {
+      this.dataSourceHistoryAll.data = this.historyAll.filter(function (historyAll) {
+        return ((padronize(historyAll.client_name).indexOf(value) != -1)
+          || padronize(historyAll.updated_at.toString()).indexOf(newDate) != -1)
+      })
+    }
   }
 
   filterQuestSearch(value: string) {
@@ -222,8 +204,8 @@ export class TypographyComponent implements OnInit {
     })
   }
 
-  getInterviewAll() {
-    this.interviewService.getHisotry('/historic/all').subscribe(
+  getInterviewAll(page) {
+    this.interviewService.getHisotry('/historic/all?page=' + page).subscribe(
       success => {
         this.historyAll = success['data']
         this.dataSourceHistoryAll.data = this.historyAll
@@ -234,5 +216,49 @@ export class TypographyComponent implements OnInit {
   }
   //#endregion
 
+  //#region pagination
 
+  //Nada daqui para baixo funciona
+  lastPage: Number
+  perPage: Number
+  total: number
+  page: Number
+
+  async getPaginator() {
+    await this.interviewService.getHisotry('/historic/all').subscribe(
+      paginator => {
+        this.lastPage = paginator['lastPage']
+        this.perPage = paginator['perPage']
+        this.total = paginator['total']
+        this.page = paginator['page']
+      }, error => {
+        console.error(error)
+      })
+  }
+  //#endregion
+
+  getInterviewPerPage(page) {
+    this.interviewService.getHisotry('/historic/all?page=' + page).subscribe(
+      success => {
+        this.dataSourceHistoryAll.data = success['data']
+      }, error => {
+        console.error(error)
+      })
+    return this.dataSourceHistoryAll.data
+  }
+
+  async pageEvent(event: MatPaginator) {
+    console.log(event)
+    if (event.pageSize == 120) {
+      this.dataSourceHistoryAll.data = await this.getInterviewPerPage(event.pageIndex + 1)
+      setTimeout(function (){
+        this.paginatorAll.length = 150
+      }, 7000)
+    }
+  }
+
+
+  teste(){
+    //this.dataSourceHistoryAll.data = await this.getInterviewPerPage(event.pageIndex + 1)
+  }
 }
