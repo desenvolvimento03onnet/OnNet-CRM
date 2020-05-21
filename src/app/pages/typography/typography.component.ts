@@ -6,7 +6,7 @@ import { GlobalFunctions } from './../../global';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatRadioButton } from '@angular/material/radio';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-typography',
@@ -37,7 +37,8 @@ export class TypographyComponent implements OnInit {
   async ngOnInit() {
     this.getInterviewAll(1)
     this.getHistoryCity()
-    await this.getPaginator()
+    //await this.getPaginator()
+    this.onPaginateChange(null)
     this.dataSourceHistoryAll.sort = this.sortAnswer
     this.dataSourceHistoryCity.sort = this.sortCity
     this.dataSourceHistoryAll.paginator = this.paginatorAll
@@ -256,16 +257,30 @@ export class TypographyComponent implements OnInit {
     return this.dataSourceHistoryAll.data
   }
 
-  async pageEvent(event: MatPaginator) {
-    console.log(event)
-    if (event.pageSize == 120) {
-      this.dataSourceHistoryAll.data = await this.getInterviewPerPage(event.pageIndex + 1)
-      setTimeout(function (){
-        this.paginatorAll.length = 150
-      }, 7000)
-    }
-  }
+  async pageEvente(event: PageEvent) {
+    console.log(event.length)
 
+    /*console.log(event)
+    if (event.pageSize == 120) {
+      await this.getInterviewPerPage(event.pageIndex + 1)
+    }
+
+    return this.total = event.length*/
+  }
+  
+  pageEvent: PageEvent
+
+  onPaginateChange(event?: PageEvent){
+    console.log('test')
+    this.interviewService.getHisotry('/historic/all?page=' + 2).subscribe(
+      success => {
+        this.dataSourceHistoryAll.data = success['data']
+        this.total = success['total']
+      }, error => { console.error(error) }
+    )
+//Oi Eduardo, como vai você?
+    return event
+  }
 
   teste(){
     //this.dataSourceHistoryAll.data = await this.getInterviewPerPage(event.pageIndex + 1)
