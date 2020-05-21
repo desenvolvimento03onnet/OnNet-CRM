@@ -1,5 +1,13 @@
+import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 declare var $: any;
+
+interface ModalConfig {
+    title: String;
+    subtitle?: String;
+}
 
 @Injectable()
 export class GlobalVariables {
@@ -7,10 +15,13 @@ export class GlobalVariables {
     baseURL = 'http://177.85.0.28:7200';
 }
 
+@Injectable()
 export class GlobalFunctions {
 
+    constructor(private dialog: MatDialog) { }
+
     padronize(text: string | String) {
-        if(!text){
+        if (!text) {
             return ''
         }
         return text.toLowerCase().normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z\s])/g, '')
@@ -18,7 +29,7 @@ export class GlobalFunctions {
 
     dataConverter(date: Date) {
 
-        if(date === null){
+        if (date === null) {
             return 'NaN-NaN-NaN'
         }
 
@@ -34,8 +45,6 @@ export class GlobalFunctions {
 
     showNotification(message: String, type: number) {
         const style = ['info', 'success', 'warning', 'danger'];
-
-        const color = Math.floor((Math.random() * 4) + 1);
 
         $.notify({
             icon: "notifications",
@@ -59,6 +68,20 @@ export class GlobalFunctions {
                 '<a href="{3}" target="{4}" data-notify="url"></a>' +
                 '</div>'
         });
+    }
+
+    async confirm(title: String, params: { subtitle?: String, width?: string }) {
+        const width = params.width || "350px"
+        const submit: ModalConfig = { title: title }
+        
+        if (params.subtitle)
+            submit.subtitle = params.subtitle
+
+        return await this.dialog.open(ModalConfirmComponent, {
+            width: width,
+            disableClose: true,
+            data: submit
+        }).beforeClosed().toPromise();
     }
 
 }

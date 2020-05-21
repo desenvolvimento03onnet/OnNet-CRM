@@ -10,9 +10,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface StoreSearch {
-  type: String,
-  quests: Number[],
-  active: Boolean
+  type?: String,
+  quests?: Number[],
+  active?: Boolean
 }
 
 @Component({
@@ -38,7 +38,7 @@ export class ModalPutSearchComponent implements OnInit {
     private questService: QuestService,
     private searchQuestService: SearchQuestService,
     private snackBar: MatSnackBar,
-    private globalFunc: GlobalFunctions
+    private functions: GlobalFunctions
   ) { }
 
   ngOnInit(): void {
@@ -63,7 +63,7 @@ export class ModalPutSearchComponent implements OnInit {
           this.search.quests = this.questsId
         },
         err => {
-          this.globalFunc.showNotification("Não foi possível carregar as perguntas", 2)
+          this.functions.showNotification("Não foi possível carregar as perguntas", 2)
 
           console.log(err);
         }
@@ -122,9 +122,9 @@ export class ModalPutSearchComponent implements OnInit {
 
   }
 
-  postSearch() {
+  async postSearch() {
     if (!this.search.type)
-      this.snackBar.open('Preencha o título da pesquisa', 'Fechar');
+      this.snackBar.open('Preencha o título da pesquisa', 'Fechar', { duration: 2000 });
     else {
       let quests: Number[] = [];
 
@@ -138,56 +138,65 @@ export class ModalPutSearchComponent implements OnInit {
       else
         this.search.quests = quests;
 
-      this.searchService.post(this.search).subscribe(
-        () => {
-          this.globalFunc.showNotification("Pesquisa criada com sucesso!", 1)
+      const close: boolean = await this.functions.confirm("Confirmar criação da pesquisa?", {
+        width: "350px"
+      })
 
-          this.dialogRef.close();
-        },
-        err => {
-          this.globalFunc.showNotification("Ocorreu um erro durante a criação", 3)
+      if (close === true)
+        this.searchService.post(this.search).subscribe(
+          () => {
+            this.functions.showNotification("Pesquisa criada com sucesso!", 1)
 
-          console.log(err);
-        }
-      )
+            this.dialogRef.close();
+          },
+          err => {
+            this.functions.showNotification("Ocorreu um erro durante a criação", 3)
+
+            console.log(err);
+          }
+        )
     }
   }
 
-  putSearch() {
-    const searchSubmit = this.search;
+  async putSearch() {
+    const searchSubmit: StoreSearch = {};
     let quests: Number[] = [];
 
     this.questsInSearch.forEach(quest => {
       quests.push(quest.id);
     })
 
-    searchSubmit.quests = quests;
+    if (this.search.type != this.data.type)
+      searchSubmit.type = this.search.type;
 
-    if (this.search.type == this.data.type)
-      delete searchSubmit.type;
+    if (JSON.stringify(quests) != JSON.stringify(this.questsId) && Boolean(this.search.active) == true)
+      searchSubmit.quests = quests;
 
-    if (JSON.stringify(quests) == JSON.stringify(this.questsId) || Boolean(this.data.active) == false)
-      delete searchSubmit.quests;
+    if (this.search.active != Boolean(this.data.active)) {
+      searchSubmit.active = this.search.active;
 
-    if (this.search.active == Boolean(this.data.active))
-      delete searchSubmit.active;
-
-    else if (this.search.active == false)
-      searchSubmit.quests = [];
-
+      if (this.search.active == false)
+        searchSubmit.quests = [];
+    }
 
     if (JSON.stringify(searchSubmit) != '{}') {
-      this.searchService.put(this.data.id, searchSubmit).subscribe(
-        () => {
-          this.globalFunc.showNotification("Pesquisa alterada com sucesso!", 1)
+      const close: boolean = await this.functions.confirm("Confirmar alteração da pesquisa?", {
+        width: "350px"
+      })
 
-          this.dialogRef.close();
-        },
-        err => {
-          console.log(err);
-          this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 3)
-        }
-      )
+      if (close === true)
+        this.searchService.put(this.data.id, searchSubmit).subscribe(
+          () => {
+            this.functions.showNotification("Pesquisa alterada com sucesso!", 1)
+
+            this.dialogRef.close();
+          },
+          err => {
+            console.log(err);
+
+            this.functions.showNotification("Ocorreu um erro durante a alteração", 3)
+          }
+        )
     }
     else
       this.snackBar.open('Nenhuma alteração realizada', 'Fechar', { duration: 2000 })

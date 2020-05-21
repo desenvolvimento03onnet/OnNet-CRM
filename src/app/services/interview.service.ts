@@ -78,7 +78,7 @@ export class InterviewService {
         return this.http.put<Interview>(this.baseUrl + '/' + id, request);
     }
 
-    delete(id: Number) {
+    delete(id: Number): Observable<any> {
         return this.http.delete(this.baseUrl + '/' + id);
     }
 

@@ -2,9 +2,8 @@
     <mat-card>
         <mat-card-title>
             {{ data.interview.client_name }} | {{ data.interview.city.name }}
-            <div class="icon-close">
-                <img (click)="close()" src="../../../assets/img/exit-door.png" alt="Fechar" />
-            </div>
+
+            <mat-icon *ngIf="showButtons" class="btnCloseModal" (click)="close()">close</mat-icon>
         </mat-card-title>
 
         <mat-card-subtitle *ngIf="index == 0">
@@ -15,7 +14,11 @@
         </mat-card-subtitle>
     </mat-card>
 
-    <mat-horizontal-stepper linear [ngClass]="{'without-greetings': index != 0}">
+    <div>
+        <mat-spinner *ngIf="!showButtons" class="loadInterview"></mat-spinner>
+    </div>
+
+    <mat-horizontal-stepper linear [ngClass]="{'without-greetings': index != 0}" *ngIf="showButtons">
         <mat-step *ngFor="let item of answerBody; let index = index;" label="{{ setLabel(index) }}">
             <div class="container">
                 <mat-label class="question">
@@ -44,14 +47,14 @@
                     </mat-form-field>
                 </div>
 
-                <button (click)="backIndex()" *ngIf="index > 0" mat-button matStepperPrevious
+                <button (click)="backIndex()" *ngIf="index > 0 && showButtons" mat-button matStepperPrevious
                     class="button-previous">Voltar</button>
 
                 <button (click)="nextIndex()" *ngIf="index < answerBody.length - 1"
                     [disabled]="item.rate < 1 || item.rate > 5" mat-button matStepperNext
                     class="button-next">Próximo</button>
 
-                <button (click)="submit()" *ngIf="index == answerBody.length - 1"
+                <button (click)="submit()" *ngIf="index == (answerBody.length - 1) && showButtons"
                     [disabled]="item.rate < 1 || item.rate > 5" mat-button class="button-finish">Finalizar</button>
             </div>
         </mat-step>

@@ -6,8 +6,8 @@ import { City } from './../../models/City';
 import { Component, OnInit, Inject } from '@angular/core';
 
 interface StoreCity {
-  name: String,
-  active: Boolean
+  name?: String,
+  active?: Boolean
 }
 
 @Component({
@@ -24,7 +24,7 @@ export class ModalPutCityComponent implements OnInit {
     private dialogRef: MatDialogRef<ModalPutCityComponent>,
     private cityService: CityService,
     private snackBar: MatSnackBar,
-    private globalFunc: GlobalFunctions
+    private functions: GlobalFunctions
   ) { }
 
   ngOnInit(): void {
@@ -58,46 +58,58 @@ export class ModalPutCityComponent implements OnInit {
       this.postCity();
   }
 
-  postCity() {
+  async postCity() {
     if (!this.city.name.trim())
-      this.snackBar.open('Preencha o nome da cidade', 'Fechar');
-    else
-      this.cityService.post(this.city).subscribe(
-        () => {
-          this.globalFunc.showNotification("Cidade criada com sucesso!", 1)
+      this.snackBar.open('Preencha o nome da cidade', 'Fechar', { duration: 2000 });
 
-          this.dialogRef.close();
-        },
-        err => {
-          this.globalFunc.showNotification("Ocorreu um erro durante a criação", 3)
+    else {
+      const close: boolean = await this.functions.confirm("Confirmar criação da cidade?", {
+        width: "350px"
+      })
 
-          console.log(err);
-        }
-      )
+      if (close === true)
+        this.cityService.post(this.city).subscribe(
+          () => {
+            this.functions.showNotification("Cidade criada com sucesso!", 1)
+
+            this.dialogRef.close();
+          },
+          err => {
+            this.functions.showNotification("Ocorreu um erro durante a criação", 3)
+
+            console.log(err);
+          }
+        )
+    }
   }
 
-  putCity() {
-    const citySubmit = this.city;
+  async putCity() {
+    const citySubmit: StoreCity = {};
 
-    if (this.city.name.trim() == this.data.name)
-      delete citySubmit.name;
+    if (this.city.name.trim() != this.data.name)
+      citySubmit.name = this.city.name.trim();
 
-    if (this.city.active == Boolean(this.data.active))
-      delete citySubmit.active
+    if (this.city.active != Boolean(this.data.active))
+      citySubmit.active = this.city.active;
 
     if (JSON.stringify(citySubmit) != '{}') {
-      this.cityService.put(this.data.id, citySubmit).subscribe(
-        () => {
-          this.globalFunc.showNotification("Cidade alterada com sucesso!", 1)
+      const close: boolean = await this.functions.confirm("Confirmar alteração da cidade?", {
+        width: "350px"
+      })
 
-          this.dialogRef.close();
-        },
-        err => {
-          this.globalFunc.showNotification("Ocorreu um erro durante a alteração", 3)
+      if (close === true)
+        this.cityService.put(this.data.id, citySubmit).subscribe(
+          () => {
+            this.functions.showNotification("Cidade alterada com sucesso!", 1)
 
-          console.log(err)
-        }
-      )
+            this.dialogRef.close();
+          },
+          err => {
+            this.functions.showNotification("Ocorreu um erro durante a alteração", 3)
+
+            console.log(err)
+          }
+        )
     }
     else
       this.snackBar.open('Nenhuma alteração realizada', 'Fechar', { duration: 2000 })

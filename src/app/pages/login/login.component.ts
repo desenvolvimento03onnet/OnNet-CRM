@@ -93,8 +93,6 @@ export class LoginComponent implements OnInit {
         if (rememberLogin.checked)
           localStorage.setItem('username', loginFormValue.username)
 
-        this.loading = false;
-
         this.router.navigateByUrl('/dashboard')
       },
       err => {
@@ -123,9 +121,5 @@ export class LoginComponent implements OnInit {
       this.renderer.setStyle(loginErr, "transform", "scale(0)");
       this.renderer.setStyle(loginErr, "height", "0");
     }
-  }
-
-  teste(ev){
-    alert(ev)
   }
 }
