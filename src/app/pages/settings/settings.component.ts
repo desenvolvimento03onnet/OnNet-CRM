@@ -1,24 +1,24 @@
-import { ModalPutCityComponent } from './../../modal/modal-put-city/modal-put-city.component';
-import { ModalPutQuestComponent } from './../../modal/modal-put-quest/modal-put-quest.component';
+import { ModalPutCityComponent } from '../../modal/modal-put-city/modal-put-city.component';
+import { ModalPutQuestComponent } from '../../modal/modal-put-quest/modal-put-quest.component';
 import { ModalPutSearchComponent } from '../../modal/modal-put-search/modal-put-search.component';
-import { ModalPutUserComponent } from './../../modal/modal-put-user/modal-put-user.component';
+import { ModalPutUserComponent } from '../../modal/modal-put-user/modal-put-user.component';
 import { MatDialog } from '@angular/material/dialog';
-import { GlobalFunctions } from './../../global';
-import { CityService } from './../../services/city.service';
-import { City } from './../../models/City';
-import { QuestService } from './../../services/quest.service';
-import { Quest } from './../../models/Quest';
-import { SearchService } from './../../services/search.service';
-import { Search } from './../../models/Search';
+import { GlobalFunctions } from '../../global';
+import { CityService } from '../../services/city.service';
+import { City } from '../../models/City';
+import { QuestService } from '../../services/quest.service';
+import { Quest } from '../../models/Quest';
+import { SearchService } from '../../services/search.service';
+import { Search } from '../../models/Search';
 import { MatTableDataSource } from '@angular/material/table';
-import { UserService } from './../../services/user.service';
-import { User } from './../../models/User';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/User';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-notifications',
-  templateUrl: './notifications.component.html',
-  styleUrls: ['./notifications.component.css'],
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class NotificationsComponent implements OnInit {
@@ -108,7 +108,7 @@ export class NotificationsComponent implements OnInit {
       },
       err => {
         console.log(err);
-        
+
         this.globalFunc.showNotification("Não foi possível carregar as perguntas", 2);
       }
     )
@@ -128,14 +128,14 @@ export class NotificationsComponent implements OnInit {
     )
   }
 
-  applyFilterUser(event: Event) {
+  applyFilterUser(value: string) {
     if (this.users.length > 0) {
       const padronize = this.globalFunc.padronize;
 
-      const filterValue = padronize((event.target as HTMLInputElement).value);
+      const filterValue = padronize(value);
       const active = this.activeUsers;
 
-      this.filterUsersValue = filterValue;
+      this.filterUsersValue = value;
 
       this.dataSourceUsers.data = this.users.filter(function (user) {
         return ((padronize(user.name).indexOf(filterValue) != -1)
@@ -145,14 +145,14 @@ export class NotificationsComponent implements OnInit {
     }
   }
 
-  applyFilterSearch(event: Event) {
+  applyFilterSearch(value: string) {
     if (this.searches.length > 0) {
       const padronize = this.globalFunc.padronize;
 
-      const filterValue = padronize((event.target as HTMLInputElement).value);
+      const filterValue = padronize(value);
       const active = this.activeSearches;
 
-      this.filterSearchesValue = filterValue;
+      this.filterSearchesValue = value;
 
       this.dataSourceSearches = this.searches.filter(function (search) {
         return (padronize(search.type).indexOf(filterValue) != -1)
@@ -161,14 +161,14 @@ export class NotificationsComponent implements OnInit {
     }
   }
 
-  applyFilterQuest(event: Event) {
+  applyFilterQuest(value: string) {
     if (this.quests.length > 0) {
       const padronize = this.globalFunc.padronize;
 
-      const filterValue = padronize((event.target as HTMLInputElement).value);
+      const filterValue = padronize(value);
       const active = this.activeQuests;
 
-      this.filterQuestsValue = filterValue;
+      this.filterQuestsValue = value;
 
       this.dataSourceQuests = this.quests.filter(function (quest) {
         return (padronize(quest.question).indexOf(filterValue) != -1)
@@ -177,14 +177,14 @@ export class NotificationsComponent implements OnInit {
     }
   }
 
-  applyFilterCity(event: Event) {
+  applyFilterCity(value: string) {
     if (this.cities.length > 0) {
       const padronize = this.globalFunc.padronize;
 
-      const filterValue = padronize((event.target as HTMLInputElement).value);
+      const filterValue = padronize(value);
       const active = this.activeCities;
 
-      this.filterCitiesValue = filterValue;
+      this.filterCitiesValue = value;
 
       this.dataSourceCities.data = this.cities.filter(function (city) {
         return ((padronize(city.name).indexOf(filterValue) != -1)

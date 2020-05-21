@@ -27,7 +27,7 @@ export class GlobalFunctions {
         return text.toLowerCase().normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z\s])/g, '')
     }
 
-    dataConverter(date: Date) {
+    dateConverter(date: Date) {
 
         if (date === null) {
             return 'NaN-NaN-NaN'
@@ -41,6 +41,29 @@ export class GlobalFunctions {
         month = month < 10 ? '0' + month : month;
 
         return year + '-' + month + '-' + day;
+    }
+
+    dateTimeConverter(date: Date) {
+
+        if (date === null) {
+            return 'NaN-NaN-NaN'
+        }
+
+        const year = date.getFullYear();
+        let month: number | string = date.getMonth() + 1;
+        let day: number | string = date.getDate();
+
+        let hours: number | string = date.getHours();
+        let minutes: number | string = date.getMinutes();
+        let seconds: number | string = date.getSeconds();
+
+        day = day < 10 ? '0' + day : day;
+        month = month < 10 ? '0' + month : month;
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        return year + '-' + month + '-' + day + ' ' + hours;
     }
 
     showNotification(message: String, type: number) {
@@ -70,12 +93,16 @@ export class GlobalFunctions {
         });
     }
 
-    async confirm(title: String, params: { subtitle?: String, width?: string }) {
-        const width = params.width || "350px"
+    async confirm(title: String, params?: { subtitle?: String, width?: string }) {
         const submit: ModalConfig = { title: title }
-        
-        if (params.subtitle)
-            submit.subtitle = params.subtitle
+        var width: string = "350px";
+
+        if (params) {
+            width = params.width || "350px"
+
+            if (params.subtitle)
+                submit.subtitle = params.subtitle
+        }
 
         return await this.dialog.open(ModalConfirmComponent, {
             width: width,

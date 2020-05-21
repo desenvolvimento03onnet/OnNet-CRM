@@ -6,8 +6,8 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TableListComponent } from '../../pages/table-list/table-list.component';
 import { TypographyComponent } from '../../pages/typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
-import { MapsComponent } from '../../pages/maps/maps.component';
-import { NotificationsComponent } from '../../pages/notifications/notifications.component';
+import { MapsComponent } from '../../pages/interview/interview.component';
+import { NotificationsComponent } from '../../pages/settings/settings.component';
 import { AuthGuardService } from 'app/guard/authGuard.service';
 
 export const AdminLayoutRoutes: Routes = [

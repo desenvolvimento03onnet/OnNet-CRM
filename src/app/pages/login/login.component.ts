@@ -76,6 +76,9 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
+    const body = document.getElementById('body');
+    this.renderer.setStyle(body, 'pointer-events', 'none');
+
     this.authService.getToken(loginFormValue).subscribe(
       async suc => {
 
@@ -104,6 +107,7 @@ export class LoginComponent implements OnInit {
           this.globalFunc.showNotification("Não foi possível efetuar o login. Erro: " + err.status, 3)
 
         this.loading = false;
+        this.renderer.setStyle(body, 'pointer-events', 'all');
 
         console.log(err);
       }

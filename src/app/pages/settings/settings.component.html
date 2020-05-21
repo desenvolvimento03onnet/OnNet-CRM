@@ -6,12 +6,13 @@
                     <div class="col-6">
                         <mat-form-field>
                             <mat-label>Buscar</mat-label>
-                            <input matInput (keyup)="applyFilterUser($event)" autocomplete="off"
+                            <input matInput (keyup)="applyFilterUser($event.target.value)" autocomplete="off"
                                 [(ngModel)]="filterUsersValue">
-                            <!-- <button mat-button *ngIf="filterUsersValue" matSuffix mat-icon-button aria-label="Clear"
-                                (click)="filterUsersValue=''">
+
+                            <button mat-button *ngIf="filterUsersValue" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="applyFilterUser('')">
                                 <mat-icon>close</mat-icon>
-                            </button> -->
+                            </button>
                         </mat-form-field>
                     </div>
                     <div class="col">
@@ -79,7 +80,13 @@
                     <div class="col-6">
                         <mat-form-field>
                             <mat-label>Buscar</mat-label>
-                            <input matInput (keyup)="applyFilterSearch($event)">
+                            <input matInput (keyup)="applyFilterSearch($event.target.value)" autocomplete="off"
+                                [(ngModel)]="filterSearchesValue">
+
+                            <button mat-button *ngIf="filterSearchesValue" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="applyFilterSearch('')">
+                                <mat-icon>close</mat-icon>
+                            </button>
                         </mat-form-field>
                     </div>
                     <div class="col">
@@ -162,7 +169,13 @@
                     <div class="col-6">
                         <mat-form-field>
                             <mat-label>Buscar</mat-label>
-                            <input matInput (keyup)="applyFilterQuest($event)">
+                            <input matInput (keyup)="applyFilterQuest($event.target.value)" autocomplete="off"
+                                [(ngModel)]="filterQuestsValue">
+
+                            <button mat-button *ngIf="filterQuestsValue" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="applyFilterQuest('')">
+                                <mat-icon>close</mat-icon>
+                            </button>
                         </mat-form-field>
                     </div>
                     <div class="col">
@@ -254,7 +267,13 @@
                     <div class="col-6">
                         <mat-form-field>
                             <mat-label>Buscar</mat-label>
-                            <input matInput (keyup)="applyFilterCity($event)">
+                            <input matInput (keyup)="applyFilterCity($event.target.value)" autocomplete="off"
+                                [(ngModel)]="filterCitiesValue">
+
+                            <button mat-button *ngIf="filterCitiesValue" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="applyFilterCity('')">
+                                <mat-icon>close</mat-icon>
+                            </button>
                         </mat-form-field>
                     </div>
                     <div class="col">
