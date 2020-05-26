@@ -24,7 +24,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 export class NotificationsComponent implements OnInit {
 
   //user tab
-  private displayedColumnsUsers: String[] = ['name', 'username', 'status', 'edit']
+  private displayedColumnsUsers: String[] = ['name', 'username', 'permission', 'edit']
   private users: User[] = [];
   private dataSourceUsers = new MatTableDataSource([]);
   private activeUsers: boolean = true;

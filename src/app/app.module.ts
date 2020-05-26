@@ -78,6 +78,8 @@ import { ModalPutCityComponent } from './modal/modal-put-city/modal-put-city.com
 import { ModalPutPasswordComponent } from './modal/modal-put-password/modal-put-password.component';
 import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.component';
 import { FileSaverModule } from 'ngx-filesaver';
+import { RegisterQuestComponent } from './pages/register-quest/register-quest.component';
+import { ModalFilterInterviewsComponent } from './modal/modal-filter-interviews/modal-filter-interviews.component';
 
 @NgModule({
   imports: [
@@ -146,7 +148,9 @@ import { FileSaverModule } from 'ngx-filesaver';
     ModalPutQuestComponent,
     ModalPutCityComponent,
     ModalPutPasswordComponent,
-    ModalConfirmComponent
+    ModalConfirmComponent,
+    RegisterQuestComponent,
+    ModalFilterInterviewsComponent
   ],
   providers: [
     {

@@ -1,3 +1,4 @@
+import { User } from './User';
 import { Search } from './Search';
 import { City } from './City';
 
@@ -12,4 +13,5 @@ export class Interview {
     updated_at: Date;
     search: Search;
     city: City;
+    user: User;
 }

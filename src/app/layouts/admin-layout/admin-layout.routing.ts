@@ -1,3 +1,4 @@
+import { RegisterQuestComponent } from './../../pages/register-quest/register-quest.component';
 import { PermissionGuardService } from './../../guard/permissionGuard.service';
 import { Routes } from '@angular/router';
 
@@ -22,7 +23,7 @@ export const AdminLayoutRoutes: Routes = [
         canActivate: [AuthGuardService, PermissionGuardService]
     },
     {
-        path: 'user-profile',
+        path: 'user_profile',
         component: UserProfileComponent,
         canActivate: [AuthGuardService]
     },
@@ -34,6 +35,11 @@ export const AdminLayoutRoutes: Routes = [
     {
         path: 'typography',
         component: TypographyComponent,
+        canActivate: [AuthGuardService]
+    },
+    {
+        path: 'register_quest',
+        component: RegisterQuestComponent,
         canActivate: [AuthGuardService]
     },
     {

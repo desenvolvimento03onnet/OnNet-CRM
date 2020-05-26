@@ -1,4 +1,4 @@
-.sidebar[data-color=danger] li.active > a {
+.sidebar[data-color="danger"] li.active > a {
     background-color: #00b96c !important;
     box-shadow: 0 4px 20px 0px #00000024, 0 7px 10px -5px #00b96c63 !important;
 }
@@ -7,6 +7,14 @@
     color: #fff;
 }
 
-.dropdown-item{
+.dropdown-item {
     color: #fff !important;
+}
+
+.dropdown-menu-register {
+    padding: 0 15px;
+    position: static !important;
+    float: none !important;
+    box-shadow: none !important;
+    background: none !important;
 }

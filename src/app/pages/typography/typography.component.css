@@ -1,59 +1,36 @@
-table {
+@import "../../../styles.css";
+
+.mat-dialog-content{
+    height: 100%;
+}
+
+.mat-table {
     width: 100%;
 }
 
-mat-form-field {
-    padding: 10px;
+.btnBotRight{
+    position: absolute !important;
+    bottom: 0;
+    right: 0;
 }
 
-/*Não funfa*/
-.pergunta,
-.detalhado,
-.geral {
-    overflow-x: hidden;
-}
-
-.radio-group {
+.loadMoreInterviews {
     display: flex;
-    float: right;
+    justify-content: center;
+    width: 100%;
+    margin-top: 25px;
+    font-size: 20pt;
 }
 
-.radio-button {
-    padding: 1px;
-    margin: 7px;
+.loadMoreInterviews mat-icon{
+    font-size: 30pt;
 }
 
-td {
-    max-width: 50px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-th {
-    max-width: 25px;
-}
-
-mat-tab {
-    overflow: hidden;
-}
-
-.lim-small {
-    min-width: 9px;
-    max-width: 10px;
-}
-
-.lim-small-more {
-    min-width: 4px;
-    max-width: 5px;
-}
-
-.lim-medium {
-    min-width: 14px;
-    max-width: 15px;
-}
-
-.lim-high {
-    min-width: 40px;
-    max-width: 41px;
+.infoInterview{
+    margin: auto;
+    opacity: .6;
+    font-size: 12pt;
+    display: flex;
+    justify-content: center;
+    padding: 5px;
 }

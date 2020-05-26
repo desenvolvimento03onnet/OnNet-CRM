@@ -5,6 +5,23 @@ import { GlobalVariables } from './../global';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 
+interface AdvancedSearch {
+    client_name?: String;
+    city?: Number;
+    search?: Number;
+    user?: Number;
+    begin?: String;
+    end?: String;
+}
+
+interface Pagination {
+    total: Number;
+    perPage: Number;
+    page: Number;
+    lastPage: Number;
+    data: Interview[];
+}
+
 @Injectable()
 export class InterviewService {
 
@@ -30,8 +47,20 @@ export class InterviewService {
         return this.http.get<Interview>(this.baseUrl + urlParams);
     }
 
-    getHisotry(...params: String[]): Observable<Interview> {
-        return this.http.get<Interview>(this.baseUrl + params);
+    getFiltered(request: AdvancedSearch, ...params: String[]): Observable<Pagination> {
+        var urlParams: string = '';
+
+        if (params) {
+            urlParams = '?';
+
+            params.forEach(param => {
+                urlParams += param + '&';
+            })
+
+            urlParams = urlParams.slice(0, -1);
+        }
+
+        return this.http.post<Pagination>(this.baseUrl + '/filtered' + urlParams, request);
     }
 
     getById(id: Number): Observable<Interview> {

@@ -1,0 +1,19 @@
+@import "../modal.component.css";
+@import "../../../styles.css";
+
+.removeDateFilter {
+    margin: 0 10px !important;
+}
+
+.halfWidth {
+    width: 40%;
+}
+
+.border-padding {
+    padding: 0 15px;
+}
+
+.filterForm .row {
+    padding-right: 15px;
+    padding-left: 15px;
+}

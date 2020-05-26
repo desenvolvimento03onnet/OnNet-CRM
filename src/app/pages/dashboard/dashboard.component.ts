@@ -61,8 +61,8 @@ export class DashboardComponent implements OnInit {
   private chartLoading: Boolean = true;
   private totalInterviews: Number = 0;
 
-  private beginDate: Date;
-  private endDate: Date;
+  private beginDate: Date = null;
+  private endDate: Date = null;
   private citySelected: City
 
   constructor(

@@ -1,180 +1,77 @@
 <div class="main-content">
     <div class="container-fluid">
-        <div class="card background-grey">
-            <div class="card-header card-header-blue">
-                <h4 class="card-title">Histórico</h4>
-                <p class="card-category">Lista de Pesquisas Recentes</p>
+
+        <mat-chip selectable="true" removable="true">
+            teste
+            <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field>
+                    <mat-label>Buscar</mat-label>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cliente, cidade ou usuário"
+                        autocomplete="off" [(ngModel)]="filterValue">
+
+                    <button mat-button *ngIf="filterValue" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="applyFilter('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
             </div>
-            <div id="typography">
-                <mat-tab-group>
-                    <mat-tab label="Pesquisas por Cidade">
-                        <div class="row">
-                            <div class="col-4">
-                                <mat-form-field>
-                                    <mat-label>Buscar</mat-label>
-                                    <input matInput (keyup)="applyFilterCity($event.target.value)">
-                                </mat-form-field>
-                            </div>
 
-                            <mat-radio-group color="primary" class="radio-group" [(ngModel)]="radioCity">
-                                <div class="row">
-                                    <div class="col-2">
-                                        <mat-radio-button class="radio-button" #cityActivyHistoryCity>
-                                            Cidade
-                                        </mat-radio-button>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2">
-                                        <mat-radio-button class="radio-button" #searchActivyHistoryCity>
-                                            Pesquisa
-                                        </mat-radio-button>
-                                    </div>
-                                </div>
-                            </mat-radio-group>
-                        </div>
-
-                        <table mat-table [dataSource]="dataSourceHistoryCity" matSort #sortCity="matSort">
-                            <!--Pesquisa-->
-                            <ng-container matColumnDef="search">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Pesquisa</th>
-                                <td mat-cell *matCellDef="let item;">{{ item.search }}</td>
-                            </ng-container>
-
-                            <!--Cidade-->
-                            <ng-container matColumnDef="city">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cidade</th>
-                                <td mat-cell *matCellDef="let item;">{{ item.city }}</td>
-                            </ng-container>
-
-                            <!--Média-->
-                            <ng-container matColumnDef="avarage">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Média</th>
-                                <td mat-cell *matCellDef="let item;">{{ item.avarage * 2 | number:'1.1-1' }}</td>
-                            </ng-container>
-
-                            <tr mat-header-row *matHeaderRowDef="displayedColumnsHistoryCity"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumnsHistoryCity;"></tr>
-                        </table>
-                    </mat-tab>
-
-                    <mat-tab label="Perguntas Geral" class="pergunta">
-                        <div class="row">
-                            <div class="col-2">
-                                <mat-form-field>
-                                    <mat-label>Buscar</mat-label>
-                                    <input matInput (keyup)="applyFilterSearch($event.target.value)">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-2">
-                                <mat-form-field>
-                                    <mat-label>Data</mat-label>
-                                    <input matInput [matDatepicker]="pickerGeral"
-                                        [(ngModel)]="dateFilter">
-                                    <mat-datepicker-toggle matSuffix [for]="pickerGeral"></mat-datepicker-toggle>
-                                    <mat-datepicker #pickerGeral></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-
-                            <mat-radio-group color="primary" class="radio-group" [(ngModel)]="radioSearch">
-                                <div class="col-2">
-                                    <mat-radio-button class="radio-button" #cityActivyHistorySearch>
-                                        Cidade
-                                    </mat-radio-button>
-                                    <mat-radio-button class="radio-button" #clientActivyHistorySearch>
-                                        Cliente
-                                    </mat-radio-button>
-                                </div>
-                                <div class="col-2">
-                                    <mat-radio-button class="radio-button" #questActivyHistorySearch>
-                                        Pergunta
-                                    </mat-radio-button>
-                                    <mat-radio-button class="radio-button" #noteActivyHistorySearch>
-                                        Comentário
-                                    </mat-radio-button>
-                                </div>
-                                <div class="col-2">
-                                    <mat-radio-button class="radio-button" #userActivyHistorySearch>
-                                        Usuário
-                                    </mat-radio-button>
-                                    <mat-radio-button class="radio-button" #searchActivyHistorySearch>
-                                        Pesquisa
-                                    </mat-radio-button>
-                                </div>
-                            </mat-radio-group>
-                        </div>
-
-                        <table mat-table [dataSource]="dataSourceHistoryAll" matSort #sortAnswer="matSort">
-                            <!--Pesquisa-->
-                            <ng-container matColumnDef="search">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="lim-small">Pesquisa</th>
-                                <td mat-cell *matCellDef="let item;" class="lim-small">{{ item.search }}</td>
-                            </ng-container>
-
-                            <!--Nome-->
-                            <ng-container matColumnDef="name">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="lim-small">Nome</th>
-                                <td mat-cell *matCellDef="let item;" matTooltip={{item.client_name}}
-                                    matTooltipClass="custom-tooltip" class="lim-small">{{ item.client_name }}</td>
-                            </ng-container>
-
-                            <!--Questão-->
-                            <ng-container matColumnDef="question">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="lim-high">Pergunta</th>
-                                <td mat-cell *matCellDef="let item;" matTooltip={{item.question}}
-                                    matTooltipClass="custom-tooltip" class="lim-high">{{ item.question }}</td>
-                            </ng-container>
-
-                            <!--Nota-->
-                            <ng-container matColumnDef="rate">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="lim-small-more">Nota</th>
-                                <td mat-cell *matCellDef="let item;" align="center" class="lim-small-more">
-                                    {{ item.rate }}</td>
-                            </ng-container>
-
-                            <!--Comentário-->
-                            <ng-container matColumnDef="note">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="lim-high">Comentários</th>
-                                <td mat-cell *matCellDef="let item;" matTooltip={{item.note}}
-                                    matTooltipClass="custom-tooltip" class="lim-high">{{ item.note }}</td>
-                            </ng-container>
-
-                            <!--Cidade-->
-                            <ng-container matColumnDef="city">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="lim-medium">Cidade</th>
-                                <td mat-cell *matCellDef="let item;" class="lim-medium">{{ item.city }}
-                                </td>
-                            </ng-container>
-
-                            <!--Usuário-->
-                            <ng-container matColumnDef="user">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="lim-medium">Usuário</th>
-                                <td mat-cell *matCellDef="let item;" class="lim-medium">{{ item.user }}</td>
-                            </ng-container>
-
-                            <!--Data-->
-                            <ng-container matColumnDef="date">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="lim-medium">Data</th>
-                                <td mat-cell *matCellDef="let item;" class="lim-medium">
-                                    {{ item.updated_at | date:'dd/MM/yyyy dd:HH' }}
-                                </td>
-                            </ng-container>
-
-                            <tr mat-header-row *matHeaderRowDef="displayedColumnsHistoryAll"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumnsHistoryAll;"></tr>
-                        </table>
-
-                        <button (click)="teste()">Previous</button>
-
-                        <mat-paginator
-                            #paginatorAll
-                            [length]="total"
-                            [pageSize]="120"
-                            (page)="pageEvent = onPaginateChange($event)"
-                        >
-                        </mat-paginator>
-                    </mat-tab>
-                </mat-tab-group>
+            <div class="col">
+                <button mat-button mat-icon-button (click)="openFilterInterview()" matTooltip="Busca avançada"
+                    matTooltipClass="custom-tooltip">
+                    <mat-icon>search</mat-icon>
+                </button>
             </div>
         </div>
+
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="client_name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
+                <td mat-cell *matCellDef="let interview"> {{interview.client_name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="search">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Pesquisa </th>
+                <td mat-cell *matCellDef="let interview"> {{interview.search.type}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cidade </th>
+                <td mat-cell *matCellDef="let interview"> {{interview.city.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="user">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuário </th>
+                <td mat-cell *matCellDef="let interview"> {{interview.user.username}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="interview_date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
+                <td mat-cell *matCellDef="let interview"> {{interview.interview_date | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="info">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let interview">
+                    <button mat-icon-button>
+                        <mat-icon class="infoInterview">info</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <div class="loadMoreInterviews">
+            <button mat-icon-button>
+                <mat-icon>add_circle_outline</mat-icon>
+            </button>
+        </div>
+
     </div>
+</div>
