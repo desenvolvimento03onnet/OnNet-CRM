@@ -1,0 +1,10 @@
+@import "../../../styles.css";
+@import "../modal.component.css";
+
+.mat-list-icon {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-line{
+    white-space: pre-line !important;
+}

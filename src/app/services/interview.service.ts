@@ -15,10 +15,10 @@ interface AdvancedSearch {
 }
 
 interface Pagination {
-    total: Number;
-    perPage: Number;
-    page: Number;
-    lastPage: Number;
+    total: number;
+    perPage: number;
+    page: number;
+    lastPage: number;
     data: Interview[];
 }
 

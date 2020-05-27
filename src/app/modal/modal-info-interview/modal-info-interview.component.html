@@ -1,0 +1,84 @@
+<div class="modal-content">
+    <div mat-dialog-title>
+        {{data.client_name}}
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-content>
+        <mat-list>
+            <div mat-subheader>Avaliação</div>
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon class="non-select">thumbs_up_down</mat-icon>
+                            <div mat-line>Média</div>
+                            <div mat-line>{{average.toFixed(2)}}</div>
+                        </mat-list-item>
+                    </div>
+
+                    <div class="col">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon class="non-select">thumbs_up_down</mat-icon>
+                            <div mat-line>ISC</div>
+                            <div mat-line>{{isc.toFixed(2)}}</div>
+                        </mat-list-item>
+                    </div>
+                </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div mat-subheader>Informações</div>
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon class="non-select">apartment</mat-icon>
+                            <div mat-line>Cidade</div>
+                            <div mat-line>{{data.city.name}}</div>
+                        </mat-list-item>
+                    </div>
+
+                    <div class="col">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon class="non-select">chat_bubble</mat-icon>
+                            <div mat-line>Tipo de pesquisa</div>
+                            <div mat-line>{{data.search.type}}</div>
+                        </mat-list-item>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon class="non-select">person</mat-icon>
+                            <div mat-line>Operador</div>
+                            <div mat-line>{{data.user.name}} - {{data.user.username}}</div>
+                        </mat-list-item>
+                    </div>
+
+                    <div class="col">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon class="non-select">date_range</mat-icon>
+                            <div mat-line>Finalizado em</div>
+                            <div mat-line>{{data.interview_date | date: 'dd/MM/yyyy'}} às {{interviewTime}}h</div>
+                        </mat-list-item>
+                    </div>
+                </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div mat-subheader>Perguntas</div>
+            <div>
+                <mat-list-item *ngFor="let answer of answers">
+                    <mat-icon mat-list-icon class="non-select">question_answer</mat-icon>
+                    <div mat-line>{{answer.quest.question}}</div>
+                    <div mat-line>&nbsp;</div>
+                    <div mat-line>Nota: {{answer.rate}}</div>
+                    <div mat-line>Comentátio: <i>{{answer.note || 'sem comentário'}}</i></div>
+                </mat-list-item>
+            </div>
+        </mat-list>
+    </div>
+</div>

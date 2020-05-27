@@ -3,7 +3,7 @@ import { Interview } from './Interview';
 
 export class Answer {
     id: Number;
-    rate: Number;
+    rate: number;
     note: String;
     interview_id: Number;
     quest_id: Number;

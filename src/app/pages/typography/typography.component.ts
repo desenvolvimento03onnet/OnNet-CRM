@@ -1,3 +1,4 @@
+import { ModalInfoInterviewComponent } from './../../modal/modal-info-interview/modal-info-interview.component';
 import { ModalFilterInterviewsComponent } from './../../modal/modal-filter-interviews/modal-filter-interviews.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalFunctions } from './../../global';
@@ -28,9 +29,11 @@ export class TypographyComponent implements OnInit {
   private displayedColumns: String[] = ['client_name', 'search', 'city', 'user', 'interview_date', 'info'];
   private interviews: Interview[] = [];
   private filter: AdvancedSearch;
-  private currentPage: Number = 1;
+  private currentPage: number = 1;
   private dataSource: MatTableDataSource<Interview>;
   private filterValue: String;
+  private filters: String[];
+  private lastPage: Number = 1;
 
   constructor(
     private interviewService: InterviewService,
@@ -48,13 +51,13 @@ export class TypographyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.openFilterInterview();
-
     this.interviewService.getFiltered(this.filter).subscribe(
       suc => {
         this.interviews = suc.data;
 
         this.dataSource = new MatTableDataSource(this.interviews);
+
+        this.lastPage = suc.lastPage;
 
         this.dataSource.sortingDataAccessor = (item, property) => {
           switch (property) {
@@ -90,16 +93,43 @@ export class TypographyComponent implements OnInit {
     this.dialog.open(ModalFilterInterviewsComponent, {
       width: "600px",
       height: "400px",
-      data: {
-        page: this.currentPage
-      }
     }).beforeClosed().subscribe(filter => {
-      console.log(filter);
-
       if (filter) {
         this.dataSource.data = filter.data;
+
+        this.filters = filter.filters;
       }
     })
+  }
+
+  clearFilters() {
+    this.dataSource.data = this.interviews;
+
+    this.filters = null;
+  }
+
+  nextPage() {
+    if (this.currentPage < this.lastPage)
+      this.interviewService.getFiltered(this.filter, "page=" + (this.currentPage + 1)).subscribe(
+        suc => {
+          this.currentPage = suc.page;
+          this.lastPage = suc.lastPage;
+
+          this.interviews = this.interviews.concat(suc.data);
+
+          this.dataSource.data = this.interviews;
+        },
+        err => {
+          console.log(err);
+        })
+  }
+
+  infoInterview(interview: Interview) {
+    this.dialog.open(ModalInfoInterviewComponent, {
+      width: "1000px",
+      height: "600px",
+      data: interview
+    });
   }
 
 }

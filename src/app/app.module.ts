@@ -80,6 +80,7 @@ import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.compo
 import { FileSaverModule } from 'ngx-filesaver';
 import { RegisterQuestComponent } from './pages/register-quest/register-quest.component';
 import { ModalFilterInterviewsComponent } from './modal/modal-filter-interviews/modal-filter-interviews.component';
+import { ModalInfoInterviewComponent } from './modal/modal-info-interview/modal-info-interview.component';
 
 @NgModule({
   imports: [
@@ -150,7 +151,8 @@ import { ModalFilterInterviewsComponent } from './modal/modal-filter-interviews/
     ModalPutPasswordComponent,
     ModalConfirmComponent,
     RegisterQuestComponent,
-    ModalFilterInterviewsComponent
+    ModalFilterInterviewsComponent,
+    ModalInfoInterviewComponent
   ],
   providers: [
     {

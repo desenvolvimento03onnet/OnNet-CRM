@@ -1,9 +1,5 @@
 @import "../../../styles.css";
 
-.mat-dialog-content{
-    height: 100%;
-}
-
 .mat-table {
     width: 100%;
 }
@@ -24,6 +20,7 @@
 
 .loadMoreInterviews mat-icon{
     font-size: 30pt;
+    cursor: pointer;
 }
 
 .infoInterview{
@@ -33,4 +30,5 @@
     display: flex;
     justify-content: center;
     padding: 5px;
+    cursor: pointer;
 }

@@ -19,10 +19,6 @@
     background: #ddd;
 }
 
-.mat-dialog-content {
-    max-height: 80vh;
-}
-
 .btnActive {
     text-align: center;
 }

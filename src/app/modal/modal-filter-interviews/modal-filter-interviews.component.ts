@@ -105,29 +105,49 @@ export class ModalFilterInterviewsComponent implements OnInit {
       end?: String;
     } = {};
 
-    if (this.filter.client_name)
+    let filters: string[] | String[] = [];
+
+    if (this.filter.client_name) {
       filterSubmit.client_name = this.filter.client_name;
 
-    if (this.filter.city)
+      filters.push(this.filter.client_name.toString());
+    }
+
+    if (this.filter.city) {
       filterSubmit.city = this.filter.city.id;
 
-    if (this.filter.search)
+      filters.push(this.filter.city.name.toString());
+    }
+
+    if (this.filter.search) {
       filterSubmit.search = this.filter.search.id;
 
-    if (this.filter.user)
+      filters.push(this.filter.search.type.toString());
+    }
+
+    if (this.filter.user) {
       filterSubmit.user = this.filter.user.id;
 
-    if (this.filter.begin)
+      filters.push(this.filter.user.username.toString());
+    }
+
+    if (this.filter.begin) {
       filterSubmit.begin = this.functions.dateConverter(this.filter.begin);
 
-    if (this.filter.end)
+      filters.push("De " + this.functions.brazilianDateConverter(this.filter.begin));
+    }
+
+    if (this.filter.end) {
       filterSubmit.end = this.functions.dateConverter(this.filter.end);
+
+      filters.push("Até " + this.functions.brazilianDateConverter(this.filter.end));
+    }
 
     if (JSON.stringify(filterSubmit) != '{}') {
 
-      this.interviewService.getFiltered(filterSubmit, 'page=' + this.data.page).subscribe(
+      this.interviewService.getFiltered(filterSubmit).subscribe(
         suc => {
-          this.dialogRef.close(Object.assign(suc, { filters: filterSubmit }))
+          this.dialogRef.close(Object.assign(suc, { filters: filters }));
         },
         err => {
           this.functions.showNotification("Ocorreu um erro durante busca", 3)

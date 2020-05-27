@@ -1,10 +1,6 @@
 @import "../modal.component.css";
 @import "../../../styles.css";
 
-.mat-dialog-content {
-    max-height: 80vh;
-}
-
 .tableContent {
     max-height: 400px;
     overflow: auto;
