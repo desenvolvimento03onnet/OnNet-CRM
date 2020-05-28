@@ -16,6 +16,10 @@
     width: 100%;
 }
 
+.row .col {
+    margin: auto;
+}
+
 .dash-card {
     max-width: 450px;
     margin: 20px auto;

@@ -36,9 +36,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
-import { TableListComponent } from '../../pages/table-list/table-list.component';
 import { TypographyComponent } from '../../pages/typography/typography.component';
-import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../pages/interview/interview.component';
 import { NotificationsComponent } from '../../pages/settings/settings.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -100,9 +98,7 @@ import { PermissionGuardService } from 'app/guard/permissionGuard.service';
   declarations: [
     DashboardComponent,
     UserProfileComponent,
-    TableListComponent,
     TypographyComponent,
-    IconsComponent,
     NotificationsComponent,
     MapsComponent,
   ],

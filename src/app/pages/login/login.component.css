@@ -15,7 +15,7 @@
 .card-login {
     width: 380px;
     max-height: 90%;
-    max-width: 90%;
+    max-width: 90%; 
     margin: auto;
     overflow: auto;
     background: #f8f9faf2;
@@ -23,6 +23,14 @@
     padding: 20px;
     box-shadow: -5px 5px 8px -3px #52525238, 0px 0px 0px 0.5px #6a747a3d;
     text-align: center;
+}
+
+.card-login .row {
+    margin: 40px 0 20px;
+}
+
+.card-login .row .col {
+    padding: 0;
 }
 
 .card-img {

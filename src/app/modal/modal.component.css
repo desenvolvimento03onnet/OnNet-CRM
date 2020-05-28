@@ -25,3 +25,7 @@ form {
 .btn-close-modal {
     margin-top: 15px;
 }
+
+.modal-content .row {
+    margin: auto;
+}

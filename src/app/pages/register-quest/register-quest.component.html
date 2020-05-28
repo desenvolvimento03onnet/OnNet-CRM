@@ -1,1 +1,19 @@
-<p>register-quest works!</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <mat-tab-group>
+            <mat-tab *ngFor="let search of answerQuests" label={{search.search.type}}>
+                <div *ngFor="let quest of search.quests">
+                    <mat-list>
+                        <div mat-subheader><b>{{quest.quest.question}}</b></div>
+                        <div class="comments">
+                            <mat-list-item *ngFor="let answer of quest.answers">
+                                <div mat-line>{{answer.note}}</div>
+                                <div mat-line>Nota: {{answer.rate}}</div>
+                            </mat-list-item>
+                        </div>
+                    </mat-list>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

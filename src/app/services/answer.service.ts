@@ -5,6 +5,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { CountRates } from 'app/models/CountRates';
 
+interface Paginate {
+    total: Number;
+    perPage: Number;
+    page: number;
+    lastPage: number;
+    data: Answer[];
+}
+
 @Injectable()
 export class AnswerService {
 
@@ -47,6 +55,15 @@ export class AnswerService {
         }
 
         return this.http.get<CountRates[]>(this.baseUrl + '/countRates/' + searchId + urlParams);
+    }
+
+    getNotes(search_id: Number, quest_id: Number, page?: number): Observable<Paginate> {
+        var urlParams = '?search=' + search_id;
+
+        if (page)
+            urlParams += '&page=' + page;
+
+        return this.http.get<Paginate>(this.baseUrl + '/noteByQuest/' + quest_id + urlParams);
     }
 
     put(id: Number, request: {}): Observable<Answer> {
