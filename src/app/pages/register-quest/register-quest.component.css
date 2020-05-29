@@ -1,13 +1,44 @@
 @import "../../../styles.css";
 
-.comments {
-    max-height: 300px;
-    overflow: scroll;
-    margin: 0 10px 25px;
-    box-shadow: 0 0 1px 1px #ddd, 3px 3px 10px 2px #dedede;
-    border-radius: 6px;
+.quests-answers {
+    display: flex;
+    justify-content: space-between;
 }
 
-.mat-line{
+.quests-answers b{
+    margin: auto 0;
+    color: #5689c4c4;
+    cursor: pointer;
+    font-size: .9rem;
+}
+
+.comments {
+    max-height: 400px;
+    overflow: scroll;
+    margin: 0 10px 25px;
+    box-shadow: 3px 3px 10px 2px #dedede, 0 0 1px 1px #c7c6c6;
+    background: #f3f3f3;
+    border-radius: 6px;
     color: #696969;
+    font-size: 12pt;
+    padding: 24px;
+}
+.comments .note{
+    margin-top: 20px;
+}
+
+.comments .rate {
+    font-size: .9rem;
+    margin-bottom: 20px;
+}
+
+.loadMoreInterviews{
+    display: flex;
+    justify-content: center;
+}
+
+.loadMoreInterviews mat-icon{
+    font-size: 20pt;
+    margin-top: 24px;
+    cursor: pointer;
 }

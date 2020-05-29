@@ -1,18 +1,42 @@
 <div class="main-content">
     <div class="container-fluid">
         <mat-tab-group>
-            <mat-tab *ngFor="let search of answerQuests" label={{search.search.type}}>
-                <div *ngFor="let quest of search.quests">
-                    <mat-list>
-                        <div mat-subheader><b>{{quest.quest.question}}</b></div>
+            <mat-tab class="tab-searches" *ngFor="let search of answerQuests" label={{search.search.type}}>
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let quest of search.quests" (afterExpand)="loadAnswers(search, quest)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{quest.quest.question}}</mat-panel-title>
+                        </mat-expansion-panel-header>
+
                         <div class="comments">
-                            <mat-list-item *ngFor="let answer of quest.answers">
-                                <div mat-line>{{answer.note}}</div>
-                                <div mat-line>Nota: {{answer.rate}}</div>
-                            </mat-list-item>
+                            <div *ngFor="let answer of quest.answers">
+                                <div class="quests-answers">
+                                    <div style="margin-top: 20px;">
+                                        <div class>{{answer.note}}</div>
+                                        <div class="rate">
+                                            <i>Nota: {{answer.rate}}</i>
+                                        </div>
+                                    </div>
+
+                                    <b class="non-select"
+                                        (click)="showMore(answer.interview.id)">Detalhes</b>
+                                </div>
+
+                                <mat-divider></mat-divider>
+                            </div>
+
+
+                            <div *ngIf="quest.page < quest.lastPage && !quest.loading" class="loadMoreInterviews">
+                                <mat-icon (click)="nextPage(search, quest)">add_circle_outline</mat-icon>
+                            </div>
+
+                            <mat-card-content *ngIf="quest.loading" class="loading">
+                                <mat-progress-spinner mode="indeterminate">
+                                </mat-progress-spinner>
+                            </mat-card-content>
                         </div>
-                    </mat-list>
-                </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
             </mat-tab>
         </mat-tab-group>
     </div>

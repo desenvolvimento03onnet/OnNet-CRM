@@ -36,7 +36,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
-import { TypographyComponent } from '../../pages/typography/typography.component';
+import { TypographyComponent } from '../../pages/register-interview/register-interview.component';
 import { MapsComponent } from '../../pages/interview/interview.component';
 import { NotificationsComponent } from '../../pages/settings/settings.component';
 import { MatButtonModule } from '@angular/material/button';

@@ -1,11 +1,11 @@
-import { ModalInfoInterviewComponent } from './../../modal/modal-info-interview/modal-info-interview.component';
-import { ModalFilterInterviewsComponent } from './../../modal/modal-filter-interviews/modal-filter-interviews.component';
+import { ModalInfoInterviewComponent } from '../../modal/modal-info-interview/modal-info-interview.component';
+import { ModalFilterInterviewsComponent } from '../../modal/modal-filter-interviews/modal-filter-interviews.component';
 import { MatDialog } from '@angular/material/dialog';
-import { GlobalFunctions } from './../../global';
+import { GlobalFunctions } from '../../global';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Interview } from './../../models/Interview';
-import { InterviewService } from './../../services/interview.service';
+import { Interview } from '../../models/Interview';
+import { InterviewService } from '../../services/interview.service';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 
 interface AdvancedSearch {
@@ -18,9 +18,9 @@ interface AdvancedSearch {
 }
 
 @Component({
-  selector: 'app-typography',
-  templateUrl: './typography.component.html',
-  styleUrls: ['./typography.component.css'],
+  selector: 'app-register-interview',
+  templateUrl: './register-interview.component.html',
+  styleUrls: ['./register-interview.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class TypographyComponent implements OnInit {
@@ -51,6 +51,12 @@ export class TypographyComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.refresh();
+  }
+
+  refresh() {
+    this.functions.showLoading();
+
     this.interviewService.getFiltered(this.filter).subscribe(
       suc => {
         this.interviews = suc.data;
@@ -69,8 +75,14 @@ export class TypographyComponent implements OnInit {
         }
 
         this.dataSource.sort = this.sort;
+
+        this.functions.stopLoading();
       },
       err => {
+        this.functions.stopLoading();
+
+        this.functions.showNotification("Ocorreu um erro ao carregar as pesquisas", 3);
+
         console.log(err);
       }
     )
@@ -109,7 +121,9 @@ export class TypographyComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.currentPage < this.lastPage)
+    if (this.currentPage < this.lastPage) {
+      this.functions.showLoading();
+
       this.interviewService.getFiltered(this.filter, "page=" + (this.currentPage + 1)).subscribe(
         suc => {
           this.currentPage = suc.page;
@@ -118,10 +132,17 @@ export class TypographyComponent implements OnInit {
           this.interviews = this.interviews.concat(suc.data);
 
           this.dataSource.data = this.interviews;
+
+          this.functions.stopLoading();
         },
         err => {
+          this.functions.stopLoading();
+
+          this.functions.showNotification("Ocorreu um erro ao carregar as pesquisas", 3);
+
           console.log(err);
         })
+    }
   }
 
   infoInterview(interview: Interview) {

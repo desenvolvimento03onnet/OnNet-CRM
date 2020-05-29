@@ -47,8 +47,6 @@ export class ModalPutPasswordComponent implements OnInit {
   async onSubmit() {
     const passwdFormValue: ChangePassword = this.passwdForm.value;
 
-    console.log(passwdFormValue);
-
     const user = await this.userService.getById(parseInt(sessionStorage.getItem('userId'))).toPromise();
 
     if (!passwdFormValue.currentPasswd)

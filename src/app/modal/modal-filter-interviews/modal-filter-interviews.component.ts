@@ -79,7 +79,15 @@ export class ModalFilterInterviewsComponent implements OnInit {
   refreshUsers() {
     this.userService.get().subscribe(
       users => {
-        this.users = users;
+        this.users = users.sort(function (a, b) {
+          if (a.name > b.name)
+            return 1;
+
+          if (a.name < b.name)
+            return -1;
+
+          return 0
+        });
       },
       err => {
         console.log(err);
@@ -96,6 +104,8 @@ export class ModalFilterInterviewsComponent implements OnInit {
   }
 
   async onSubmit() {
+    this.functions.showLoading();
+
     const filterSubmit: {
       client_name?: String;
       city?: Number;
@@ -147,9 +157,13 @@ export class ModalFilterInterviewsComponent implements OnInit {
 
       this.interviewService.getFiltered(filterSubmit).subscribe(
         suc => {
+          this.functions.stopLoading();
+
           this.dialogRef.close(Object.assign(suc, { filters: filters }));
         },
         err => {
+          this.functions.stopLoading();
+
           this.functions.showNotification("Ocorreu um erro durante busca", 3)
 
           console.log(err);

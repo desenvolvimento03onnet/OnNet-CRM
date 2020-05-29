@@ -1,5 +1,6 @@
+import { ModalLoadingComponent } from './modal/modal-loading/modal-loading.component';
 import { ModalConfirmComponent } from './modal/modal-confirm/modal-confirm.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 declare var $: any;
@@ -17,6 +18,8 @@ export class GlobalVariables {
 
 @Injectable()
 export class GlobalFunctions {
+
+    private loading: MatDialogRef<ModalLoadingComponent> = null;
 
     constructor(private dialog: MatDialog) { }
 
@@ -126,4 +129,16 @@ export class GlobalFunctions {
         }).beforeClosed().toPromise();
     }
 
+    showLoading() {
+        this.loading = this.dialog.open(ModalLoadingComponent, {
+            disableClose: true
+        });
+    }
+
+    stopLoading() {
+        if (this.loading != null)
+            this.loading.close();
+
+        this.loading = null;
+    }
 }

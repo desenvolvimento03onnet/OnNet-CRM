@@ -4,7 +4,7 @@
     </div>
     <mat-divider></mat-divider>
     <div mat-dialog-content>
-        <form class="filterForm">
+        <form>
             <mat-form-field class="border-padding">
                 <mat-label>Nome do cliente</mat-label>
                 <input matInput type="text" name="client" [(ngModel)]="filter.client_name" autocomplete="off">
@@ -41,7 +41,7 @@
                 <mat-select name="user" [(ngModel)]="filter.user">
                     <mat-option></mat-option>
                     <mat-option *ngFor="let user of users" [value]="user">
-                        {{user.name}} - {{user.username}}
+                        {{user.name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -49,11 +49,6 @@
             <div class="row">
                 <div class="col">
                     <mat-form-field>
-                        <button mat-button class="removeDateFilter" *ngIf="beginDate" matSuffix mat-icon-button
-                            aria-label="Clear" (click)="beginDate=null">
-                            <mat-icon>close</mat-icon>
-                        </button>
-
                         <mat-label>Data de Início</mat-label>
                         <input matInput (dateInput)="setBeginDate($event.value)" [matDatepicker]="begin" disabled>
                         <mat-datepicker-toggle matSuffix [for]="begin"></mat-datepicker-toggle>
@@ -63,11 +58,6 @@
 
                 <div class="col">
                     <mat-form-field>
-                        <button mat-button class="removeDateFilter" *ngIf="endDate" matSuffix mat-icon-button
-                            aria-label="Clear" (click)="endDate=null">
-                            <mat-icon>close</mat-icon>
-                        </button>
-
                         <mat-label>Data de Fim</mat-label>
                         <input matInput (dateInput)="setEndDate($event.value)" [matDatepicker]="end" disabled>
                         <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>

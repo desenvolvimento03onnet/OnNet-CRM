@@ -1,20 +1,13 @@
-import { Answer } from './../../models/Answer';
-import { SearchQuest } from './../../models/SearchQuest';
+import { GlobalFunctions } from './../../global';
+import { InterviewService } from './../../services/interview.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalInfoInterviewComponent } from './../../modal/modal-info-interview/modal-info-interview.component';
 import { AnswerService } from './../../services/answer.service';
-import { SearchQuestService } from './../../services/searchQuest.service';
 import { Interview } from './../../models/Interview';
 import { Quest } from './../../models/Quest';
 import { Search } from './../../models/Search';
 import { SearchService } from './../../services/search.service';
 import { Component, OnInit } from '@angular/core';
-
-interface Paginate {
-  total: Number;
-  perPage: Number;
-  page: number;
-  lastPage: number;
-  data: Answer[];
-}
 
 interface AnswerQuests {
   search: Search;
@@ -22,6 +15,7 @@ interface AnswerQuests {
     quest: Quest;
     page: number;
     lastPage: number;
+    loading: boolean;
     answers: {
       interview: Interview;
       rate: Number;
@@ -42,7 +36,9 @@ export class RegisterQuestComponent implements OnInit {
   constructor(
     private searchService: SearchService,
     private answerService: AnswerService,
-    private searchQuestService: SearchQuestService
+    private interviewService: InterviewService,
+    private functions: GlobalFunctions,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -55,27 +51,85 @@ export class RegisterQuestComponent implements OnInit {
 
     this.answerQuests = [];
 
-    for (var i = 0; i < searches.length; i++) {
-      const searchQuests: SearchQuest[] = await this.searchQuestService.getBySearch(searches[i].id).toPromise();
-
-      this.answerQuests.push({
-        search: searches[i],
+    searches.forEach(search => {
+      answerQuest = {
+        search: search,
         quests: []
-      });
-
-      for (var j = 0; j < searchQuests.length; j++) {
-        const paginate: Paginate = await this.answerService.getNotes(searches[i].id, searchQuests[j].id).toPromise();
-
-        this.answerQuests[i].quests.push({
-          quest: searchQuests[j].quest,
-          page: paginate.page,
-          lastPage: paginate.lastPage,
-          answers: paginate.data
-        })
       }
-    }
 
-    console.log(this.answerQuests)
+      search.quests.forEach(quest => {
+        answerQuest.quests.push({
+          quest: search.quests[search.quests.indexOf(quest)],
+          page: null,
+          lastPage: null,
+          loading: false,
+          answers: []
+        })
+      })
+
+      this.answerQuests.push(answerQuest);
+    })
   }
 
+  async loadAnswers(answerQuest: AnswerQuests, quest: any) {
+    const index = answerQuest.quests.indexOf(quest)
+
+    if (answerQuest.quests[index].page == null) {
+      answerQuest.quests[index].loading = true;
+
+      this.answerService.getNotes(answerQuest.search.id, quest.quest.id).subscribe(
+        paginate => {
+          console.log(paginate);
+
+          answerQuest.quests[index].page = paginate.page;
+          answerQuest.quests[index].lastPage = paginate.lastPage;
+          answerQuest.quests[index].answers = paginate.data;
+
+          answerQuest.quests[index].loading = false;
+        },
+        err => {
+          answerQuest.quests[index].loading = false;
+
+          this.functions.showNotification("Ocorreu um erro ao carregar as respostas", 3);
+
+          console.log(err);
+        }
+      );
+    }
+  }
+
+  nextPage(answerQuest: AnswerQuests, quest: any) {
+    const index = answerQuest.quests.indexOf(quest)
+
+    answerQuest.quests[index].loading = true;
+
+    this.answerService.getNotes(answerQuest.search.id, quest.quest.id, quest.page + 1).subscribe(
+      paginate => {
+        answerQuest.quests[index].page = paginate.page;
+        answerQuest.quests[index].lastPage = paginate.lastPage;
+        answerQuest.quests[index].answers = answerQuest.quests[index].answers.concat(paginate.data);
+
+        answerQuest.quests[index].loading = false;
+      },
+      err => {
+        answerQuest.quests[index].loading = false;
+
+        this.functions.showNotification("Ocorreu um erro ao carregar as respostas", 3);
+
+        console.log(err);
+      }
+    );
+  }
+
+  async showMore(interview_id: Number) {
+    const interview: Interview = await this.interviewService.getById(interview_id).toPromise();
+
+    console.log(interview)
+
+    this.dialog.open(ModalInfoInterviewComponent, {
+      width: "1000px",
+      height: "600px",
+      data: interview
+    });
+  }
 }
