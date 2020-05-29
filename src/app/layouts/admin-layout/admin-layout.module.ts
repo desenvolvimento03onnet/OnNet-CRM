@@ -27,7 +27,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
-import { UserService } from './../../services/user.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -36,9 +35,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
-import { TypographyComponent } from '../../pages/register-interview/register-interview.component';
-import { MapsComponent } from '../../pages/interview/interview.component';
-import { NotificationsComponent } from '../../pages/settings/settings.component';
+import { RegisterInterviewComponet } from '../../pages/register-interview/register-interview.component';
+import { InterviewComponent } from '../../pages/interview/interview.component';
+import { SettingsComponent } from '../../pages/settings/settings.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule, MatNativeDateModule } from '@angular/material/core';
@@ -98,9 +97,9 @@ import { PermissionGuardService } from 'app/guard/permissionGuard.service';
   declarations: [
     DashboardComponent,
     UserProfileComponent,
-    TypographyComponent,
-    NotificationsComponent,
-    MapsComponent,
+    RegisterInterviewComponet,
+    InterviewComponent,
+    SettingsComponent,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

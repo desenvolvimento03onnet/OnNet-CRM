@@ -16,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './interview.component.html',
   styleUrls: ['./interview.component.css']
 })
-export class MapsComponent implements OnInit {
+export class InterviewComponent implements OnInit {
 
   step: number = -1 //Iniciado em -1 pq é o único valor que não da nota
   name: string = '';

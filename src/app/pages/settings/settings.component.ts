@@ -21,7 +21,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./settings.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class NotificationsComponent implements OnInit {
+export class SettingsComponent implements OnInit {
 
   //user tab
   private displayedColumnsUsers: String[] = ['name', 'username', 'permission', 'edit']

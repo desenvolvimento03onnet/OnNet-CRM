@@ -4,9 +4,9 @@ import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
-import { TypographyComponent } from '../../pages/register-interview/register-interview.component';
-import { MapsComponent } from '../../pages/interview/interview.component';
-import { NotificationsComponent } from '../../pages/settings/settings.component';
+import { RegisterInterviewComponet } from '../../pages/register-interview/register-interview.component';
+import { InterviewComponent } from '../../pages/interview/interview.component';
+import { SettingsComponent } from '../../pages/settings/settings.component';
 import { AuthGuardService } from 'app/guard/authGuard.service';
 
 export const AdminLayoutRoutes: Routes = [
@@ -27,7 +27,7 @@ export const AdminLayoutRoutes: Routes = [
     },
     {
         path: 'register_interview',
-        component: TypographyComponent,
+        component: RegisterInterviewComponet,
         canActivate: [AuthGuardService]
     },
     {
@@ -37,12 +37,12 @@ export const AdminLayoutRoutes: Routes = [
     },
     {
         path: 'maps',
-        component: MapsComponent,
+        component: InterviewComponent,
         canActivate: [AuthGuardService]
     },
     {
         path: 'notifications',
-        component: NotificationsComponent,
+        component: SettingsComponent,
         canActivate: [AuthGuardService, PermissionGuardService]
     }
 ];

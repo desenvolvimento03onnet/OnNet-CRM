@@ -23,7 +23,7 @@ interface AdvancedSearch {
   styleUrls: ['./register-interview.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class TypographyComponent implements OnInit {
+export class RegisterInterviewComponet implements OnInit {
   @ViewChild(MatSort, { static: true }) private sort: MatSort;
 
   private displayedColumns: String[] = ['client_name', 'search', 'city', 'user', 'interview_date', 'info'];
