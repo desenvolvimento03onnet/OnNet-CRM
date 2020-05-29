@@ -24,15 +24,13 @@
                                     <mat-form-field>
                                         <mat-label>Nome completo:</mat-label>
                                         <input matInput [(ngModel)]="name" autocomplete="off">
-
                                     </mat-form-field>
 
-                                    <mat-form-field>
+                                    <mat-form-field [hideRequiredMark]="mark">
                                         <mat-placeholder>
                                             Cidade
                                         </mat-placeholder>
                                         <mat-select [(ngModel)]="citySelected" name="city">
-
                                             <mat-option *ngFor="let city of cities" [value]="city">
                                                 {{city.name}}
                                             </mat-option>

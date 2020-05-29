@@ -42,3 +42,7 @@
     margin-top: 24px;
     cursor: pointer;
 }
+
+.comments .date {
+    font-size: .89rem;
+}
