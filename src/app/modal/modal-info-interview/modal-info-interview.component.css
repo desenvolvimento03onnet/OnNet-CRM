@@ -8,3 +8,7 @@
 .mat-line{
     white-space: pre-line !important;
 }
+
+b{
+    font-weight: 600;
+}

@@ -75,8 +75,11 @@
                     <mat-icon mat-list-icon class="non-select">question_answer</mat-icon>
                     <div mat-line>{{answer.quest.question}}</div>
                     <div mat-line>&nbsp;</div>
-                    <div mat-line>Nota: {{answer.rate}}</div>
-                    <div mat-line>Comentátio: <i>{{answer.note || 'sem comentário'}}</i></div>
+                    <div mat-line>Nota: <b>{{answer.rate}}</b></div>
+                    <div mat-line>Comentário: 
+                        <b *ngIf="answer.note">{{answer.note}}</b>
+                        <i *ngIf="!answer.note">Sem comentário</i>
+                    </div>
                 </mat-list-item>
             </div>
         </mat-list>
