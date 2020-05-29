@@ -9,13 +9,15 @@
     margin-bottom: 15px;
 }
 
-.mat-card .mat-card-title .icon-close {
+.mat-card .mat-card-title img {
     float: right;
+    opacity: 0.85;
 }
 
-.mat-card .mat-card-title .icon-close:hover {
+.mat-card .mat-card-title img:hover {
     float: right;
-    box-shadow: -0.8px 6.5px 2px gray;
+    opacity: 1;
+    transition: 0.3s;
 }
 
 .mat-card .mat-card-subtitle {

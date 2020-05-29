@@ -21,18 +21,17 @@
                                         </mat-panel-description>
 
                                     </mat-expansion-panel-header>
-                                    <mat-form-field>
-                                        <mat-label>Nome completo:</mat-label>
-                                        <input matInput [(ngModel)]="name" required autocomplete="off">
-
+                                    <mat-form-field [hideRequiredMark]="mark">
+                                        <mat-label>Nome completo</mat-label>
+                                        <input matInput #nameMat [(ngModel)]="name" autocomplete="off" [required]="required">
+                                        <mat-error *ngIf="teste">Errado</mat-error>
                                     </mat-form-field>
 
-                                    <mat-form-field>
+                                    <mat-form-field [hideRequiredMark]="mark">
                                         <mat-placeholder>
                                             Cidade
                                         </mat-placeholder>
-                                        <mat-select [(ngModel)]="citySelected" name="city" required>
-
+                                        <mat-select [(ngModel)]="citySelected" name="city" [required]="required">
                                             <mat-option *ngFor="let city of cities" [value]="city">
                                                 {{city.name}}
                                             </mat-option>

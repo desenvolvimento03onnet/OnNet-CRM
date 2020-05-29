@@ -10,6 +10,10 @@ import { CityService } from '../../services/city.service';
 import { ModalSearchComponent } from '../../modal/modal-interview/modal-interview.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
+import { MatInput } from '@angular/material/input';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatFormField, MatError } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-maps',
@@ -27,6 +31,10 @@ export class MapsComponent implements OnInit {
   username: String = '';
 
   @ViewChild('idSearch') MatButtonToggleGroup
+
+  @ViewChild('selectedCity') selectedCity: MatFormField
+
+  @ViewChild('nameMat') nameMat: MatFormField
 
   constructor(
     private cityService: CityService,
@@ -85,8 +93,11 @@ export class MapsComponent implements OnInit {
       })
   }
 
+
+  required: boolean = true
+  mark: boolean = false
   openSearch(search: Search) {
-    if (!this.name)
+    if (!this.name || this.name.length <= 3)
       this.snackBar.open('Preencha o nome do cliente', 'Fechar', { duration: 2000 });
 
     else if (!this.citySelected)
@@ -98,7 +109,6 @@ export class MapsComponent implements OnInit {
         city: this.citySelected,
         search_id: search.id
       }
-
       this.modal.open(ModalSearchComponent, {
         width: '93%',
         height: '89%',
@@ -108,8 +118,13 @@ export class MapsComponent implements OnInit {
           interview: body,
           user: this.username.substring(0, this.username.search(' ')),
           search_type: search.type,
-          greetings: this.setGreetings()
+          greetings: this.setGreetings(),
         }
+      }).afterClosed().subscribe(() => {
+        this.name = ''
+        this.citySelected = null
+        this.required = false
+        this.mark = true
       })
     }
   }
