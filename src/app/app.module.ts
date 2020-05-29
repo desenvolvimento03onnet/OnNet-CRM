@@ -92,9 +92,6 @@ import { ModalLoadingComponent } from './modal/modal-loading/modal-loading.compo
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    }),
     A11yModule,
     ClipboardModule,
     CdkStepperModule,

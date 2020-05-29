@@ -12,7 +12,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-maps',
+  selector: 'app-interview',
   templateUrl: './interview.component.html',
   styleUrls: ['./interview.component.css']
 })

@@ -114,17 +114,6 @@ export class AdminLayoutComponent implements OnInit {
       });
   }
 
-  isMaps(path){
-      var titlee = this.location.prepareExternalUrl(this.location.path());
-      titlee = titlee.slice( 1 );
-      if(path == titlee){
-          return false;
-      }
-      else {
-          return true;
-      }
-  }
-
   isMac(): boolean {
       let bool = false;
       if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {

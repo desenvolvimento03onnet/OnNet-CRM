@@ -41,7 +41,6 @@ zone.js                                   0.8.26   →          0.9.1
 @angular/language-service                  7.0.2   →          8.0.0
 @types/bootstrap                          3.3.32   →          4.3.0
 @types/chartist                           0.9.34   →         0.9.46
-@types/googlemaps                         3.30.8   →         3.36.4
 @types/jasmine                            2.5.38   →         3.3.13
 @types/jquery                            1.10.31   →         3.3.29
 @types/node                               6.0.73   →         12.0.7

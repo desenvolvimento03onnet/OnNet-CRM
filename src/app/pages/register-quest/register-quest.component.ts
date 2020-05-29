@@ -124,8 +124,6 @@ export class RegisterQuestComponent implements OnInit {
   async showMore(interview_id: Number) {
     const interview: Interview = await this.interviewService.getById(interview_id).toPromise();
 
-    console.log(interview)
-
     this.dialog.open(ModalInfoInterviewComponent, {
       width: "1000px",
       height: "600px",

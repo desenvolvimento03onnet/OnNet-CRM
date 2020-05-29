@@ -15,7 +15,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/user_profile', title: 'Perfil de Usuário', icon: 'person', class: '' },
   { path: '/register_interview', title: 'Registro de pesquisas', icon: 'library_books', class: '' },
   { path: '/register_quest', title: 'Registro de perguntas', icon: 'assessment', class: '' },
-  { path: '/maps', title: 'Pesquisas', icon: 'question_answer', class: '' },
+  { path: '/interview', title: 'Pesquisas', icon: 'question_answer', class: '' },
   { path: '/notifications', title: 'Configurações', icon: 'settings', class: '' },
 ];
 

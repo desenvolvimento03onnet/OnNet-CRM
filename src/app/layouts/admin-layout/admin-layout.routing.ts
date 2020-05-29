@@ -36,7 +36,7 @@ export const AdminLayoutRoutes: Routes = [
         canActivate: [AuthGuardService]
     },
     {
-        path: 'maps',
+        path: 'interview',
         component: InterviewComponent,
         canActivate: [AuthGuardService]
     },

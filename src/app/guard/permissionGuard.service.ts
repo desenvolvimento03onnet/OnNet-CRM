@@ -18,7 +18,7 @@ export class PermissionGuardService implements CanActivate {
         if (master == '1')
             return true;
 
-        this.router.navigateByUrl('/maps');
+        this.router.navigateByUrl('/interview');
 
         return false
     }
