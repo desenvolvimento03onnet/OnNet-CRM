@@ -34,7 +34,8 @@ export class RegisterInterviewComponet implements OnInit {
   private filterValue: String;
   private filters: String[];
   private lastPage: Number = 1;
-
+  private dataFiltered: Interview[] = null;
+  ;
   constructor(
     private interviewService: InterviewService,
     private functions: GlobalFunctions,
@@ -92,9 +93,11 @@ export class RegisterInterviewComponet implements OnInit {
     const padronize = this.functions.padronize;
     const filterValue = padronize(value);
 
+    const data = this.filters != null ? this.dataFiltered : this.interviews;
+
     this.filterValue = value;
 
-    this.dataSource.data = this.interviews.filter(function (interview) {
+    this.dataSource.data = data.filter(function (interview) {
       return (padronize(interview.client_name).indexOf(filterValue) != -1)
         || (padronize(interview.city.name).indexOf(filterValue) != -1)
         || (padronize(interview.user.name).indexOf(filterValue) != -1)
@@ -108,7 +111,7 @@ export class RegisterInterviewComponet implements OnInit {
     }).beforeClosed().subscribe(filter => {
       if (filter) {
         this.dataSource.data = filter.data;
-
+        this.dataFiltered = filter.data;
         this.filters = filter.filters;
       }
     })
@@ -116,7 +119,7 @@ export class RegisterInterviewComponet implements OnInit {
 
   clearFilters() {
     this.dataSource.data = this.interviews;
-
+    this.dataFiltered = null;
     this.filters = null;
   }
 

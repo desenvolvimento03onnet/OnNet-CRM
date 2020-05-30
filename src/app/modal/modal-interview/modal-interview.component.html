@@ -2,8 +2,8 @@
     <mat-card>
         <mat-card-title>
             {{ data.interview.client_name }} | {{ data.interview.city.name }}
-            <div class="icon-close" class="btnCloseModal">
-                <img (click)="close()" src="assets/img/exit-door.png" alt="Fechar"/>
+            <div class="btnCloseModal">
+                <mat-icon (click)="close()" class="non-select">close</mat-icon>
             </div>
         </mat-card-title>
 

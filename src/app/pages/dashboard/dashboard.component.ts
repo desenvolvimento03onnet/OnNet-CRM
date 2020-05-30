@@ -1,3 +1,5 @@
+import { UserService } from './../../services/user.service';
+import { User } from './../../models/User';
 import { SearchQuestService } from './../../services/searchQuest.service';
 import { CountRates } from 'app/models/CountRates';
 import { City } from './../../models/City';
@@ -34,6 +36,20 @@ interface DataChart {
   }
 }
 
+interface DataMatTable {
+  displayedColumns: string[];
+  dataSource: MatTableDataSource<InterviewsCount>;
+  data: InterviewsCount[];
+  loading: boolean;
+  total: number;
+}
+
+interface MatFilter {
+  beginDate: Date;
+  endDate: Date;
+  user: User;
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -44,31 +60,41 @@ export class DashboardComponent implements OnInit {
   @ViewChild('sortCity', { static: true }) private sortCity: MatSort;
   @ViewChild('sortUser', { static: true }) private sortUser: MatSort;
 
-  private displayedColumnsCity: string[] = ['name', 'count'];
-  private displayedColumnsUser: string[] = ['name', 'count'];
+  private matUser: DataMatTable = {
+    displayedColumns: ['name', 'count'],
+    loading: false,
+    data: [],
+    dataSource: null,
+    total: 0
+  }
 
-  private dataSourceCity: MatTableDataSource<InterviewsCount>;
-  private dataSourceUser: MatTableDataSource<InterviewsCount>;
+  private matCity: DataMatTable = {
+    displayedColumns: ['name', 'count'],
+    loading: false,
+    data: [],
+    dataSource: null,
+    total: 0
+  }
 
-  private matCityLoading: Boolean = true;
-  private matUserLoading: Boolean = true;
+  private matFilter: MatFilter = {
+    beginDate: null,
+    endDate: null,
+    user: null
+  }
 
   private searchesChart: DataChart[] = [];
 
+  private users: User[] = [];
   private searches: Search[] = [];
   private cities: City[] = [];
 
   private chartLoading: Boolean = true;
-  private totalInterviews: Number = 0;
-
-  private beginDate: Date = null;
-  private endDate: Date = null;
-  private citySelected: City
 
   constructor(
     private globalFunc: GlobalFunctions,
     private interviewService: InterviewService,
     private answerService: AnswerService,
+    private userService: UserService,
     private searchService: SearchService,
     private searchQuestService: SearchQuestService,
     private cityService: CityService,
@@ -84,63 +110,100 @@ export class DashboardComponent implements OnInit {
   }
 
   async refresh() {
-    this.refreshMatTables()
+    await this.refresUsers().then(users => {
+      this.users = users.sort(function (a, b) {
+        if (a.name > b.name)
+          return 1;
 
-    this.refreshDataChart()
-  }
+        if (a.name < b.name)
+          return -1;
 
-  async refreshMatTables() {
-    this.interviewService.groupByUser('active=1').subscribe(
-      dataUser => {
-        this.dataSourceUser = new MatTableDataSource(dataUser);
-        this.dataSourceUser.sort = this.sortUser;
+        return 0
+      });
+    }).catch(err => {
+      console.log(err);
 
-        this.matUserLoading = false;
-      },
-      err => {
-        console.log(err)
-        this.globalFunc.showNotification("Não foi possível carregar o número de pesquisas por cidade", 2);
-      }
-    );
+      this.globalFunc.showNotification("Não foi possível carregar os usuários", 2);
+    });
 
-
-    this.interviewService.groupByCity('active=1').subscribe(
-      dataCity => {
-        this.totalInterviews = dataCity.map(c => c.count).reduce((acc, value: any) => acc + value, 0);
-
-        this.dataSourceCity = new MatTableDataSource(dataCity);
-        this.dataSourceCity.sort = this.sortCity;
-
-        this.matCityLoading = false;
-      },
-      err => {
-        console.log(err)
-        this.globalFunc.showNotification("Não foi possível carregar o número de pesquisas por operador", 2);
-      }
-    );
-  }
-
-  async refreshCities() {
-    this.cities = await this.cityService.get('active=1').toPromise();
-  }
-
-  async refreshSearches() {
-    this.searches = await this.searchService.get('active=1').toPromise();
-  }
-
-  async refreshDataChart() {
-    await this.refreshCities().catch(err => {
+    await this.refreshCities().then(cities => {
+      this.cities = cities;
+    }).catch(err => {
       console.log(err);
 
       this.globalFunc.showNotification("Não foi possível carregar as cidades", 2);
     });
 
-    await this.refreshSearches().catch(err => {
+    await this.refreshSearches().then(searches => {
+      this.searches = searches;
+
+      this.refreshDataChart();
+    }).catch(err => {
       console.log(err);
 
       this.globalFunc.showNotification("Não foi possível carregar as pesquisas", 2);
     });
 
+    this.refreshMatTables();
+  }
+
+  async refreshMatTables(params?: string) {
+    const urlParams: string = params ? 'active=1&' + params : 'active=1';
+
+    this.matUser.loading = true;
+    this.matCity.loading = true;
+
+    this.interviewService.groupByUser(urlParams).subscribe(
+      dataUser => {
+        this.matUser.data = dataUser;
+        this.matUser.dataSource = new MatTableDataSource(dataUser);
+        this.matUser.dataSource.sort = this.sortUser;
+        this.matUser.loading = false;
+
+        this.matUser.total = this.matUser.data
+          .map(c => c.count).reduce((acc, value: any) => acc + value, 0);
+      },
+      err => {
+        console.log(err);
+
+        this.matUser.loading = false;
+        this.globalFunc.showNotification("Não foi possível carregar o número de pesquisas por cidade", 2);
+      }
+    );
+
+
+    this.interviewService.groupByCity(urlParams).subscribe(
+      dataCity => {
+        this.matCity.data = dataCity;
+        this.matCity.dataSource = new MatTableDataSource(dataCity);
+        this.matCity.dataSource.sort = this.sortCity;
+        this.matCity.loading = false;
+
+        this.matCity.total = this.matCity.data
+          .map(c => c.count).reduce((acc, value: any) => acc + value, 0);
+      },
+      err => {
+        console.log(err)
+
+        this.matCity.loading = false;
+        this.globalFunc.showNotification("Não foi possível carregar o número de pesquisas por operador", 2);
+      }
+    );
+  }
+
+  async refresUsers() {
+    return await this.userService.get('active=1').toPromise();
+  }
+
+  async refreshCities() {
+    return await this.cityService.get('active=1').toPromise();
+  }
+
+  async refreshSearches() {
+    return await this.searchService.get('acive=1').toPromise();
+  }
+
+  async refreshDataChart() {
     if (this.searchesChart.length == 0)
       this.searches.forEach(search => {
         this.inicializeCharts(search);
@@ -251,7 +314,7 @@ export class DashboardComponent implements OnInit {
     return searchChart.infoCharts.length > 0 ? searchChart.iscGeneral / searchChart.infoCharts.length : 0;
   }
 
-  filterSearch(searchChart: DataChart) {
+  filterChart(searchChart: DataChart) {
     const toDate = this.globalFunc.dateConverter;
     var params: String = "";
 
@@ -268,5 +331,24 @@ export class DashboardComponent implements OnInit {
       params = params.slice(0, -1);
 
     this.updateCharts(searchChart, params);
+  }
+
+  filterMatTable() {
+    const toDate = this.globalFunc.dateConverter;
+    var params: string = "";
+
+    if (this.matFilter.user)
+      params += "user=" + this.matFilter.user.id + "&";
+
+    if (this.matFilter.beginDate)
+      params += "begin=" + toDate(this.matFilter.beginDate) + "&";
+
+    if (this.matFilter.endDate)
+      params += "end=" + toDate(this.matFilter.beginDate) + "&";
+
+    if (params)
+      params = params.slice(0, -1);
+
+    this.refreshMatTables(params);
   }
 }
