@@ -344,7 +344,7 @@ export class DashboardComponent implements OnInit {
       params += "begin=" + toDate(this.matFilter.beginDate) + "&";
 
     if (this.matFilter.endDate)
-      params += "end=" + toDate(this.matFilter.beginDate) + "&";
+      params += "end=" + toDate(this.matFilter.endDate) + "&";
 
     if (params)
       params = params.slice(0, -1);

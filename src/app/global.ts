@@ -81,7 +81,7 @@ export class GlobalFunctions {
         minutes = minutes < 10 ? '0' + minutes : minutes;
         seconds = seconds < 10 ? '0' + seconds : seconds;
 
-        return year + '-' + month + '-' + day + ' ' + hours;
+        return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
     }
 
     showNotification(message: String, type: number) {

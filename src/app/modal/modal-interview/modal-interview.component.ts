@@ -130,11 +130,16 @@ export class ModalSearchComponent implements OnInit {
   }
 
   async submit() {
+    const date = new Date();
+
+    console.log(date);
+    console.log(this.functions.dateTimeConverter(date))
+    
     const interviewBody: InterviewBody = {
       client_name: this.data.interview.client_name,
       search_id: this.data.interview.search_id,
       city_id: this.data.interview.city.id,
-      interview_date: this.functions.dateConverter(new Date())
+      interview_date: this.functions.dateTimeConverter(date)
     }
 
     this.functions.confirm("Deseja finalizar a pesquisa agora?").then(suc => {
