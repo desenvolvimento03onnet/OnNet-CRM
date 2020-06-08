@@ -8,112 +8,146 @@
                         <p class="card-category">Pesquisas realizadas por Cidade e Operador CRM</p>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col" style="margin: 0;">
-                                <mat-form-field>
-                                    <mat-placeholder>Usuário</mat-placeholder>
-                                    <mat-select name="user" [(ngModel)]="matFilter.user">
-                                        <mat-option (click)="filterMatTable()"></mat-option>
-                                        <mat-option *ngFor="let user of users" [value]="user"
-                                            (click)="filterMatTable()">
-                                            {{user.name}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
+                        <mat-accordion>
+                            <mat-expansion-panel class="background-white" *ngFor="let search of searchesMatTable">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title class="accordion-title">
+                                        {{search.type}}
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
 
-                            <div class="col">
-                                <mat-form-field>
-                                    <button mat-button class="removeDateFilter" *ngIf="matFilter.beginDate" matSuffix
-                                        mat-icon-button aria-label="Clear"
-                                        (click)="matFilter.beginDate=null; filterMatTable()">
-                                        <mat-icon>close</mat-icon>
-                                    </button>
+                                <div class="row">
+                                    <div class="col" style="margin: 0;">
+                                        <mat-form-field>
+                                            <mat-placeholder>Usuário</mat-placeholder>
+                                            <mat-select name="user" [(ngModel)]="search.filters.user">
+                                                <mat-option (click)="filterMatTable(search)"></mat-option>
+                                                <mat-option *ngFor="let user of users" [value]="user"
+                                                    (click)="filterMatTable(search)">
+                                                    {{user.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
 
-                                    <mat-label>Data de Início</mat-label>
-                                    <input matInput (dateInput)="filterMatTable()" [matDatepicker]="matBegin" disabled
-                                        [(ngModel)]="matFilter.beginDate">
-                                    <mat-datepicker-toggle matSuffix [for]="matBegin"></mat-datepicker-toggle>
-                                    <mat-datepicker #matBegin disabled="false"></mat-datepicker>
-                                </mat-form-field>
-                            </div>
+                                    <div class="col">
+                                        <mat-form-field>
+                                            <button mat-button class="removeDateFilter" *ngIf="search.filters.beginDate"
+                                                matSuffix mat-icon-button aria-label="Clear"
+                                                (click)="search.filters.beginDate=null; filterMatTable(search)">
+                                                <mat-icon>close</mat-icon>
+                                            </button>
 
-                            <div class="col">
-                                <mat-form-field>
-                                    <button mat-button class="removeDateFilter" *ngIf="matFilter.endDate" matSuffix
-                                        mat-icon-button aria-label="Clear"
-                                        (click)="matFilter.endDate=null; filterMatTable()">
-                                        <mat-icon>close</mat-icon>
-                                    </button>
+                                            <mat-label>Data de Início</mat-label>
+                                            <input matInput (dateInput)="filterMatTable(search)"
+                                                [matDatepicker]="matBegin" disabled
+                                                [(ngModel)]="search.filters.beginDate">
+                                            <mat-datepicker-toggle matSuffix [for]="matBegin"></mat-datepicker-toggle>
+                                            <mat-datepicker #matBegin disabled="false"></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
 
-                                    <mat-label>Data de Fim</mat-label>
-                                    <input (dateInput)="filterMatTable()" matInput [matDatepicker]="matEnd" disabled
-                                        [(ngModel)]="matFilter.endDate">
-                                    <mat-datepicker-toggle matSuffix [for]="matEnd"></mat-datepicker-toggle>
-                                    <mat-datepicker #matEnd disabled="false"></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-                        </div>
+                                    <div class="col">
+                                        <mat-form-field>
+                                            <button mat-button class="removeDateFilter" *ngIf="search.filters.endDate"
+                                                matSuffix mat-icon-button aria-label="Clear"
+                                                (click)="search.filters.endDate=null; filterMatTable(search)">
+                                                <mat-icon>close</mat-icon>
+                                            </button>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="matTables matShadow">
-                                    <table mat-table [dataSource]="matCity.dataSource" matSort #sortCity="matSort">
-                                        <ng-container matColumnDef="name">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cidade </th>
-                                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                                            <td mat-footer-cell *matFooterCellDef> <b> Total </b> </td>
-                                        </ng-container>
-
-                                        <ng-container matColumnDef="count">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Pesquisas </th>
-                                            <td mat-cell *matCellDef="let element"> {{element.count}} </td>
-                                            <td mat-footer-cell *matFooterCellDef> <b> {{matCity.total}} </b> </td>
-                                        </ng-container>
-
-                                        <tr mat-header-row *matHeaderRowDef="matCity.displayedColumns; sticky: true">
-                                        </tr>
-                                        <tr mat-row *matRowDef="let row; columns: matCity.displayedColumns;"></tr>
-                                        <tr mat-footer-row *matFooterRowDef="matCity.displayedColumns; sticky: true">
-                                        </tr>
-                                    </table>
-
-                                    <mat-card *ngIf="matCity.loading">
-                                        <mat-card-content class="loading">
-                                            <mat-progress-spinner mode="indeterminate">
-                                            </mat-progress-spinner>
-                                        </mat-card-content>
-                                    </mat-card>
+                                            <mat-label>Data de Fim</mat-label>
+                                            <input (dateInput)="filterMatTable(search)" matInput
+                                                [matDatepicker]="matEnd" disabled [(ngModel)]="search.filters.endDate">
+                                            <mat-datepicker-toggle matSuffix [for]="matEnd"></mat-datepicker-toggle>
+                                            <mat-datepicker #matEnd disabled="false"></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col">
-                                <div class="matTables matShadow">
-                                    <table mat-table [dataSource]="matUser.dataSource" matSort #sortUser="matSort">
-                                        <ng-container matColumnDef="name">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Operador CRM </th>
-                                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                                        </ng-container>
 
-                                        <ng-container matColumnDef="count">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Pesquisas </th>
-                                            <td mat-cell *matCellDef="let element"> {{element.count}} </td>
-                                        </ng-container>
 
-                                        <tr mat-header-row *matHeaderRowDef="matUser.displayedColumns; sticky: true">
-                                        </tr>
-                                        <tr mat-row *matRowDef="let row; columns: matUser.displayedColumns;"></tr>
-                                    </table>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="matTables matShadow">
+                                            <table mat-table [dataSource]="search.matTableCity.dataSource" matSort
+                                                #sortCity="matSort">
+                                                <ng-container matColumnDef="name">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cidade </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                                    <td mat-footer-cell *matFooterCellDef> <b> Total </b> </td>
+                                                </ng-container>
 
-                                    <mat-card *ngIf="matUser.loading">
-                                        <mat-card-content class="loading">
-                                            <mat-progress-spinner mode="indeterminate">
-                                            </mat-progress-spinner>
-                                        </mat-card-content>
-                                    </mat-card>
+                                                <ng-container matColumnDef="count">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Pesquisas
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+                                                    <td mat-footer-cell *matFooterCellDef> <b>
+                                                            {{search.matTableCity.total}} </b>
+                                                    </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row
+                                                    *matHeaderRowDef="search.matTableCity.displayedColumns; sticky: true">
+                                                </tr>
+                                                <tr mat-row
+                                                    *matRowDef="let row; columns: search.matTableCity.displayedColumns;">
+                                                </tr>
+                                                <tr mat-footer-row
+                                                    *matFooterRowDef="search.matTableCity.displayedColumns; sticky: true">
+                                                </tr>
+                                            </table>
+
+                                            <mat-card *ngIf="search.matTableCity.loading">
+                                                <mat-card-content class="loading">
+                                                    <mat-progress-spinner mode="indeterminate">
+                                                    </mat-progress-spinner>
+                                                </mat-card-content>
+                                            </mat-card>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="matTables matShadow">
+                                            <table mat-table [dataSource]="search.matTableUser.dataSource" matSort
+                                                #sortUser="matSort">
+                                                <ng-container matColumnDef="name">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Operador CRM
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="count">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Pesquisas
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row
+                                                    *matHeaderRowDef="search.matTableUser.displayedColumns; sticky: true">
+                                                </tr>
+                                                <tr mat-row
+                                                    *matRowDef="let row; columns: search.matTableUser.displayedColumns;">
+                                                </tr>
+                                            </table>
+
+                                            <mat-card *ngIf="search.matTableUser.loading">
+                                                <mat-card-content class="loading">
+                                                    <mat-progress-spinner mode="indeterminate">
+                                                    </mat-progress-spinner>
+                                                </mat-card-content>
+                                            </mat-card>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                        <mat-card *ngIf="matTableLoading">
+                            <mat-card-content class="loading">
+                                <mat-progress-spinner mode="indeterminate">
+                                </mat-progress-spinner>
+                            </mat-card-content>
+                        </mat-card>
                     </div>
                 </div>
             </div>
@@ -125,7 +159,6 @@
                 <p class="card-category">Índice de Satisfação do Cliente</p>
             </div>
             <div class="card-body">
-
                 <mat-accordion>
                     <mat-expansion-panel class="background-white" *ngFor="let search of searchesChart">
                         <mat-expansion-panel-header>

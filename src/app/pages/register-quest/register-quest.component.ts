@@ -79,8 +79,6 @@ export class RegisterQuestComponent implements OnInit {
 
       this.answerService.getNotes(answerQuest.search.id, quest.quest.id).subscribe(
         paginate => {
-          console.log(paginate);
-
           answerQuest.quests[index].page = paginate.page;
           answerQuest.quests[index].lastPage = paginate.lastPage;
           answerQuest.quests[index].answers = paginate.data;

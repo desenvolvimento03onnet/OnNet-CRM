@@ -17,37 +17,47 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { chartOptions, parseOptions, chartQuestions } from "../../variables/charts";
 import { DateAdapter } from '@angular/material/core';
 
-interface DataChart {
-  search_id: Number;
-  type: String;
-  iscGeneral: number;
-  infoCharts: Array<{
-    quest_id: Number;
-    question: String;
-    label: String;
-    data: number[];
-    chart: Chart;
-    iscQuest: number;
-  }>;
-  filters: {
-    city: City;
-    beginDate: Date;
-    endDate: Date;
-  }
-}
-
-interface DataMatTable {
-  displayedColumns: string[];
+interface InfoMatTable {
+  nameTitle: string;
+  countTitle: string
+  displayedColumns: [string, string];
   dataSource: MatTableDataSource<InterviewsCount>;
   data: InterviewsCount[];
   loading: boolean;
   total: number;
 }
 
-interface MatFilter {
-  beginDate: Date;
-  endDate: Date;
-  user: User;
+interface InfoChart {
+  quest_id: Number;
+  question: String;
+  label: String;
+  data: number[];
+  chart: Chart;
+  iscQuest: number;
+}
+
+interface DataMatTable {
+  search_id: Number;
+  type: String;
+  matTableCity: InfoMatTable;
+  matTableUser: InfoMatTable;
+  filters: {
+    beginDate: Date;
+    endDate: Date;
+    user: User;
+  }
+}
+
+interface DataChart {
+  search_id: Number;
+  type: String;
+  iscGeneral: number;
+  infoCharts: InfoChart[];
+  filters: {
+    beginDate: Date;
+    endDate: Date;
+    city: City;
+  }
 }
 
 @Component({
@@ -57,31 +67,10 @@ interface MatFilter {
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent implements OnInit {
-  @ViewChild('sortCity', { static: true }) private sortCity: MatSort;
-  @ViewChild('sortUser', { static: true }) private sortUser: MatSort;
+  @ViewChild('sortCity') private sortCity: MatSort;
+  @ViewChild('sortUser') private sortUser: MatSort;
 
-  private matUser: DataMatTable = {
-    displayedColumns: ['name', 'count'],
-    loading: false,
-    data: [],
-    dataSource: null,
-    total: 0
-  }
-
-  private matCity: DataMatTable = {
-    displayedColumns: ['name', 'count'],
-    loading: false,
-    data: [],
-    dataSource: null,
-    total: 0
-  }
-
-  private matFilter: MatFilter = {
-    beginDate: null,
-    endDate: null,
-    user: null
-  }
-
+  private searchesMatTable: DataMatTable[] = [];
   private searchesChart: DataChart[] = [];
 
   private users: User[] = [];
@@ -89,6 +78,7 @@ export class DashboardComponent implements OnInit {
   private cities: City[] = [];
 
   private chartLoading: Boolean = true;
+  private matTableLoading: Boolean = true;
 
   constructor(
     private globalFunc: GlobalFunctions,
@@ -137,58 +127,28 @@ export class DashboardComponent implements OnInit {
     await this.refreshSearches().then(searches => {
       this.searches = searches;
 
+      this.refreshDataMatTable();
       this.refreshDataChart();
     }).catch(err => {
       console.log(err);
 
       this.globalFunc.showNotification("Não foi possível carregar as pesquisas", 2);
     });
-
-    this.refreshMatTables();
   }
 
-  async refreshMatTables(params?: string) {
-    const urlParams: string = params ? 'active=1&' + params : 'active=1';
+  async refreshDataMatTable() {
+    if (this.searchesMatTable.length == 0)
+      this.searches.forEach(search => {
+        this.initializeMatTables(search);
+      });
 
-    this.matUser.loading = true;
-    this.matCity.loading = true;
+    setTimeout(() => {
+      this.searchesMatTable.forEach(searchMatTable => {
+        this.updateMatTable(searchMatTable, "");
+      })
+    }, 300);
 
-    this.interviewService.groupByUser(urlParams).subscribe(
-      dataUser => {
-        this.matUser.data = dataUser;
-        this.matUser.dataSource = new MatTableDataSource(dataUser);
-        this.matUser.dataSource.sort = this.sortUser;
-        this.matUser.loading = false;
-
-        this.matUser.total = this.matUser.data
-          .map(c => c.count).reduce((acc, value: any) => acc + value, 0);
-      },
-      err => {
-        console.log(err);
-
-        this.matUser.loading = false;
-        this.globalFunc.showNotification("Não foi possível carregar o número de pesquisas por cidade", 2);
-      }
-    );
-
-
-    this.interviewService.groupByCity(urlParams).subscribe(
-      dataCity => {
-        this.matCity.data = dataCity;
-        this.matCity.dataSource = new MatTableDataSource(dataCity);
-        this.matCity.dataSource.sort = this.sortCity;
-        this.matCity.loading = false;
-
-        this.matCity.total = this.matCity.data
-          .map(c => c.count).reduce((acc, value: any) => acc + value, 0);
-      },
-      err => {
-        console.log(err)
-
-        this.matCity.loading = false;
-        this.globalFunc.showNotification("Não foi possível carregar o número de pesquisas por operador", 2);
-      }
-    );
+    this.matTableLoading = false;
   }
 
   async refresUsers() {
@@ -216,6 +176,83 @@ export class DashboardComponent implements OnInit {
     }, 300);
 
     this.chartLoading = false;
+  }
+
+  initializeMatTables(search: Search) {
+    const matTable: DataMatTable = {
+      search_id: search.id,
+      type: search.type,
+      matTableCity: {
+        nameTitle: 'Cidade',
+        countTitle: 'N° Pesquisas',
+        displayedColumns: ['name', 'count'],
+        data: [],
+        dataSource: null,
+        total: 0,
+        loading: true
+      },
+      matTableUser: {
+        nameTitle: 'Operador CRM',
+        countTitle: 'N° Pesquisas',
+        displayedColumns: ['name', 'count'],
+        data: [],
+        dataSource: null,
+        total: 0,
+        loading: true
+      },
+      filters: {
+        beginDate: null,
+        endDate: null,
+        user: null
+      }
+    }
+
+    this.searchesMatTable.push(matTable);
+  }
+
+  updateMatTable(searchMatTable: DataMatTable, params: string) {
+    const search_id = searchMatTable.search_id;
+    const urlParams: string = params ? `search=${search_id}&active=1&${params}` : `search=${search_id}&active=1`;
+
+    this.interviewService.groupByUser(urlParams).subscribe(
+      dataUser => {
+        searchMatTable.matTableUser.data = dataUser;
+        searchMatTable.matTableUser.dataSource = new MatTableDataSource(dataUser);
+        searchMatTable.matTableUser.dataSource.sort = this.sortUser;
+
+        searchMatTable.matTableUser.total = searchMatTable.matTableUser.data
+          .map(c => c.count).reduce((acc, value: any) => acc + value, 0);
+
+        searchMatTable.matTableUser.loading = false
+      },
+      err => {
+        console.log(err);
+
+        searchMatTable.matTableUser.loading = false
+        this.globalFunc.showNotification("Não foi possível carregar o número de pesquisas por cidade", 2);
+      }
+    );
+
+    this.interviewService.groupByCity(urlParams).subscribe(
+      dataCity => {
+        searchMatTable.matTableCity.data = dataCity;
+        searchMatTable.matTableCity.dataSource = new MatTableDataSource(dataCity);
+        searchMatTable.matTableCity.dataSource.sort = this.sortCity;
+
+        console.log(searchMatTable.matTableCity.dataSource)
+        searchMatTable.matTableCity.total = searchMatTable.matTableCity.data
+          .map(c => c.count).reduce((acc, value: any) => acc + value, 0);
+
+        searchMatTable.matTableCity.loading = false
+      },
+      err => {
+        console.log(err)
+
+        searchMatTable.matTableCity.loading = false
+        this.globalFunc.showNotification("Não foi possível carregar o número de pesquisas por operador", 2);
+      }
+    );
+
   }
 
   async inicializeCharts(search: Search) {
@@ -333,22 +370,22 @@ export class DashboardComponent implements OnInit {
     this.updateCharts(searchChart, params);
   }
 
-  filterMatTable() {
+  filterMatTable(searchMatTable: DataMatTable) {
     const toDate = this.globalFunc.dateConverter;
     var params: string = "";
 
-    if (this.matFilter.user)
-      params += "user=" + this.matFilter.user.id + "&";
+    if (searchMatTable.filters.user)
+      params += "user=" + searchMatTable.filters.user.id + "&";
 
-    if (this.matFilter.beginDate)
-      params += "begin=" + toDate(this.matFilter.beginDate) + "&";
+    if (searchMatTable.filters.beginDate)
+      params += "begin=" + toDate(searchMatTable.filters.beginDate) + "&";
 
-    if (this.matFilter.endDate)
-      params += "end=" + toDate(this.matFilter.endDate) + "&";
+    if (searchMatTable.filters.endDate)
+      params += "end=" + toDate(searchMatTable.filters.endDate) + "&";
 
     if (params)
       params = params.slice(0, -1);
 
-    this.refreshMatTables(params);
+    this.updateMatTable(searchMatTable, params);
   }
 }
