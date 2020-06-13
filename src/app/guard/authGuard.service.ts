@@ -4,8 +4,7 @@ import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 @Injectable()
 export class AuthGuardService implements CanActivate {
 
-    constructor(private router: Router) {
-    }
+    constructor(private router: Router) { }
 
     canActivate() {
         const token: String = sessionStorage.getItem('bearerToken');

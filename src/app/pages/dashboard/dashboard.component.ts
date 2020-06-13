@@ -7,7 +7,6 @@ import { CityService } from './../../services/city.service';
 import { GlobalFunctions } from './../../global';
 import { Search } from './../../models/Search';
 import { SearchService } from './../../services/search.service';
-import { MatSort } from '@angular/material/sort';
 import { InterviewsCount } from './../../models/InterviewsCount';
 import { MatTableDataSource } from '@angular/material/table';
 import Chart from 'chart.js';
@@ -67,8 +66,6 @@ interface DataChart {
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent implements OnInit {
-  @ViewChild('sortCity') private sortCity: MatSort;
-  @ViewChild('sortUser') private sortUser: MatSort;
 
   private searchesMatTable: DataMatTable[] = [];
   private searchesChart: DataChart[] = [];
@@ -218,7 +215,6 @@ export class DashboardComponent implements OnInit {
       dataUser => {
         searchMatTable.matTableUser.data = dataUser;
         searchMatTable.matTableUser.dataSource = new MatTableDataSource(dataUser);
-        searchMatTable.matTableUser.dataSource.sort = this.sortUser;
 
         searchMatTable.matTableUser.total = searchMatTable.matTableUser.data
           .map(c => c.count).reduce((acc, value: any) => acc + value, 0);
@@ -237,9 +233,7 @@ export class DashboardComponent implements OnInit {
       dataCity => {
         searchMatTable.matTableCity.data = dataCity;
         searchMatTable.matTableCity.dataSource = new MatTableDataSource(dataCity);
-        searchMatTable.matTableCity.dataSource.sort = this.sortCity;
 
-        console.log(searchMatTable.matTableCity.dataSource)
         searchMatTable.matTableCity.total = searchMatTable.matTableCity.data
           .map(c => c.count).reduce((acc, value: any) => acc + value, 0);
 

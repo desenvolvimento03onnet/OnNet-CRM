@@ -7,10 +7,7 @@ import { Injectable } from "@angular/core";
 @Injectable()
 export class PermissionGuardService implements CanActivate {
 
-
-    constructor(private userService: UserService, private router: Router) {
-
-    }
+    constructor(private router: Router) { }
 
     async canActivate() {
         const master = sessionStorage.getItem('isMaster');
