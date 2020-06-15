@@ -32,18 +32,9 @@ export class UserProfileComponent implements OnInit {
   @ViewChild('sortCity', { static: true }) private sortCity: MatSort;
 
   private matTable: DataMatTable = {} as DataMatTable;
+  
   private user: User = { permission: {} } as User;
   private searches: Search[] = [];
-
-  private displayedColumnsCity: string[] = ['name', 'count'];
-  private dataSourceCity: MatTableDataSource<InterviewsCount>;
-
-  private matCityLoading = true;
-  private totalInterviews: Number = 0;
-
-  city;
-  beginDate;
-  endDate;
 
   constructor(
     private userService: UserService,
@@ -78,10 +69,6 @@ export class UserProfileComponent implements OnInit {
     this.refreshMatTable();
 
     this.refreshUser();
-
-    this.refreshMatTables().then(() => {
-      this.matCityLoading = false;
-    });
   }
 
   refreshMatTable(params?: string) {
@@ -145,21 +132,5 @@ export class UserProfileComponent implements OnInit {
       params = params.slice(0, -1);
 
     this.refreshMatTable(params);
-  }
-
-  async refreshMatTables() {
-    await this.loadMatTables();
-
-    this.dataSourceCity.sort = this.sortCity;
-  }
-
-  async loadMatTables() {
-    const userId = sessionStorage.getItem('userId');
-
-    const dataCity = await this.interviewService.groupByCity('active=1', 'user=' + userId).toPromise();
-
-    this.totalInterviews = dataCity.map(c => c.count).reduce((acc, value: any) => acc + value, 0);
-
-    this.dataSourceCity = new MatTableDataSource(dataCity);
   }
 }
