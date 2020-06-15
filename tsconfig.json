@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
+    "outDir": "onnetcrm/out-tsc",
     "baseUrl": "src",
     "declaration": false,
     "moduleResolution": "node",

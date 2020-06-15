@@ -59,3 +59,13 @@
 .user-info .info h2 {
     margin: auto 0;
 }
+
+.justify-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-field {
+    width: 90%;
+}

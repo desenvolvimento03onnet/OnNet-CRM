@@ -21,33 +21,80 @@
 
     <mat-divider></mat-divider>
 
-    <div class="card-body">
-      <div class="matTables matShadow">
-        <table mat-table [dataSource]="dataSourceCity" matSort #sortCity="matSort">
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cidade </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            <td mat-footer-cell *matFooterCellDef> <b> Total </b> </td>
-          </ng-container>
+    <div class="row" style="margin-top: 20px;">
+      <div class="col-5 justify-center">
+        <div class="form-field">
+          <mat-form-field>
+            <mat-placeholder>
+              Pesquisa
+            </mat-placeholder>
+            <mat-select name="search" [(ngModel)]="matTable.filters.search">
+              <mat-option (click)="filterMatTable()"></mat-option>
+              <mat-option *ngFor="let search of searches" [value]="search" (click)="filterMatTable()">
+                {{search.type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <ng-container matColumnDef="count">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Pesquisas </th>
-            <td mat-cell *matCellDef="let element"> {{element.count}} </td>
-            <td mat-footer-cell *matFooterCellDef> <b> {{totalInterviews}} </b> </td>
-          </ng-container>
+          <mat-form-field>
+            <button mat-button class="removeDateFilter" *ngIf="matTable.filters.beginDate" matSuffix mat-icon-button
+              aria-label="Clear" (click)="matTable.filters.beginDate=null; filterMatTable()">
+              <mat-icon>close</mat-icon>
+            </button>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumnsCity; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumnsCity;"></tr>
-          <tr mat-footer-row *matFooterRowDef="displayedColumnsCity; sticky: true"></tr>
-        </table>
+            <mat-label>Data de Início</mat-label>
+            <input matInput (dateInput)="filterMatTable()" [matDatepicker]="begin" disabled
+              [(ngModel)]="matTable.filters.beginDate">
+            <mat-datepicker-toggle matSuffix [for]="begin"></mat-datepicker-toggle>
+            <mat-datepicker #begin disabled="false"></mat-datepicker>
+          </mat-form-field>
 
-        <mat-card *ngIf="matCityLoading">
-          <mat-card-content class="loading">
-            <mat-progress-spinner mode="indeterminate">
-            </mat-progress-spinner>
-          </mat-card-content>
-        </mat-card>
+          <mat-form-field>
+            <button mat-button class="removeDateFilter" *ngIf="matTable.filters.endDate" matSuffix mat-icon-button
+              aria-label="Clear" (click)="matTable.filters.endDate=null; filterMatTable()">
+              <mat-icon>close</mat-icon>
+            </button>
+
+            <mat-label>Data de Fim</mat-label>
+            <input (dateInput)="filterMatTable()" matInput [matDatepicker]="end" disabled
+              [(ngModel)]="matTable.filters.endDate">
+            <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+            <mat-datepicker #end disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card-body">
+          <div class="matTables matShadow">
+            <table class="background-grey" mat-table [dataSource]="matTable.dataSource" matSort #sortCity="matSort">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cidade </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                <td mat-footer-cell *matFooterCellDef> <b> Total </b> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="count">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Pesquisas </th>
+                <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+                <td mat-footer-cell *matFooterCellDef> <b> {{matTable.total}} </b> </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="matTable.displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: matTable.displayedColumns;"></tr>
+              <tr mat-footer-row *matFooterRowDef="matTable.displayedColumns; sticky: true"></tr>
+            </table>
+
+            <mat-card *ngIf="matTable.loading">
+              <mat-card-content class="loading">
+                <mat-progress-spinner mode="indeterminate">
+                </mat-progress-spinner>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 </div>
