@@ -149,7 +149,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async refresUsers() {
-    return await this.userService.get('active=1').toPromise();
+    return await this.userService.get('searcher=1').toPromise();
   }
 
   async refreshCities() {
@@ -209,7 +209,7 @@ export class DashboardComponent implements OnInit {
 
   updateMatTable(searchMatTable: DataMatTable, params: string) {
     const search_id = searchMatTable.search_id;
-    const urlParams: string = params ? `search=${search_id}&active=1&${params}` : `search=${search_id}&active=1`;
+    const urlParams: string = params ? `search=${search_id}&${params}` : `search=${search_id}`;
 
     this.interviewService.groupByUser(urlParams).subscribe(
       dataUser => {
